@@ -4,7 +4,7 @@ import logo from '../assets/logo/SUPALOGO.png';
 
 const Header = () => {
 	return (
-		<div className='flex  items-center '>
+		<div className='flex  items-center bg-supadark'>
 			<div className='h-20 w-24   flex content-end'>
 				<img src={logo} alt='logo' className='h-24 w-auto' />
 			</div>
