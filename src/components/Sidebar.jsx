@@ -6,7 +6,7 @@ import { BsDiscord, BsTwitter, BsYoutube } from 'react-icons/bs';
 const Sidebar = () => {
 	return (
 		<div className='p-4 bg-supadark-light '>
-			<form className='p-2'>
+			<form className='p-2 flex'>
 				<input
 					className='bg-supadark-dark p-2 rounded-lg text-white text-xl focus:outline-none'
 					type='text'
