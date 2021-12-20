@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
+import Expore from './pages/Expore';
+import Grants from './pages/Grants';
+import Error from './pages/Error';
+import Header from './components/Header';
+import Campaign from './pages/Campaign';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className='box-border h-screen p-4 bg-supadark-light font-cormorant'>
+			<Header />
+
+			<Routes>
+				<Route path='/' element={<Expore />} />
+				<Route path='/grants' element={<Grants />} />
+				<Route path='/campaign' element={<Campaign />} />
+				<Route path='/*' element={<Error />} />
+			</Routes>
+		</div>
+	);
 }
 
 export default App;
