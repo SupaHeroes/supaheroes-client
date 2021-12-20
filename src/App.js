@@ -8,7 +8,7 @@ import Campaign from './pages/Campaign';
 
 function App() {
 	return (
-		<div className='box-border h-screen bg-supadark font-cormorant'>
+		<div className='box-border  bg-supadark font-cormorant'>
 			<Header />
 
 			<Routes>

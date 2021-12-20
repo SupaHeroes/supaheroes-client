@@ -1,11 +1,21 @@
+import Card from '../components/Card';
 import Sidebar from '../components/Sidebar';
 
 const Explore = () => {
 	return (
-		<div className='flex'>
+		<div className='flex '>
 			<Sidebar />
 
-			<div>Explore Container</div>
+			<div className='flex justify-center items-center flex-wrap bg-supadark-dark'>
+				<Card />
+				<Card />
+				<Card />
+				<Card />
+				<Card />
+				<Card />
+				<Card />
+				<Card />
+			</div>
 		</div>
 	);
 };
