@@ -6,16 +6,7 @@ const Explore = () => {
 		<div className='flex '>
 			<Sidebar />
 
-			<div className='flex justify-center items-center flex-wrap bg-supadark-dark h-screen overflow-y-auto'>
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-			</div>
+			<div className='flex justify-center items-center flex-wrap bg-supadark-dark h-screen overflow-y-auto'></div>
 		</div>
 	);
 };
