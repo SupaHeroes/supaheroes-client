@@ -10,16 +10,14 @@ const Explore = () => {
 			<Sidebar />
 
 			<Content>
-				<Card />
-				<Card />
-				<Card />
+				<div className='flex justify-center items-center flex-wrap bg-supadark-dark h-screen overflow-y-auto'>
+					<Card />
+					<Card />
+					<Card />
+				</div>
 			</Content>
 		</Layout>
 	);
 };
 
 export default Explore;
-
-// <div className='flex justify-center items-center flex-wrap bg-supadark-dark h-screen overflow-y-auto'>
-// 	<Card />
-// </div>
