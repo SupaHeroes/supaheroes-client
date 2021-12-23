@@ -12,6 +12,8 @@ module.exports = {
 
 							'@text-color': '#fff',
 							'@menu-item-active-border-width': '10px',
+							'@input-bg': '#1B1C1E',
+							'@input-icon-color': '#fff',
 						},
 						javascriptEnabled: true,
 					},

@@ -1,16 +1,25 @@
+import { Layout } from 'antd';
 import Card from '../components/Card';
 import Sidebar from '../components/Sidebar';
 
+const { Content } = Layout;
+
 const Explore = () => {
 	return (
-		<div className='flex '>
+		<Layout>
 			<Sidebar />
 
-			<div className='flex justify-center items-center flex-wrap bg-supadark-dark h-screen overflow-y-auto'>
+			<Content>
 				<Card />
-			</div>
-		</div>
+				<Card />
+				<Card />
+			</Content>
+		</Layout>
 	);
 };
 
 export default Explore;
+
+// <div className='flex justify-center items-center flex-wrap bg-supadark-dark h-screen overflow-y-auto'>
+// 	<Card />
+// </div>
