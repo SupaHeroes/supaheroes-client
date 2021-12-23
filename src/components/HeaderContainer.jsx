@@ -22,6 +22,7 @@ const HeaderContainer = () => {
 					background: '#1F1F1F',
 					textDecoration: 'none',
 					border: 'none',
+					marginLeft: '40px',
 				}}
 				className='w-full'
 			>

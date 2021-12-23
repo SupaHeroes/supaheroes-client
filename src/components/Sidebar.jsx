@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Checkbox from './Checkbox';
 import { BiLinkExternal } from 'react-icons/bi';
 import { BsDiscord, BsTwitter, BsYoutube } from 'react-icons/bs';
 import { Layout, Input } from 'antd';
+import { MinusCircleTwoTone } from '@ant-design/icons';
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
+	const [value, setValue] = useState('');
+
+	const reset = () => setValue('');
 	return (
-		<Sider width='300'>
-			<div className='p-4 bg-supadark-light h-screen'>
-				<Input.Search allowClear style={{}} placeholder='Search' />
+		<Sider width='350'>
+			<div className='p-4 pt-8 pl-20 bg-supadark-light h-screen '>
+				{/* <Input.Search allowClear style={{}} placeholder='Search' /> */}
+
+				<Input.Group compact>
+					<Input
+						style={{ width: '80%' }}
+						onChange={(e) => setValue(e.target.value)}
+						value={value}
+					/>
+					{value && (
+						<MinusCircleTwoTone
+							onClick={reset}
+							style={{ margin: '8px', width: '20px' }}
+						/>
+					)}
+				</Input.Group>
 
 				<div className='mt-5'>
 					<h3 className='text-lg font-bold text-supagreen-light'>Chains</h3>
