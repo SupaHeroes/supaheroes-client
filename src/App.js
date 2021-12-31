@@ -9,7 +9,7 @@ import Campaign from './pages/Campaign';
 
 function App() {
 	return (
-		<div className='box-border  font-cormorant'>
+		<div className=' App box-border  font-cormorant'>
 			<Layout>
 				<HeaderContainer />
 

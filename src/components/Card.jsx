@@ -5,7 +5,7 @@ import { BsArrowRight } from 'react-icons/bs';
 
 const Card = () => {
 	return (
-		<div className='mx-8 bg-supadark-light font-sans h-auto w-auto rounded-lg '>
+		<div className=' bg-supadark-light font-sans h-auto w-11/12 rounded-lg '>
 			<img
 				src='https://images.unsplash.com/photo-1544006659-f0b21884ce1d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
 				alt='project'
