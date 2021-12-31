@@ -12,8 +12,18 @@ const Sidebar = () => {
 
 	const reset = () => setValue('');
 	return (
-		<Sider width='350'>
-			<div className='p-4 pt-8 pl-20 bg-supadark-light h-screen '>
+		<Sider
+			width='350'
+			breakpoint='lg'
+			collapsedWidth='0'
+			onBreakpoint={(broken) => {
+				console.log(broken);
+			}}
+			onCollapse={(collapsed, type) => {
+				console.log(collapsed, type);
+			}}
+		>
+			<div className='p-4 pt-8 pl-8 bg-supadark-light h-full   '>
 				{/* <Input.Search allowClear style={{}} placeholder='Search' /> */}
 
 				<Input.Group compact>
@@ -21,6 +31,7 @@ const Sidebar = () => {
 						style={{ width: '80%' }}
 						onChange={(e) => setValue(e.target.value)}
 						value={value}
+						placeholder='Search'
 					/>
 					{value && (
 						<MinusCircleTwoTone

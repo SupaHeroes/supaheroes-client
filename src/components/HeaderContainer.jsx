@@ -9,7 +9,7 @@ const HeaderContainer = () => {
 	return (
 		<Header
 			style={{ height: 80, background: '#1F1F1F' }}
-			className='flex justify-center items-center'
+			className='flex justify-center items-center '
 		>
 			<div>
 				<img src={logo} alt='logo' className='h-24 w-auto mr-11' />
