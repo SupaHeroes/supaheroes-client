@@ -19,11 +19,6 @@ module.exports = {
 							'@breadcrumb-last-item-color': '#DEFFEE',
 							'@breadcrumb-link-color': '#727272',
 							'@breadcrumb-separator-color': '#727272',
-
-							// @breadcrumb-font-size: @font-size-base;
-							// @breadcrumb-icon-font-size: @font-size-base;
-							// @breadcrumb-link-color-hover: @primary-5;
-							// @breadcrumb-separator-margin: 0 @padding-xs;
 						},
 						javascriptEnabled: true,
 					},

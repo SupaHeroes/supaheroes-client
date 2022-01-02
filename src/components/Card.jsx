@@ -46,7 +46,7 @@ const Card = () => {
 				onClick={() => {
 					navigate('/Newton');
 				}}
-				className='flex justify-center items-center text-white text-lg cursor-pointer'
+				className='flex justify-center items-center text-white hover:text-supagreen text-lg cursor-pointer'
 			>
 				<p>Read More</p>
 				<BsArrowRight className='ml-2 mb-4' />
