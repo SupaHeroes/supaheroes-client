@@ -10,7 +10,7 @@ import Project from './pages/Project';
 
 function App() {
 	return (
-		<div className=' App box-border  font-cormorant'>
+		<div className=' App box-border  font-cormorant '>
 			<Layout>
 				<HeaderContainer />
 
