@@ -6,6 +6,7 @@ import Grants from './pages/Grants';
 import Error from './pages/Error';
 import HeaderContainer from './components/HeaderContainer';
 import Campaign from './pages/Campaign';
+import Project from './pages/Project';
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 
 				<Routes>
 					<Route path='/' element={<Explore />} />
+					<Route path='/:campaignId' element={<Project />} />
 					<Route path='/grants' element={<Grants />} />
 					<Route path='/campaign' element={<Campaign />} />
 					<Route path='/*' element={<Error />} />

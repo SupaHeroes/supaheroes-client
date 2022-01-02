@@ -14,6 +14,12 @@ const Sidebar = () => {
 	return (
 		<Sider
 			width='350'
+			style={{
+				height: '100vh',
+
+				position: 'fixed',
+				top: '80px',
+			}}
 			breakpoint='lg'
 			collapsedWidth='0'
 			onBreakpoint={(broken) => {

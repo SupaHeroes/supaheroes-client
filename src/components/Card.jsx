@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Progress } from 'antd';
 import { MdOutlineTimer } from 'react-icons/md';
 import { BsArrowRight } from 'react-icons/bs';
 
 const Card = () => {
+	const navigate = useNavigate();
 	return (
 		<div className=' bg-supadark-light font-sans h-auto w-11/12 rounded-lg '>
 			<img
@@ -40,7 +42,12 @@ const Card = () => {
 				</p>
 			</div>
 
-			<div className='flex justify-center items-center text-white text-lg'>
+			<div
+				onClick={() => {
+					navigate('/Newton');
+				}}
+				className='flex justify-center items-center text-white text-lg cursor-pointer'
+			>
 				<p>Read More</p>
 				<BsArrowRight className='ml-2 mb-4' />
 			</div>

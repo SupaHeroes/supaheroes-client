@@ -8,7 +8,13 @@ const { Header } = Layout;
 const HeaderContainer = () => {
 	return (
 		<Header
-			style={{ height: 80, background: '#1F1F1F' }}
+			style={{
+				height: 80,
+				background: '#1F1F1F',
+				position: 'fixed',
+				zIndex: 1,
+				width: '100%',
+			}}
 			className='flex justify-center items-center '
 		>
 			<div>

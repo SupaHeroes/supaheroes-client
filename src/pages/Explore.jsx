@@ -7,11 +7,13 @@ const { Content } = Layout;
 const Explore = () => {
 	return (
 		<div className=''>
+		
+
 			<Layout>
 				<Sidebar />
 
 				<Content>
-					<div className=' card-container p-8 justify-center items-center  bg-supadark-dark h-screen overflow-y-scroll'>
+					<div className=' card-container  ml-[350px] mt-[80px] p-8  justify-center items-center  bg-supadark-dark  '>
 						<Row gutter={[32, 32]}>
 							<Col
 								sm={{ span: 24 }}
