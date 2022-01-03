@@ -1,4 +1,4 @@
-const CracoLessPlugin = require('craco-less-fix');
+const CracoLessPlugin = require('craco-less');
 
 module.exports = {
 	plugins: [
