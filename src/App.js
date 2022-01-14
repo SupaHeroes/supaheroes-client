@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
+import { useEffect } from "react";
+import { useMoralis } from "react-moralis";
 import './App.less';
 import Explore from './pages/Explore';
 import Grants from './pages/Grants';
@@ -14,6 +16,14 @@ import Vesting from './components/projects/Vesting';
 import Contract from './components/projects/Contract';
 
 function App() {
+	const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
+
+  useEffect(() => {
+    const connectorId = window.localStorage.getItem("connectorId");
+    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3({ provider: connectorId });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, isWeb3Enabled]);
+
 	return (
 		<div className=' App box-border  font-cormorant '>
 			<Layout>
