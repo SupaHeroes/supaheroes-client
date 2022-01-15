@@ -7,7 +7,7 @@ import ProjectButton from '../components/projects/ProjectButton';
 
 const Project = () => {
 	return (
-		<div className='mt-[80px] bg-supadark-dark'>
+		<div className='mt-20 bg-supadark-dark'>
 			<div className=' flex justify-center text-3xl  '>
 				<div className='w-4/5 mt-8 '>
 					<Breadcrumb className='' separator='>'>

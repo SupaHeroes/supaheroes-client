@@ -6,12 +6,12 @@ const { Content } = Layout;
 
 const Explore = () => {
 	return (
-		<div className='mt-[80px]'>
+		<div className='mt-20'>
 			<Layout>
 				<Sidebar />
 
 				<Content>
-					<div className=' card-container  ml-[350px]  p-8  justify-center items-center  bg-supadark-dark  '>
+					<div className=' card-container  ml-80 pl-16  p-8  justify-center items-center  bg-supadark-dark  '>
 						<Row gutter={[32, 32]}>
 							<Col
 								sm={{ span: 24 }}

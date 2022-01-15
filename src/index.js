@@ -4,11 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MoralisProvider } from 'react-moralis';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<App />
+			<MoralisProvider
+				appId='6KfNVdd7AOjd7GLXHt8huN1tF791bLjkw3my4cMf'
+				serverUrl='https://idpdgmq44jlw.usemoralis.com:2053/server'
+			>
+				<App />
+			</MoralisProvider>
+			,
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')
