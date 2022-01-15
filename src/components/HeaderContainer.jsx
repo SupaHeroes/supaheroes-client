@@ -2,10 +2,12 @@ import React from 'react';
 import { Button, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo/SUPALOGO.png';
+import { useMoralis } from 'react-moralis';
 
 const { Header } = Layout;
 
 const HeaderContainer = () => {
+	const { authenticate, isAuthenticated, user } = useMoralis();
 	return (
 		<Header
 			style={{
@@ -62,19 +64,27 @@ const HeaderContainer = () => {
 				Avalanche
 			</Button>
 
-			<Button
-				type='primary'
-				size='large'
-				style={{
-					fontSize: '16px',
-					color: 'black',
-					fontWeight: 700,
-				}}
-			>
-				Connect Wallet
-			</Button>
+			{!isAuthenticated ? (
+				<Button
+					type='primary'
+					size='large'
+					style={{
+						fontSize: '16px',
+						color: 'black',
+						fontWeight: 700,
+					}}
+					onClick={() => authenticate()}
+				>
+					Connect Wallet
+				</Button>
+			) : (
+				<div>
+					<p>{user.get('username')}</p>
+				</div>
+			)}
 		</Header>
 	);
 };
 
 export default HeaderContainer;
+
