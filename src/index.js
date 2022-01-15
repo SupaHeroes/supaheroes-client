@@ -5,13 +5,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MoralisProvider } from 'react-moralis';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<MoralisProvider
-				appId='6KfNVdd7AOjd7GLXHt8huN1tF791bLjkw3my4cMf'
-				serverUrl='https://idpdgmq44jlw.usemoralis.com:2053/server'
+				appId={process.env.APP_ID}
+				serverUrl={process.env.SERVER_URL}
 			>
 				<App />
 			</MoralisProvider>
