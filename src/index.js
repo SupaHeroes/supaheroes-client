@@ -8,14 +8,18 @@ import { MoralisProvider } from 'react-moralis';
 import dotenv from 'dotenv';
 
 dotenv.config();
+console.log(process.env);
+
+const appId = process.env.APP_ID;
+const serverUrl = process.env.SERVER_URL;
+
+console.log('appId', appId);
+console.log('serverUrl', serverUrl);
 
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<MoralisProvider
-				appId={process.env.APP_ID}
-				serverUrl={process.env.SERVER_URL}
-			>
+			<MoralisProvider appId={appId} serverUrl={serverUrl}>
 				<App />
 			</MoralisProvider>
 			,
