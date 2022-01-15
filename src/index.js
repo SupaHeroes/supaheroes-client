@@ -8,9 +8,10 @@ import { MoralisProvider } from 'react-moralis';
 import dotenv from 'dotenv';
 
 dotenv.config();
+console.log(process.env);
 
-const appId = process.env.APP_ID;
-const serverUrl = process.env.SERVER_URL;
+const appId = process.env.REACT_APP_MORALIS_APPLICATION_ID;
+const serverUrl = process.env.REACT_APP_MORALIS_SERVER_URL;
 
 ReactDOM.render(
 	<React.StrictMode>
