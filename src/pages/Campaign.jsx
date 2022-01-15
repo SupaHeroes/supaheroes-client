@@ -1,7 +1,9 @@
 import React from 'react';
+import { useMemo, useState } from "react";
+import { useMoralis, useMoralisQuery } from "react-moralis";
 import { Steps, Button, message } from 'antd';
 import ProjectDetailsForm from '../components/campaignForm/ProjectDetailsForm';
-
+import campaignABI from "../abi/StandardCampaignStrategy.json";
 import './campaign.css';
 import RewardSettingsForm from '../components/campaignForm/RewardSettingsForm';
 import ProjectDescription from '../components/campaignForm/ProjectDescription';
@@ -29,6 +31,39 @@ const steps = [
 
 const Campaign = () => {
 	const [current, setCurrent] = React.useState(0);
+
+	const { Moralis, chainId } = useMoralis();
+  	const [responses, setResponses] = useState({});
+
+	  const options = {
+		contractAddress: "0xD6930ccCbDdA896DaCCDB80F83f1c131b8b16680",
+		functionName: "initialize",
+		abi: campaignABI,
+		params: {
+		_currency: "",
+         _metadata: "",
+        _fundingEndTime: 1644926338,
+        _fundTarget: 2000,
+        _fundingStartTime: 1642334338,
+        _vestingManager: "0x",
+        _rewardManager: "0x6905fec04baA75Fef9fEF71327912586FBFFD931"
+		},
+	  };
+
+	  const tx = await Moralis.executeFunction({ awaitReceipt: false, ...options });
+                tx.on("transactionHash", (hash) => {
+                  setResponses({ ...responses, [name]: { result: null, isLoading: true } });
+                  openNotification({
+                    message: "🔊 New Transaction",
+                    description: `${hash}`,
+                  });
+                  console.log("🔊 New Transaction", hash);
+                })
+
+  /**Moralis Live query for displaying contract's events*/
+  const { data } = useMoralisQuery("Events", (query) => query, [], {
+    live: true,
+  });
 
 	const next = () => {
 		setCurrent(current + 1);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import Account from "./moralis/Account/Account";
 import logo from '../assets/logo/SUPALOGO.png';
 import { useMoralis } from 'react-moralis';
 
@@ -51,7 +52,8 @@ const HeaderContainer = () => {
 				</Menu.Item>{' '}
 			</Menu>
 
-			<Button
+			<Account/>
+			{/* <Button
 				size='large'
 				style={{
 					background: 'transparent',
@@ -79,9 +81,9 @@ const HeaderContainer = () => {
 				</Button>
 			) : (
 				<div>
-					<p>{user.get('username')}</p>
+					<p>{user.get('ethAddress')}</p>
 				</div>
-			)}
+			)} */}
 		</Header>
 	);
 };
