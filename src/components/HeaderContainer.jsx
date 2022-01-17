@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import Account from "./moralis/Account/Account";
+import Chains from "./moralis/Chains/Chains";
+
 import logo from '../assets/logo/SUPALOGO.png';
 import { useMoralis } from 'react-moralis';
 
@@ -52,6 +54,7 @@ const HeaderContainer = () => {
 				</Menu.Item>{' '}
 			</Menu>
 
+			<Chains />
 			<Account/>
 			{/* <Button
 				size='large'

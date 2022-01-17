@@ -1,9 +1,9 @@
 import React from 'react';
-import { useMemo, useState } from "react";
-import { useMoralis, useMoralisQuery } from "react-moralis";
-import { Steps, Button, message } from 'antd';
+import { useMemo, useState } from 'react';
+import { useMoralis, useMoralisQuery } from 'react-moralis';
+import { Steps, Button, message, notification } from 'antd';
 import ProjectDetailsForm from '../components/campaignForm/ProjectDetailsForm';
-import campaignABI from "../abi/StandardCampaignStrategy.json";
+import campaignABI from '../abi/StandardCampaignStrategy.json';
 import './campaign.css';
 import RewardSettingsForm from '../components/campaignForm/RewardSettingsForm';
 import ProjectDescription from '../components/campaignForm/ProjectDescription';
@@ -30,40 +30,59 @@ const steps = [
 ];
 
 const Campaign = () => {
+	const [metadata, setMetadata] = useState({});
+	const [details, setDetails] = useState({});
 	const [current, setCurrent] = React.useState(0);
 
 	const { Moralis, chainId } = useMoralis();
-  	const [responses, setResponses] = useState({});
+	const [responses, setResponses] = useState({});
 
-	  const options = {
-		contractAddress: "0xD6930ccCbDdA896DaCCDB80F83f1c131b8b16680",
-		functionName: "initialize",
+	/** Default function for showing notifications*/
+	const openNotification = ({ message, description }) => {
+		notification.open({
+			placement: 'bottomRight',
+			message,
+			description,
+		});
+	};
+
+	const options = {
+		contractAddress: '0xbD71Da68F22112586fbb5A50BB07BC7D95D091Ec',
+		functionName: 'initialize',
 		abi: campaignABI,
 		params: {
-		_currency: "",
-         _metadata: "",
-        _fundingEndTime: 1644926338,
-        _fundTarget: 2000,
-        _fundingStartTime: 1642334338,
-        _vestingManager: "0x",
-        _rewardManager: "0x6905fec04baA75Fef9fEF71327912586FBFFD931"
+			_currency: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+			_metadata: 'https://www.supaheroes.com',
+			_fundingEndTime: 1644926338,
+			_fundTarget: 2000,
+			_fundingStartTime: 1642334338,
+			_vestingManager: '0x0000000000000000000000000000000000000000',
+			_rewardManager: '0x6905fec04baa75fef9fef71327912586fbffd931',
 		},
-	  };
+	};
 
-	  const tx = await Moralis.executeFunction({ awaitReceipt: false, ...options });
-                tx.on("transactionHash", (hash) => {
-                  setResponses({ ...responses, [name]: { result: null, isLoading: true } });
-                  openNotification({
-                    message: "🔊 New Transaction",
-                    description: `${hash}`,
-                  });
-                  console.log("🔊 New Transaction", hash);
-                })
+	const initialise = async () => {
+		const tx = await Moralis.executeFunction({
+			awaitReceipt: false,
+			...options,
+		});
+		console.log(tx);
+		tx.on('transactionHash', (hash) => {
+			setResponses({ ...responses, name: { result: null, isLoading: true } });
+			openNotification({
+				message: '🔊 New Transaction',
+				description: `${hash}`,
+			});
+			console.log('🔊 New Transaction', hash);
+		});
+	};
 
-  /**Moralis Live query for displaying contract's events*/
-  const { data } = useMoralisQuery("Events", (query) => query, [], {
-    live: true,
-  });
+	/**Moralis Live query for displaying contract's events*/
+	const { data } = useMoralisQuery('Events', (query) => query, [], {
+		live: true,
+	});
+
+	console.log('Contract events', data);
 
 	const next = () => {
 		setCurrent(current + 1);
@@ -75,8 +94,6 @@ const Campaign = () => {
 
 	return (
 		<div className='flex justify-center bg-supadark-dark  mt-20'>
-			
-
 			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
 				<Steps style={{ width: '600px' }} current={current}>
 					{steps.map((item) => (
@@ -98,7 +115,14 @@ const Campaign = () => {
 						</div>
 						{current === 0 && <ProjectDescription />}
 						{current === 1 && <ProjectDetailsForm />}
-						{current === 2 && <RewardSettingsForm />}
+						{current === 2 && (
+							<RewardSettingsForm
+								metadata={metadata}
+								setMetadata={setMetadata}
+								details={details}
+								setDetails={setDetails}
+							/>
+						)}
 					</div>
 
 					<div className='steps-action w-full  flex justify-end items-center p-5'>
@@ -123,7 +147,9 @@ const Campaign = () => {
 									borderColor: '#001529',
 									color: '#1F1F1F',
 								}}
-								onClick={() => next()}
+								onClick={() => {
+									next();
+								}}
 							>
 								Next
 							</Button>
