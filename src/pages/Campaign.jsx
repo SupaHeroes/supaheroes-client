@@ -4,6 +4,7 @@ import { useMoralis, useMoralisQuery } from 'react-moralis';
 import { Steps, Button, message, notification } from 'antd';
 import ProjectDetailsForm from '../components/campaignForm/ProjectDetailsForm';
 import campaignABI from '../abi/StandardCampaignStrategy.json';
+import factoryABI from '../abi/CampaignFactory.json';
 import './campaign.css';
 import RewardSettingsForm from '../components/campaignForm/RewardSettingsForm';
 import ProjectDescription from '../components/campaignForm/ProjectDescription';
@@ -30,8 +31,28 @@ const steps = [
 ];
 
 const Campaign = () => {
-	const [metadata, setMetadata] = useState({});
-	const [details, setDetails] = useState({});
+	const [cloneAddress, setCloneAddress] = useState({
+		NewCampaignAddress: '',
+		creator: '',
+		RewardMaster: '',
+	});
+
+	const [metadata, setMetadata] = useState({
+		title: '',
+		description: '',
+		images: [],
+		whitepaper: '',
+		website: '',
+		currency: '',
+	});
+
+	const [details, setDetails] = useState({
+		title: '',
+		about: '',
+		startDate: '',
+		endDate: '',
+		fundingTarget: '',
+	});
 	const [current, setCurrent] = React.useState(0);
 
 	const { Moralis, chainId } = useMoralis();
@@ -47,7 +68,7 @@ const Campaign = () => {
 	};
 
 	const options = {
-		contractAddress: '0xbD71Da68F22112586fbb5A50BB07BC7D95D091Ec',
+		contractAddress: '0xe9581BcDc8f4EfaC5eA0834Eed04cF130dFD8012',
 		functionName: 'initialize',
 		abi: campaignABI,
 		params: {
@@ -77,12 +98,51 @@ const Campaign = () => {
 		});
 	};
 
-	/**Moralis Live query for displaying contract's events*/
-	const { data } = useMoralisQuery('Events', (query) => query, [], {
-		live: true,
-	});
+	const options2 = {
+		contractAddress: '0xe81eAffA679B00279f664877C57e895606dB55Cf',
+		functionName: 'createCampaign',
+		abi: factoryABI,
+	};
 
-	console.log('Contract events', data);
+	const createCampaign = async () => {
+		const tx = await Moralis.executeFunction({
+			awaitReceipt: false,
+			...options2,
+		});
+		console.log(tx);
+		tx.on('transactionHash', (hash) => {
+			setResponses({ ...responses, name: { result: null, isLoading: true } });
+			openNotification({
+				message: '🔊 New Transaction',
+				description: `${hash}`,
+			});
+			console.log('🔊 New Transaction', hash);
+		});
+		tx.on('receipt', (receipt) => {
+			console.log(
+				'🔊 New Campaign: ',
+				receipt.events.NewCampaign.returnValues.contractAddress
+			);
+			console.log(
+				'🔊 Creator: ',
+				receipt.events.NewCampaign.returnValues.creator
+			);
+
+			console.log(
+				'🔊 Reward Master: ',
+				receipt.events.NewCampaign.returnValues.rewardMaster
+			);
+
+			setCloneAddress({
+				NewCampaignAddress:
+					receipt.events.NewCampaign.returnValues.contractAddress,
+				creator: receipt.events.NewCampaign.returnValues.creator,
+				RewardMaster: receipt.events.NewCampaign.returnValues.rewardMaster,
+			});
+
+			console.log('clone address: ', cloneAddress.contractAddress);
+		});
+	};
 
 	const next = () => {
 		setCurrent(current + 1);
@@ -113,16 +173,18 @@ const Campaign = () => {
 								{steps[current].content}
 							</h1>
 						</div>
-						{current === 0 && <ProjectDescription />}
-						{current === 1 && <ProjectDetailsForm />}
-						{current === 2 && (
-							<RewardSettingsForm
+						{current === 0 && (
+							<ProjectDescription details={details} setDetails={setDetails} />
+						)}
+						{current === 1 && (
+							<ProjectDetailsForm
 								metadata={metadata}
 								setMetadata={setMetadata}
 								details={details}
 								setDetails={setDetails}
 							/>
 						)}
+						{current === 2 && <RewardSettingsForm />}
 					</div>
 
 					<div className='steps-action w-full  flex justify-end items-center p-5'>
