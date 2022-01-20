@@ -1,34 +1,13 @@
 import React from 'react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useMoralis, useMoralisQuery } from 'react-moralis';
-import { Steps, Button, message, notification } from 'antd';
-import ProjectDetailsForm from '../components/campaignForm/ProjectDetailsForm';
+import { Button, notification } from 'antd';
 import campaignABI from '../abi/StandardCampaignStrategy.json';
 import factoryABI from '../abi/CampaignFactory.json';
 import './campaign.css';
-import RewardSettingsForm from '../components/campaignForm/RewardSettingsForm';
-import ProjectDescription from '../components/campaignForm/ProjectDescription';
-
-const { Step } = Steps;
-
-const steps = [
-	{
-		title: 1,
-		content: 'Project Description',
-	},
-	{
-		title: 2,
-		content: 'Project Details',
-	},
-	{
-		title: 3,
-		content: 'Reward Settings',
-	},
-	{
-		title: 4,
-		content: 'Final Review',
-	},
-];
+import backgroundImg from '../assets/Ring01.png';
+import VestedForm from '../components/campaignForm/VestedForm';
+import NotVestedForm from '../components/campaignForm/NotVestedForm';
 
 const Campaign = () => {
 	const [cloneAddress, setCloneAddress] = useState({
@@ -53,7 +32,7 @@ const Campaign = () => {
 		endDate: '',
 		fundingTarget: '',
 	});
-	const [current, setCurrent] = React.useState(0);
+	const [isVested, setVested] = useState();
 
 	const { Moralis, chainId } = useMoralis();
 	const [responses, setResponses] = useState({});
@@ -119,121 +98,87 @@ const Campaign = () => {
 			console.log('🔊 New Transaction', hash);
 		});
 		tx.on('receipt', (receipt) => {
-			console.log(
-				'🔊 New Campaign: ',
-				receipt.events.NewCampaign.returnValues.contractAddress
-			);
-			console.log(
-				'🔊 Creator: ',
-				receipt.events.NewCampaign.returnValues.creator
-			);
+			// console.log(
+			// 	'🔊 New Campaign: ',
+			// 	receipt.events.NewCampaign.returnValues.contractAddress
+			// );
+			// console.log(
+			// 	'🔊 Creator: ',
+			// 	receipt.events.NewCampaign.returnValues.creator
+			// );
 
-			console.log(
-				'🔊 Reward Master: ',
-				receipt.events.NewCampaign.returnValues.rewardMaster
-			);
+			// console.log(
+			// 	'🔊 Reward Master: ',
+			// 	receipt.events.NewCampaign.returnValues.rewardMaster
+			// );
+
+			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
+			const creator = receipt.events.NewCampaign.returnValues.creator;
+			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
 
 			setCloneAddress({
-				NewCampaignAddress:
-					receipt.events.NewCampaign.returnValues.contractAddress,
-				creator: receipt.events.NewCampaign.returnValues.creator,
-				RewardMaster: receipt.events.NewCampaign.returnValues.rewardMaster,
+				NewCampaignAddress: cloneAdd,
+				creator: `${creator}`,
+				RewardMaster: `${rewardMaster}`,
 			});
 
-			console.log('clone address: ', cloneAddress.contractAddress);
+			console.log('clone address: ', cloneAddress);
 		});
 	};
 
-	const next = () => {
-		setCurrent(current + 1);
-	};
-
-	const prev = () => {
-		setCurrent(current - 1);
-	};
-
 	return (
-		<div className='flex justify-center bg-supadark-dark  mt-20'>
-			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
-				<Steps style={{ width: '600px' }} current={current}>
-					{steps.map((item) => (
-						<Step key={item.title} />
-					))}
-				</Steps>
-				<div className='w-full mt-8'>
-					{/* <div className='steps-content'>{steps[current].content}</div> */}
-
-					<div className='bg-supadark-light p-12'>
-						<div className='flex justify-start items-baseline'>
-							<div className='bg-supadark-dark border-2 border-supagreen-dark h-10 w-10 rounded-full flex justify-center items-center font-bold text-2xl'>
-								{steps[current].title}
-							</div>
-
-							<h1 className='ml-8 text-2xl text-slate-100 font-bold'>
-								{steps[current].content}
-							</h1>
-						</div>
-						{current === 0 && (
-							<ProjectDescription details={details} setDetails={setDetails} />
-						)}
-						{current === 1 && (
-							<ProjectDetailsForm
-								metadata={metadata}
-								setMetadata={setMetadata}
-								details={details}
-								setDetails={setDetails}
-							/>
-						)}
-						{current === 2 && <RewardSettingsForm />}
-					</div>
-
-					<div className='steps-action w-full  flex justify-end items-center p-5'>
-						{current > 0 && (
-							<Button
-								style={{
-									backgroundColor: '#24E795',
-									borderColor: '#001529',
-									margin: '0 8px',
-									color: '#1F1F1F',
-								}}
-								onClick={() => prev()}
-							>
-								Previous
-							</Button>
-						)}
-						{current < steps.length - 1 && (
-							<Button
-								type='primary'
-								style={{
-									backgroundColor: '#24E795',
-									borderColor: '#001529',
-									color: '#1F1F1F',
-								}}
-								onClick={() => {
-									next();
-								}}
-							>
-								Next
-							</Button>
-						)}
-						{current === steps.length - 1 && (
-							<Button
-								type='primary'
-								style={{
-									backgroundColor: '#24E795',
-									borderColor: '#001529',
-									color: '#1F1F1F',
-								}}
-								onClick={() => message.success('Processing complete!')}
-							>
-								Submit
-							</Button>
-						)}
-					</div>
-				</div>
+		<div className='mt-20 bg-supadark-dark overflow-x-hidden flex justify-center items-center  overflow-y-hidden'>
+			<div
+				style={{
+					backgroundImage: `url(${backgroundImg})`,
+					backgroundPosition: 'center',
+					backgroundSize: '700px 700px',
+					backgroundRepeat: 'no-repeat',
+					width: '100vw',
+					height: '100vh',
+					overflowX: 'none',
+				}}
+				className='bg-image bg-supadark-dark flex justify-center items-center '
+			></div>
+			<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
+				<h3 className='text-4xl font-bold text-supagreen-dark'>
+					From Vision to reality
+				</h3>
+				<p className='text-center text-sm'>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				</p>
+				<Button
+					style={{
+						border: '2px solid #24E795',
+						borderRadius: '12px',
+					}}
+				>
+					START CAMPAIGN
+				</Button>
 			</div>
 		</div>
 	);
+
+	// if (isVested) {
+	// 	return (
+	// 		<VestedForm
+	// 			metadata={metadata}
+	// 			setMetadata={setMetadata}
+	// 			details={details}
+	// 			setDetails={setDetails}
+	// 		/>
+	// 	);
+	// } else {
+	// 	return (
+	// 		<NotVestedForm
+	// 			metadata={metadata}
+	// 			setMetadata={setMetadata}
+	// 			details={details}
+	// 			setDetails={setDetails}
+	// 		/>
+	// 	);
+	// }
 };
 
 export default Campaign;

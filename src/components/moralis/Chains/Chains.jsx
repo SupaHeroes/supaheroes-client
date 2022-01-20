@@ -16,7 +16,7 @@ const styles = {
 		padding: '0 10px',
 	},
 	button: {
-		border: '2px solid rgb(231, 234, 243)',
+		border: '2px solid #67E9F1',
 		borderRadius: '12px',
 	},
 };
@@ -66,14 +66,18 @@ function Chains() {
 	if (!chainId || !isAuthenticated) return null;
 
 	return (
-		<div>
+		<div className='mr-3'>
 			<Dropdown overlay={menu} trigger={['click']}>
 				<Button
 					key={selected?.key}
 					icon={selected?.icon}
 					style={{ ...styles.button, ...styles.item }}
 				>
-					<span style={{ marginLeft: '5px' }}>{selected?.value}</span>
+					{!chainId || !isAuthenticated ? (
+						<span style={{ marginLeft: '5px' }}>{selected?.value}</span>
+					) : (
+						<span style={{ marginLeft: '5px' }}>{selected?.value}</span>
+					)}
 					<DownOutlined />
 				</Button>
 			</Dropdown>

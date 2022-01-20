@@ -11,17 +11,17 @@ import { connectors } from './config';
 const styles = {
 	account: {
 		height: '42px',
-		padding: '0 15px',
+		padding: '15px',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 'fit-content',
 		borderRadius: '12px',
-		backgroundColor: 'rgb(244, 244, 244)',
+		backgroundColor: '#67E9F1',
 		cursor: 'pointer',
 	},
 	text: {
-		color: '#21BF96',
+		color: '#1B1C1E',
 	},
 	connector: {
 		alignItems: 'center',
@@ -53,7 +53,18 @@ function Account() {
 		return (
 			<>
 				<div onClick={() => setIsAuthModalVisible(true)}>
-					<p style={styles.text}>Authenticate</p>
+					<Button
+						type='primary'
+						size='large'
+						style={{
+							fontSize: '16px',
+							color: 'black',
+							fontWeight: 700,
+						}}
+						onClick={() => authenticate()}
+					>
+						Connect Wallet
+					</Button>
 				</div>
 				<Modal
 					visible={isAuthModalVisible}
@@ -174,6 +185,7 @@ function Account() {
 						borderRadius: '0.5rem',
 						fontSize: '16px',
 						fontWeight: '500',
+						color: '#1B1C1E',
 					}}
 					onClick={async () => {
 						await logout();
