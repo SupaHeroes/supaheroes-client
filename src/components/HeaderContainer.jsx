@@ -15,12 +15,12 @@ const HeaderContainer = () => {
 		<Header
 			style={{
 				height: 80,
-				background: '#1F1F1F',
+				background: '#0D1016',
 				position: 'fixed',
 				zIndex: 1,
 				width: '100%',
 			}}
-			className='flex justify-center items-center '
+			className='flex border-b border-gray-500 border-opacity-40 justify-center items-center '
 		>
 			<div>
 				<img src={logo} alt='logo' className='h-24 w-auto mr-11' />
@@ -28,9 +28,8 @@ const HeaderContainer = () => {
 
 			<Menu
 				mode='horizontal'
-				defaultSelectedKeys={['1']}
 				style={{
-					background: '#1F1F1F',
+					background: '#0D1016',
 					textDecoration: 'none',
 					border: 'none',
 					marginLeft: '40px',
@@ -38,17 +37,17 @@ const HeaderContainer = () => {
 				className='w-full'
 			>
 				<Menu.Item key='1'>
-					<Link className='text-xl font-bold ' to='/'>
+					<Link className='text-md font-light' to='/'>
 						Explore
 					</Link>
 				</Menu.Item>
 				<Menu.Item key='2'>
-					<Link className='text-xl font-bold' to='/grants'>
+					<Link className='text-md font-light' to='/grants'>
 						Grants
 					</Link>
 				</Menu.Item>
 				<Menu.Item key='3' className=''>
-					<Link className='text-xl font-bold' to='/campaign'>
+					<Link className='text-md font-light' to='/campaign'>
 						Start a Campaign
 					</Link>
 				</Menu.Item>{' '}

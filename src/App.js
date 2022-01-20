@@ -27,7 +27,7 @@ function App() {
 		}, [isAuthenticated, isWeb3Enabled]);
 
 	return (
-		<div className=' App box-border  font-cormorant '>
+		<div className=' App box-border  font-inter '>
 			<Layout>
 				<HeaderContainer />
 
