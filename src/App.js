@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
-import { useEffect } from "react";
-import { useMoralis } from "react-moralis";
+import { useEffect } from 'react';
+import { useMoralis } from 'react-moralis';
 import './App.less';
 import Explore from './pages/Explore';
 import Grants from './pages/Grants';
@@ -14,17 +14,19 @@ import Transaction from './components/projects/Transaction';
 import Certificate from './components/projects/Certificate';
 import Vesting from './components/projects/Vesting';
 import Contract from './components/projects/Contract';
+import VestedForm from './components/campaignForm/VestedForm';
+import NotVestedForm from './components/campaignForm/NotVestedForm';
 
 function App() {
-	 const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
-			useMoralis();
+	const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
+		useMoralis();
 
-		useEffect(() => {
-			const connectorId = window.localStorage.getItem('connectorId');
-			if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
-				enableWeb3({ provider: connectorId });
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-		}, [isAuthenticated, isWeb3Enabled]);
+	useEffect(() => {
+		const connectorId = window.localStorage.getItem('connectorId');
+		if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
+			enableWeb3({ provider: connectorId });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isAuthenticated, isWeb3Enabled]);
 
 	return (
 		<div className=' App box-border  font-cormorant '>
@@ -42,6 +44,9 @@ function App() {
 					</Route>
 					<Route path='/grants' element={<Grants />} />
 					<Route path='/campaign' element={<Campaign />} />
+					<Route path='/campaign/withvesting' element={<VestedForm />} />
+					<Route path='/campaign/withoutvesting' element={<NotVestedForm />} />
+
 					<Route path='/*' element={<Error />} />
 				</Routes>
 			</Layout>

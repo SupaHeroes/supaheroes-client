@@ -1,8 +1,8 @@
 import React from 'react';
 import { Steps, Button, message } from 'antd';
 import ProjectDetailsForm from './ProjectDetailsForm';
-import RewardSettingsForm from './RewardSettingsForm';
 import ProjectDescription from './ProjectDescription';
+import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 const { Step } = Steps;
 
@@ -21,7 +21,9 @@ const steps = [
 	},
 ];
 
-const NotVestedForm = ({ metadata, setMetadata, details, setDetails }) => {
+const NotVestedForm = () => {
+	const { metadata, setMetadata, details, setDetails } = useDetails();
+
 	const [current, setCurrent] = React.useState(0);
 	const next = () => {
 		setCurrent(current + 1);
@@ -39,8 +41,6 @@ const NotVestedForm = ({ metadata, setMetadata, details, setDetails }) => {
 					))}
 				</Steps>
 				<div className='w-full mt-8'>
-					{/* <div className='steps-content'>{steps[current].content}</div> */}
-
 					<div className='bg-supadark-light p-12'>
 						<div className='flex justify-start items-baseline'>
 							<div className='bg-supadark-dark border-2 border-supagreen-dark h-10 w-10 rounded-full flex justify-center items-center font-bold text-2xl'>

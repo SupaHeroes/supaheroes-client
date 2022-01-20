@@ -3,6 +3,7 @@ import { Steps, Button, message } from 'antd';
 import ProjectDetailsForm from './ProjectDetailsForm';
 import RewardSettingsForm from './RewardSettingsForm';
 import ProjectDescription from './ProjectDescription';
+import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 const { Step } = Steps;
 
@@ -25,7 +26,9 @@ const steps = [
 	},
 ];
 
-const VestedForm = ({ metadata, setMetadata, details, setDetails }) => {
+const VestedForm = () => {
+	const { metadata, setMetadata, details, setDetails } = useDetails();
+
 	const [current, setCurrent] = React.useState(0);
 	const next = () => {
 		setCurrent(current + 1);

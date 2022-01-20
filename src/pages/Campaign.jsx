@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useMoralis, useMoralisQuery } from 'react-moralis';
+import { useNavigate } from 'react-router-dom';
 import { Button, notification } from 'antd';
 import campaignABI from '../abi/StandardCampaignStrategy.json';
 import factoryABI from '../abi/CampaignFactory.json';
@@ -10,29 +11,35 @@ import VestedForm from '../components/campaignForm/VestedForm';
 import NotVestedForm from '../components/campaignForm/NotVestedForm';
 
 const Campaign = () => {
+	const navigate = useNavigate();
+
 	const [cloneAddress, setCloneAddress] = useState({
 		NewCampaignAddress: '',
 		creator: '',
 		RewardMaster: '',
 	});
 
-	const [metadata, setMetadata] = useState({
-		title: '',
-		description: '',
-		images: [],
-		whitepaper: '',
-		website: '',
-		currency: '',
-	});
+	// const [metadata, setMetadata] = useState({
+	// 	title: '',
+	// 	description: '',
+	// 	images: [],
+	// 	whitepaper: '',
+	// 	website: '',
+	// 	currency: '',
+	// });
 
-	const [details, setDetails] = useState({
-		title: '',
-		about: '',
-		startDate: '',
-		endDate: '',
-		fundingTarget: '',
+	// const [details, setDetails] = useState({
+	// 	title: '',
+	// 	about: '',
+	// 	startDate: '',
+	// 	endDate: '',
+	// 	fundingTarget: '',
+	// });
+	const [isVested, setVested] = useState({
+		started: false,
+		withVested: false,
+		withoutVested: false,
 	});
-	const [isVested, setVested] = useState();
 
 	const { Moralis, chainId } = useMoralis();
 	const [responses, setResponses] = useState({});
@@ -140,23 +147,59 @@ const Campaign = () => {
 				}}
 				className='bg-image bg-supadark-dark flex justify-center items-center '
 			></div>
-			<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
-				<h3 className='text-4xl font-bold text-supagreen-dark'>
-					From Vision to reality
-				</h3>
-				<p className='text-center text-sm'>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua.
-				</p>
-				<Button
-					style={{
-						border: '2px solid #24E795',
-						borderRadius: '12px',
-					}}
-				>
-					START CAMPAIGN
-				</Button>
-			</div>
+
+			{!isVested.started ? (
+				<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
+					<h3 className='text-4xl font-bold text-supagreen-dark'>
+						From Vision to reality
+					</h3>
+					<p className='text-center text-sm'>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+						eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</p>
+					<Button
+						style={{
+							border: '2px solid #24E795',
+							borderRadius: '12px',
+						}}
+						onClick={() => setVested({ ...isVested, started: true })}
+					>
+						START CAMPAIGN
+					</Button>
+				</div>
+			) : (
+				<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
+					<h3 className='text-4xl font-bold text-supagreen-dark'>
+						Choose Modes
+					</h3>
+					<Button
+						style={{
+							border: '2px solid #24E795',
+							borderRadius: '12px',
+						}}
+						onClick={() => {
+							setVested({ ...isVested, withVesting: true });
+							navigate('/campaign/withvesting');
+						}}
+					>
+						REWARD CAMPAIGN WITH VESTING (RECOMMENDED)
+					</Button>
+
+					<Button
+						style={{
+							border: '2px solid #24E795',
+							borderRadius: '12px',
+							marginTop: '12px',
+						}}
+						onClick={() => {
+							setVested({ ...isVested, withoutVesting: true });
+							navigate('/campaign/withoutvesting');
+						}}
+					>
+						REWARD CAMPAIGN WITHOUT VESTING
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 

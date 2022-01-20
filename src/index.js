@@ -5,9 +5,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MoralisProvider } from 'react-moralis';
-
-
-
+import { DetailsProvider } from './hooks/contextHooks/DetailsContext';
 
 const appId = process.env.REACT_APP_MORALIS_APPLICATION_ID;
 const serverUrl = process.env.REACT_APP_MORALIS_SERVER_URL;
@@ -16,7 +14,9 @@ ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<MoralisProvider appId={appId} serverUrl={serverUrl}>
-				<App />
+				<DetailsProvider>
+					<App />
+				</DetailsProvider>
 			</MoralisProvider>
 			,
 		</BrowserRouter>
