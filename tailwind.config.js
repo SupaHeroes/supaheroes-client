@@ -5,6 +5,7 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				cormorant: 'Cormorant serif',
+				inter: 'Inter'
 			},
 			colors: {
 				supadark: {
@@ -15,7 +16,7 @@ module.exports = {
 				supagreen: {
 					light: '#DEFFEE',
 					DEFAULT: '#67E9F1',
-					dark: '#24E795',
+					dark: '#79D38A',
 				},
 			},
 		},

@@ -54,12 +54,15 @@ function Account() {
 			<>
 				<div onClick={() => setIsAuthModalVisible(true)}>
 					<Button
-						type='primary'
+						type='success'
 						size='large'
 						style={{
+							borderWidth:"1px",
+							borderStyle: "solid",
+							borderColor:"#79D38A",
 							fontSize: '16px',
-							color: 'black',
-							fontWeight: 700,
+							color: 'white',
+							fontWeight: 400,
 						}}
 						onClick={() => authenticate()}
 					>

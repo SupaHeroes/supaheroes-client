@@ -13,23 +13,20 @@ module.exports = {
 				lessLoaderOptions: {
 					lessOptions: {
 						modifyVars: {
-							'@primary-color': '#67E9F1',
-
-							'@body-background': '#1B1C1E',
-							'@component-background': '#1B1C1E',
-
+							'@primary-color': '#79D38A',
+							'@body-background': '#0D1016',
+							'@component-background': '#0D1016',
 							'@text-color': '#fff',
 							'@menu-item-active-border-width': '10px',
-							'@input-bg': '#1B1C1E',
+							'@input-bg': '#0D1016',
 							'@input-icon-color': '#fff',
-
 							'@breadcrumb-base-color': '#727272',
 							'@breadcrumb-last-item-color': '#DEFFEE',
 							'@breadcrumb-link-color': '#727272',
 							'@breadcrumb-separator-color': '#727272',
 
-							'@dropdown-menu-bg': '#1B1C1E',
-							'@modal-header-bg': '#1B1C1E',
+							'@dropdown-menu-bg': '#0D1016',
+							'@modal-header-bg': '#0D1016',
 
 							'@select-item-selected-color': '#303030',
 
@@ -37,7 +34,7 @@ module.exports = {
 							// ---
 							// @process-tail-color: @border-color-split;
 							// @steps-nav-arrow-color: fade(@black, 25%);
-							'@steps-background': '#67E9F1',
+							'@steps-background': '#79D38A',
 							// @steps-icon-size: 32px;
 							// @steps-icon-custom-size: @steps-icon-size;
 							// @steps-icon-custom-top: 0px;
