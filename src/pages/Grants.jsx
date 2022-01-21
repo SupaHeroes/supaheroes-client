@@ -16,7 +16,7 @@ const Grants = () => {
   const [useGrantAmount, setGrantAmount] = useState(5000);
   const [goalArray, setGoalArray] = useState([6500, 5000, 6000, 7000]);
   const [contributionArray, setContributionArray] = useState([
-    4000, 5000, 3000, 5200,
+    2000, 1500, 3000, 5200,
   ]);
   const projects = ["Project A", "Project B", "Project C", "Project D"];
 
@@ -43,7 +43,18 @@ const Grants = () => {
     const arr = goalArray;
     arr[index] = newGoal;
     console.log(arr);
-    setGoalArray(arr);
+    setGoalArray(oldarr => [...arr]);
+  };
+
+  const changeCont = (index, newCont) => {
+    if(newCont <= goalArray[index]){
+      console.log("called")
+      const arr = contributionArray;
+      arr[index] = newCont;
+      console.log(arr);
+      setContributionArray(oldarr => [...arr]);
+    }
+   
   };
 
   const addGrant = () => {
@@ -56,19 +67,20 @@ const Grants = () => {
 
   return (
     <div className="pt-24 bg-supadark-dark flex min-h-screen flex-col">
-      <div className="w-4/5 mx-auto h-52 bg-supagreen-dark rounded-xl">
-        <h1 className="text-5xl text-center pt-12">${useGrantAmount}</h1>
+      <div className="w-4/5 mx-auto h-52 bg-supagreen-dark flex flex-col rounded-xl">
+      <h1 className=" font-light text-xl pt-8 text-center">
+          Funds for Public Goods
+        </h1>
+        <h1 className="text-5xl text-center pt-2">${useGrantAmount}</h1>
         <div className="mx-auto max-w-md">
         <Button onClick={addGrant}>+</Button> <Button onClick={subGrant}>-</Button>
         </div>
-        <h1 className=" font-light text-xl text-center">
-          Funds for Public Goods
-        </h1>
+        
       </div>
       <div className="w-4/5 mx-auto pt-10">
         <h1 className="text-white text-3xl">QEO Funding Demo</h1>
         <h1 className="text-gray-300 font-light">
-          Thank you for trying QEO funding model, let me have your feedback!
+          Thank you for trying QEO funding model, we are still working on the mechanics! It is not perfect but we would love to try and give us feedbacks!
         </h1>
         <Divider />
         <Row gutter={16}>
@@ -78,6 +90,12 @@ const Grants = () => {
                 <InputNumber
                   defaultValue={goalArray[i]}
                   onChange={(e) => changeGoal(i, e)}
+                />
+              }
+              contributeBtn={
+                <InputNumber
+                  defaultValue={contributionArray[i]}
+                  onChange={(e) => changeCont(i, e)}
                 />
               }
               name={projects[i]}

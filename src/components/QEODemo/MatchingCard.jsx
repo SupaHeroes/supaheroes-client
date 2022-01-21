@@ -21,13 +21,13 @@ const MatchingCard = ({ contributeBtn ,inputBtn ,name, goal, contribution, match
           </Title>
 		  <Space>
           <Text style={Style}>Goal</Text>
-          <Text style={Style}>${goal}</Text>
+          <Text style={Style}>$</Text>
 		  {inputBtn}
 		  </Space>
           <Divider />
 		  <Space>
           <Text style={Style}>Contribution Amount:</Text>
-          <Text style={Style}>${contribution}</Text>
+          <Text style={Style}>$</Text>
 		  {contributeBtn}
 		  </Space>
           <Divider />
