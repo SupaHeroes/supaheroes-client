@@ -19,22 +19,6 @@ const Campaign = () => {
 		RewardMaster: '',
 	});
 
-	// const [metadata, setMetadata] = useState({
-	// 	title: '',
-	// 	description: '',
-	// 	images: [],
-	// 	whitepaper: '',
-	// 	website: '',
-	// 	currency: '',
-	// });
-
-	// const [details, setDetails] = useState({
-	// 	title: '',
-	// 	about: '',
-	// 	startDate: '',
-	// 	endDate: '',
-	// 	fundingTarget: '',
-	// });
 	const [isVested, setVested] = useState({
 		started: false,
 		withVested: false,
@@ -105,31 +89,15 @@ const Campaign = () => {
 			console.log('🔊 New Transaction', hash);
 		});
 		tx.on('receipt', (receipt) => {
-			// console.log(
-			// 	'🔊 New Campaign: ',
-			// 	receipt.events.NewCampaign.returnValues.contractAddress
-			// );
-			// console.log(
-			// 	'🔊 Creator: ',
-			// 	receipt.events.NewCampaign.returnValues.creator
-			// );
-
-			// console.log(
-			// 	'🔊 Reward Master: ',
-			// 	receipt.events.NewCampaign.returnValues.rewardMaster
-			// );
-
 			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
 			const creator = receipt.events.NewCampaign.returnValues.creator;
 			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
 
 			setCloneAddress({
-				NewCampaignAddress: cloneAdd,
+				NewCampaignAddress: `${cloneAdd}`,
 				creator: `${creator}`,
 				RewardMaster: `${rewardMaster}`,
 			});
-
-			console.log('clone address: ', cloneAddress);
 		});
 	};
 
@@ -161,7 +129,10 @@ const Campaign = () => {
 							border: '1px solid #79D38A',
 							borderRadius: '8px',
 						}}
-						onClick={() => setVested({ ...isVested, started: true })}
+						onClick={() => {
+							setVested({ ...isVested, started: true });
+							createCampaign();
+						}}
 					>
 						START CAMPAIGN
 					</Button>
@@ -178,6 +149,7 @@ const Campaign = () => {
 						}}
 						onClick={() => {
 							setVested({ ...isVested, withVesting: true });
+							console.log(cloneAddress);
 							navigate('/campaign/withvesting');
 						}}
 					>
@@ -201,26 +173,6 @@ const Campaign = () => {
 			)}
 		</div>
 	);
-
-	// if (isVested) {
-	// 	return (
-	// 		<VestedForm
-	// 			metadata={metadata}
-	// 			setMetadata={setMetadata}
-	// 			details={details}
-	// 			setDetails={setDetails}
-	// 		/>
-	// 	);
-	// } else {
-	// 	return (
-	// 		<NotVestedForm
-	// 			metadata={metadata}
-	// 			setMetadata={setMetadata}
-	// 			details={details}
-	// 			setDetails={setDetails}
-	// 		/>
-	// 	);
-	// }
 };
 
 export default Campaign;

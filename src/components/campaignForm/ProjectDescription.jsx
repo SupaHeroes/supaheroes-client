@@ -1,6 +1,9 @@
 import React from 'react';
+import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
-const ProjectDescription = ({ details, setDetails }) => {
+const ProjectDescription = () => {
+	const { details, setDetails } = useDetails();
+
 	const handleChange = (e) => {
 		setDetails({ ...details, about: e.target.value });
 		console.log(details.about);

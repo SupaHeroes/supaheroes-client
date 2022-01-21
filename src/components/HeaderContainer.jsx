@@ -55,37 +55,7 @@ const HeaderContainer = () => {
 
 			<Chains />
 			<Account/>
-			{/* <Button
-				size='large'
-				style={{
-					background: 'transparent',
-					marginRight: 34,
-					fontSize: '16px',
-					fontWeight: 700,
-					border: '2px solid #67E9F1',
-				}}
-			>
-				Avalanche
-			</Button>
-
-			{!isAuthenticated ? (
-				<Button
-					type='primary'
-					size='large'
-					style={{
-						fontSize: '16px',
-						color: 'black',
-						fontWeight: 700,
-					}}
-					onClick={() => authenticate()}
-				>
-					Connect Wallet
-				</Button>
-			) : (
-				<div>
-					<p>{user.get('ethAddress')}</p>
-				</div>
-			)} */}
+			
 		</Header>
 	);
 };

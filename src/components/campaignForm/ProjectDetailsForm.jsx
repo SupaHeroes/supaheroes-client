@@ -15,7 +15,8 @@ const styles = {
 	},
 };
 
-const ProjectDetailsForm = ({ metadata, setMetadata, details, setDetails }) => {
+const ProjectDetailsForm = () => {
+
 	return (
 		<div className=' mt-6'>
 			<form className='grid gap-4 grid-cols-2'>
