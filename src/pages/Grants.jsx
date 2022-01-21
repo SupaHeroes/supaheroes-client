@@ -66,7 +66,7 @@ const Grants = () => {
   }
 
   return (
-    <div className="pt-24 bg-supadark-dark flex min-h-screen flex-col">
+    <div className="pt-32 bg-supadark-black flex min-h-screen flex-col">
       <div className="w-4/5 mx-auto h-52 bg-supagreen-dark flex flex-col rounded-xl">
       <h1 className=" font-light text-xl pt-8 text-center">
           Funds for Public Goods

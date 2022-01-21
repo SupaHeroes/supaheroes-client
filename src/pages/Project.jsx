@@ -20,13 +20,13 @@ const Project = () => {
 						<Breadcrumb.Item>Newton | The crypto Laptop</Breadcrumb.Item>
 					</Breadcrumb>
 					<div className='flex flex-col lg:flex-row  '>
-						<div className='lg:w-8/12 '>
+						<div className='lg:w-8/12'>
 							<img
 								className='  h-auto object-cover rounded-[6%] p-4'
 								src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
 								alt='project display'
 							/>
-							<div className='flex '>
+							<div className='flex'>
 								<img
 									className='w-16 flex-1 h-auto object-cover rounded-[15%]  p-4'
 									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
@@ -50,9 +50,9 @@ const Project = () => {
 							</div>
 						</div>
 
-						<div className='flex flex-col justify-between w-full ml-20'>
-							<div className='p-8 '>
-								<h1 className='text-white font-sans font-bold text-5xl'>
+						<div className='flex flex-col justify-between w-full'>
+							<div className='p-8'>
+								<h1 className='text-white font-cormorant font-bold uppercase text-5xl'>
 									Newton | The crypto Laptop
 								</h1>
 
@@ -70,7 +70,10 @@ const Project = () => {
 									<Progress
 										percent={70}
 										size='large'
-										strokeColor={'#67E9F1'}
+										strokeColor={{
+											'0%': '#79D38A',
+											'100%': '#269BA8',
+										  }}
 										showInfo={false}
 									/>
 									<div className='flex justify-between  items-center mt-3'>
@@ -84,7 +87,7 @@ const Project = () => {
 								</div>
 							</div>
 
-							<div className='flex flex-col justify-center bg-supagreen w-9/12 text-white items-start pl-16 p-2  mx-8'>
+							<div className='flex flex-col justify-center bg-supagreen-dark w-9/12 text-white items-start pl-16 p-2  mx-8'>
 								<h3 className='flex justify-center items-center text-white pt-8'>
 									{' '}
 									<SafetyCertificateOutlined className='mr-3' /> This campaign
@@ -117,33 +120,33 @@ const Project = () => {
 							textDecoration: 'none',
 							border: 'none',
 							display: 'flex',
-							justifyContent: 'flex-start',
+							justifyContent: 'center',
 						}}
 						// className='w-full'
 					>
 						<Menu.Item key='1'>
-							<Link to='' className='font-sans font-bold text-2xl'>
+							<Link to='' className='font-inter text-2xl'>
 								Story
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='2'>
-							<Link to='transaction' className='font-sans font-bold text-2xl'>
+							<Link to='transaction' className='font-inter text-2xl'>
 								Transaction
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='3'>
-							<Link to='certificate' className='font-sans font-bold text-2xl'>
+							<Link to='certificate' className='font-inter text-2xl'>
 								Get Certificate
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='4' className=''>
-							<Link to='vesting' className='font-sans font-bold text-2xl'>
+							<Link to='vesting' className='font-inter text-2xl'>
 								Vesting Term
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='5' className=''>
-							<Link to='contract' className='font-sans font-bold text-2xl'>
-								Trace Contract
+							<Link to='contract' className='font-inter text-2xl'>
+								Marketplace
 							</Link>
 						</Menu.Item>
 					</Menu>

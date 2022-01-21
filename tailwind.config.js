@@ -9,12 +9,14 @@ module.exports = {
 			},
 			colors: {
 				supadark: {
-					light: '#303030',
-					DEFAULT: '#1F1F1F',
+					light: '#A7B5Bc',
+					medium: '#555E66',
+					DEFAULT: '#2F353F',
 					dark: '#1B1C1E',
+					black: '#0D1016'
 				},
 				supagreen: {
-					light: '#DEFFEE',
+					light: '#269BA8',
 					DEFAULT: '#67E9F1',
 					dark: '#79D38A',
 				},
