@@ -16,7 +16,7 @@ const styles = {
 		padding: '0 10px',
 	},
 	button: {
-		border: '2px solid #67E9F1',
+		border: '2px solid #79D38A',
 		borderRadius: '12px',
 	},
 };

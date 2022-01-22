@@ -4,22 +4,26 @@ import { Progress } from 'antd';
 import { MdOutlineTimer } from 'react-icons/md';
 import { BsBookFill } from 'react-icons/bs';
 
-const Card = () => {
+const Card = ({date, title, shortdesc, image}) => {
 	const navigate = useNavigate();
+	const endDate = new Date(date);
+	const days = endDate.getDate();
+	const month = endDate.getMonth();
+	const year = endDate.getFullYear();
+	console.log(endDate);
 	return (
 		<div className=' bg-supadark font-sans h-auto rounded-lg border border-supadark-medium'>
 			<img
-				src='https://images.unsplash.com/photo-1544006659-f0b21884ce1d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+				src={image}
 				alt='project'
 				className='w-full rounded-t-lg h-72 overflow-clip'
 			/>
 
 			<div className='mx-9'>
 				<div className='flex justify-between  items-center mt-6 '>
-					<p className='text-white font-bold font-inter text-xl'>23 Eth</p>
-					<p className='flex items-center  text-white text-md'>
-						
-						<MdOutlineTimer className='mr-2' /> 5d 20h left
+					<p className='text-white font-bold font-inter text-xl uppercase'>23 Eth</p>
+					<p className='flex items-center  text-white text-lg'>
+						<MdOutlineTimer className='mr-2' /> {days + "/" + month + "/" + year}
 					</p>
 				</div>
 				<Progress
@@ -35,12 +39,11 @@ const Card = () => {
 
 			<div className='mx-7 pb-3'>
 				<h3 className='text-white font-inter tracking-wide font-bold text-xl p-3 break-all'>
-					Newton | The crypto Laptop
+					{title}
 				</h3>
 
 				<p className=' text-gray-300 font-inter text-lg px-3 break-words'>
-					Newton is a new kind of laptop. It is purposely build for blockchain
-					apps
+					{shortdesc}
 				</p>
 			</div>
 

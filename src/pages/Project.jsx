@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { Breadcrumb, Progress, Menu } from 'antd';
+import { Breadcrumb, Progress, Menu, Space } from 'antd';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
 import ProjectButton from '../components/projects/ProjectButton';
 
 const Project = () => {
 	return (
-		<div className='mt-20 bg-supadark-dark'>
+		<div className='mt-20 bg-supadark-black'>
 			<div className=' flex justify-center text-3xl  '>
-				<div className='w-4/5 mt-8 '>
+				<div className='w-4/6 mt-8 '>
 					<Breadcrumb className='' separator='>'>
 						<Breadcrumb.Item>
 							<Link className='' to='/'>
@@ -20,30 +20,30 @@ const Project = () => {
 						<Breadcrumb.Item>Newton | The crypto Laptop</Breadcrumb.Item>
 					</Breadcrumb>
 					<div className='flex flex-col lg:flex-row  '>
-						<div className='lg:w-8/12'>
+						<div className='lg:w-10/12'>
 							<img
-								className='  h-auto object-cover rounded-[6%] p-4'
+								className='  h-auto object-cover rounded-[6%] pt-4'
 								src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
 								alt='project display'
 							/>
-							<div className='flex'>
+							<div className='flex pt-4'>
 								<img
-									className='w-16 flex-1 h-auto object-cover rounded-[15%]  p-4'
+									className='w-16 flex-1 h-auto object-cover rounded-[15%]  pr-4'
 									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
 									alt='project display'
 								/>
 								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%] p-4'
+									className='w-16 flex-1  h-auto object-cover rounded-[15%] pr-4'
 									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
 									alt='project display'
 								/>
 								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%]  p-4'
+									className='w-16 flex-1  h-auto object-cover rounded-[15%]  pr-4'
 									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
 									alt='project display'
 								/>
 								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%] p-4'
+									className='w-16 flex-1  h-auto object-cover rounded-[15%]'
 									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
 									alt='project display'
 								/>
@@ -57,19 +57,22 @@ const Project = () => {
 								</h1>
 
 								<div className='flex flex-wrap justify-start items-center'>
+									<Space>
 									<ProjectButton title={'Website'} />
 									<ProjectButton title={'Whitepaper'} />
 									<ProjectButton title={'Smart Contract'} />
+									</Space>
 								</div>
 
-								<div className='mt-8 w-9/12'>
-									<p className='flex items-center -mb-1 text-white font-bold text-2xl '>
+								<div className='mt-8 w-full'>
+									<p className='flex items-center -mb-1 text-white font-bold text-xl '>
 										{' '}
 										<MdOutlineTimer className='mr-2 ' /> 5d 20h left
 									</p>
 									<Progress
 										percent={70}
 										size='large'
+										strokeWidth="10px"
 										strokeColor={{
 											'0%': '#79D38A',
 											'100%': '#269BA8',
@@ -87,23 +90,23 @@ const Project = () => {
 								</div>
 							</div>
 
-							<div className='flex flex-col justify-center bg-supagreen-dark w-9/12 text-white items-start pl-16 p-2  mx-8'>
-								<h3 className='flex justify-center items-center text-white pt-8'>
+							<div className='flex flex-col justify-center bg-supadark border border-supagreen-dark w-11/12 text-white items-start pl-16 py-5  mx-8'>
+								<h3 className='flex justify-center items-center text-white text-lg h-auto'>
 									{' '}
 									<SafetyCertificateOutlined className='mr-3' /> This campaign
 									is vested
 								</h3>
-								<p className='text-base ml-12'>
+								<a className=' font-inter text-sm text-supadark-light underline'>
 									Learn more about vested campaign
-								</p>
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div className='flex justify-center mt-32'>
-				<div className=' bg-supadark-dark w-4/5 '>
+			<div className='flex justify-center mt-12'>
+				<div className='  w-4/6 '>
 					{/* <div className='flex justify-between font-sans font-bold text-2xl'>
 						<Link to=''>Story</Link>
 						<Link to='transaction'>Transaction</Link>
@@ -113,39 +116,40 @@ const Project = () => {
 					</div> */}
 
 					<Menu
-						mode='horizontal'
+						mode='inline'
 						defaultSelectedKeys={['1']}
+						theme="dark"
 						style={{
-							background: '#1B1C1E',
+							backgroundColor:"transparent",
 							textDecoration: 'none',
+							fontSize:"18px",
 							border: 'none',
 							display: 'flex',
-							justifyContent: 'center',
 						}}
 						// className='w-full'
 					>
 						<Menu.Item key='1'>
-							<Link to='' className='font-inter text-2xl'>
+							<Link to='' className='font-inter'>
 								Story
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='2'>
-							<Link to='transaction' className='font-inter text-2xl'>
+							<Link to='transaction' className='font-inter'>
 								Transaction
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='3'>
-							<Link to='certificate' className='font-inter text-2xl'>
+							<Link to='certificate' className='font-inter'>
 								Get Certificate
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='4' className=''>
-							<Link to='vesting' className='font-inter text-2xl'>
+							<Link to='vesting' className='font-inter'>
 								Vesting Term
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='5' className=''>
-							<Link to='contract' className='font-inter text-2xl'>
+							<Link to='contract' className='font-inter'>
 								Marketplace
 							</Link>
 						</Menu.Item>

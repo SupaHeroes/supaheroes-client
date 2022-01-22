@@ -16,7 +16,6 @@ const ProjectButton = ({ title }) => {
 				lineHeight: '10px',
 				display: 'flex',
 				alignItems: 'center',
-				margin: ' 12px 14px',
 			}}
 			shape='round'
 		>

@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useMoralis } from 'react-moralis';
 import './App.less';
 import Explore from './pages/Explore';
@@ -21,7 +21,7 @@ function App() {
 	const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
 		useMoralis();
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const connectorId = window.localStorage.getItem('connectorId');
 		if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
 			enableWeb3({ provider: connectorId });

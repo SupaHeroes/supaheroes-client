@@ -134,18 +134,18 @@ const Campaign = () => {
 	};
 
 	return (
-		<div className='mt-20 bg-supadark-dark overflow-x-hidden flex justify-center items-center  overflow-y-hidden'>
+		<div className='mt-20 bg-supadark-black overflow-x-hidden flex justify-center items-center  overflow-y-hidden'>
 			<div
 				style={{
 					backgroundImage: `url(${backgroundImg})`,
 					backgroundPosition: 'center',
-					backgroundSize: '700px 700px',
+					backgroundSize: '850px 850px',
 					backgroundRepeat: 'no-repeat',
 					width: '100vw',
 					height: '100vh',
 					overflowX: 'none',
 				}}
-				className='bg-image bg-supadark-dark flex justify-center items-center '
+				className='bg-image bg-supadark-black flex justify-center items-center '
 			></div>
 
 			{!isVested.started ? (
@@ -153,14 +153,13 @@ const Campaign = () => {
 					<h3 className='text-4xl font-bold text-supagreen-dark'>
 						From Vision to reality
 					</h3>
-					<p className='text-center text-sm'>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					<p className='text-center text-sm pb-3 font-light text-gray-300'>
+						Business owners and creators are society's superheroes. Now it is time for society to give back and make their dream come true.
 					</p>
 					<Button
 						style={{
-							border: '2px solid #24E795',
-							borderRadius: '12px',
+							border: '1px solid #79D38A',
+							borderRadius: '8px',
 						}}
 						onClick={() => setVested({ ...isVested, started: true })}
 					>
@@ -174,21 +173,21 @@ const Campaign = () => {
 					</h3>
 					<Button
 						style={{
-							border: '2px solid #24E795',
-							borderRadius: '12px',
+							border: '1px solid #79D38A',
+							borderRadius: '6px',
 						}}
 						onClick={() => {
 							setVested({ ...isVested, withVesting: true });
 							navigate('/campaign/withvesting');
 						}}
 					>
-						REWARD CAMPAIGN WITH VESTING (RECOMMENDED)
+						VESTED CAMPAIGN (RECOMMENDED)
 					</Button>
 
 					<Button
 						style={{
-							border: '2px solid #24E795',
-							borderRadius: '12px',
+							border: '1px solid #79D38A',
+							borderRadius: '6px',
 							marginTop: '12px',
 						}}
 						onClick={() => {
@@ -196,7 +195,7 @@ const Campaign = () => {
 							navigate('/campaign/withoutvesting');
 						}}
 					>
-						REWARD CAMPAIGN WITHOUT VESTING
+						NON-VESTED CAMPAIGN
 					</Button>
 				</div>
 			)}

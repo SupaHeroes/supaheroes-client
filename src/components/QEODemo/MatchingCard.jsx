@@ -5,13 +5,18 @@ import { Typography } from "antd";
 const { Title, Text } = Typography;
 
 const Style = {
-  paddingLeft: "14px",
+  paddingLeft: "0",
   color: "white",
 };
 
-
-
-const MatchingCard = ({ contributeBtn ,inputBtn ,name, goal, contribution, matching }) => {
+const MatchingCard = ({
+  contributeBtn,
+  inputBtn,
+  name,
+  goal,
+  contribution,
+  matching,
+}) => {
   return (
     <Col className="gutter-row" span={6}>
       <div className="h-full w-full border border-supagreen-dark rounded-xl">
@@ -19,20 +24,24 @@ const MatchingCard = ({ contributeBtn ,inputBtn ,name, goal, contribution, match
           <Title style={Style} level={2}>
             {name}
           </Title>
-		  <Space>
-          <Text style={Style}>Goal</Text>
-          <Text style={Style}>$</Text>
-		  {inputBtn}
-		  </Space>
-          <Divider />
-		  <Space>
-          <Text style={Style}>Contribution Amount:</Text>
-          <Text style={Style}>$</Text>
-		  {contributeBtn}
-		  </Space>
-          <Divider />
-          <Text style={Style}>Matching Amount:</Text>
-          <Text style={Style}>${matching}</Text>
+          <div className="flex-col py-3">
+            <Text style={Style}>Goal:</Text>
+
+            {inputBtn}
+          </div>
+
+          <div className="flex-col py-3">
+            <Text style={Style}>Contribution:</Text>
+
+            {contributeBtn}
+          </div>
+
+          <div className="flex-col">
+            <Text style={Style}>Matched with:</Text>
+            <div className="w-full bg-supadark py-3 rounded-md">
+            <h1 className="text-center text-white font-bold">${matching}</h1>
+            </div>
+          </div>
         </div>
       </div>
     </Col>

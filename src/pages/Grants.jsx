@@ -1,5 +1,6 @@
 import React from "react";
-import { Button } from 'antd';
+
+import { Button } from "antd";
 import { useState } from "react";
 import { Row, Col, Divider, InputNumber } from "antd";
 import { Typography } from "antd";
@@ -13,12 +14,15 @@ const Style = {
 };
 
 const Grants = () => {
+  
   const [useGrantAmount, setGrantAmount] = useState(5000);
   const [goalArray, setGoalArray] = useState([6500, 5000, 6000, 7000]);
   const [contributionArray, setContributionArray] = useState([
     2000, 1500, 3000, 5200,
   ]);
   const projects = ["Project A", "Project B", "Project C", "Project D"];
+
+  
 
   const match = (index) => {
     let total = 0;
@@ -39,72 +43,78 @@ const Grants = () => {
   };
 
   const changeGoal = (index, newGoal) => {
-    console.log("called")
+    console.log("called");
     const arr = goalArray;
     arr[index] = newGoal;
     console.log(arr);
-    setGoalArray(oldarr => [...arr]);
+    setGoalArray((oldarr) => [...arr]);
   };
 
   const changeCont = (index, newCont) => {
-    if(newCont <= goalArray[index]){
-      console.log("called")
+    if (newCont <= goalArray[index]) {
+      console.log("called");
       const arr = contributionArray;
       arr[index] = newCont;
       console.log(arr);
-      setContributionArray(oldarr => [...arr]);
+      setContributionArray((oldarr) => [...arr]);
     }
-   
   };
 
   const addGrant = () => {
-    setGrantAmount(amt => amt + 100);
-  }
+    setGrantAmount((amt) => amt + 100);
+  };
 
   const subGrant = () => {
-    setGrantAmount(amt => amt - 100);
-  }
+    setGrantAmount((amt) => amt - 100);
+  };
 
   return (
-    <div className="pt-32 bg-supadark-black flex min-h-screen flex-col">
-      <div className="w-4/5 mx-auto h-52 bg-supagreen-dark flex flex-col rounded-xl">
-      <h1 className=" font-light text-xl pt-8 text-center">
-          Funds for Public Goods
-        </h1>
-        <h1 className="text-5xl text-center pt-2">${useGrantAmount}</h1>
-        <div className="mx-auto max-w-md">
-        <Button onClick={addGrant}>+</Button> <Button onClick={subGrant}>-</Button>
+    <div className="bg-supadark-black" >
+      <div style={{ maxWidth: "70%" }} className="pt-32 mx-auto  flex min-h-screen flex-col">
+        <div className="w-4/5 mx-auto h-52 bg-supagreen-dark flex flex-col rounded-xl">
+          <h1 className=" font-light text-xl pt-8 text-center">
+            Funds for Public Goods
+          </h1>
+          <h1 className="text-5xl text-center pt-2">${useGrantAmount}</h1>
+          <div className="mx-auto max-w-md">
+            <Button onClick={addGrant}>+</Button>{" "}
+            <Button onClick={subGrant}>-</Button>
+          </div>
         </div>
-        
-      </div>
-      <div className="w-4/5 mx-auto pt-10">
-        <h1 className="text-white text-3xl">QEO Funding Demo</h1>
-        <h1 className="text-gray-300 font-light">
-          Thank you for trying QEO funding model, we are still working on the mechanics! It is not perfect but we would love to try and give us feedbacks!
-        </h1>
-        <Divider />
-        <Row gutter={16}>
-          {goalArray.map((e, i) => (
-            <MatchingCard
-              inputBtn={
-                <InputNumber
-                  defaultValue={goalArray[i]}
-                  onChange={(e) => changeGoal(i, e)}
-                />
-              }
-              contributeBtn={
-                <InputNumber
-                  defaultValue={contributionArray[i]}
-                  onChange={(e) => changeCont(i, e)}
-                />
-              }
-              name={projects[i]}
-              goal={e}
-              contribution={contributionArray[i]}
-              matching={match(i)}
-            />
-          ))}
-        </Row>
+        <div className="w-4/5 mx-auto pt-10">
+          <h1 className="text-white text-3xl">QEO Funding Demo</h1>
+          <h1 className="text-gray-300 font-light">
+            Thank you for trying QEO funding model, we are still working on the
+            mechanics! It is not perfect but we would love to try and give us
+            feedbacks!
+          </h1>
+          <h1 className="text-gray-300 font-light">Follow our updates on <a href="https://twitter.com/SupaheroesFund">Twitter!</a></h1>
+          <Divider />
+          <Row gutter={16}>
+            {goalArray.map((e, i) => (
+              <MatchingCard
+                inputBtn={
+                  <InputNumber
+                  prefix="$" style={{ width: '100%' }}
+                    defaultValue={goalArray[i]}
+                    onChange={(e) => changeGoal(i, e)}
+                  />
+                }
+                contributeBtn={
+                  <InputNumber
+                  prefix="$" style={{ width: '100%' }}
+                    defaultValue={contributionArray[i]}
+                    onChange={(e) => changeCont(i, e)}
+                  />
+                }
+                name={projects[i]}
+                goal={e}
+                contribution={contributionArray[i]}
+                matching={match(i)}
+              />
+            ))}
+          </Row>
+        </div>
       </div>
     </div>
   );
