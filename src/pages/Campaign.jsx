@@ -75,6 +75,7 @@ const Campaign = () => {
 
 	const createCampaign = async () => {
 		setIsLoading(true);
+
 		const tx = await Moralis.executeFunction({
 			awaitReceipt: false,
 			...options2,
@@ -97,9 +98,53 @@ const Campaign = () => {
 				NewCampaignAddress: `${cloneAdd}`,
 				creator: `${creator}`,
 				RewardMaster: `${rewardMaster}`,
+				vestingMaster: '0x0000000000000000000000000000000000000000',
 			});
 
 			setIsLoading(false);
+			navigate('/campaign/withoutvesting');
+		});
+	};
+
+	const options3 = {
+		contractAddress: '0xe81eAffA679B00279f664877C57e895606dB55Cf',
+		functionName: 'createCampaignWithVesting',
+		abi: factoryABI,
+	};
+
+	const createCampaignWithVesting = async () => {
+		setIsLoading(true);
+
+		const tx = await Moralis.executeFunction({
+			awaitReceipt: false,
+			...options3,
+		});
+		console.log(tx);
+		tx.on('transactionHash', (hash) => {
+			setResponses({ ...responses, name: { result: null, isLoading: true } });
+			openNotification({
+				message: '🔊 New Transaction',
+				description: `${hash}`,
+			});
+			console.log('🔊 New Transaction', hash);
+		});
+		tx.on('receipt', (receipt) => {
+			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
+			const creator = receipt.events.NewCampaign.returnValues.creator;
+			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
+			const vestingMaster =
+				receipt.events.NewCampaign.returnValues.vestingMaster;
+
+			setCloneAddress({
+				NewCampaignAddress: `${cloneAdd}`,
+				creator: `${creator}`,
+				RewardMaster: `${rewardMaster}`,
+				vestingMaster: `${vestingMaster}`,
+			});
+
+			setIsLoading(false);
+			console.log(cloneAddress);
+			navigate('/campaign/withvesting');
 		});
 	};
 
@@ -135,15 +180,13 @@ const Campaign = () => {
 							borderRadius: '8px',
 						}}
 						onClick={() => {
-							setIsLoading(true);
 							setVested({ ...isVested, started: true });
-							createCampaign();
 						}}
 					>
 						START CAMPAIGN
 					</Button>
 				</div>
-			) : !isLoading ? (
+			) : isLoading ? (
 				<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
 					<h3 className='text-4xl font-bold text-supagreen-dark text-center'>
 						Creating Campaign.
@@ -167,8 +210,7 @@ const Campaign = () => {
 						}}
 						onClick={() => {
 							setVested({ ...isVested, withVesting: true });
-							console.log(cloneAddress);
-							navigate('/campaign/withvesting');
+							createCampaignWithVesting();
 						}}
 					>
 						VESTED CAMPAIGN (RECOMMENDED)
@@ -182,7 +224,7 @@ const Campaign = () => {
 						}}
 						onClick={() => {
 							setVested({ ...isVested, withoutVesting: true });
-							navigate('/campaign/withoutvesting');
+							createCampaign();
 						}}
 					>
 						NON-VESTED CAMPAIGN

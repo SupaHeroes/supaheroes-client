@@ -3,17 +3,18 @@ import { Steps, Button, message } from 'antd';
 import ProjectDetailsForm from './ProjectDetailsForm';
 import ProjectDescription from './ProjectDescription';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
+import TierDetails from './TierDetails';
 
 const { Step } = Steps;
 
 const steps = [
 	{
 		title: 1,
-		content: 'Project Description',
+		content: 'Project Details',
 	},
 	{
 		title: 2,
-		content: 'Project Details',
+		content: 'Tier Details',
 	},
 	{
 		title: 3,
@@ -22,7 +23,7 @@ const steps = [
 ];
 
 const NotVestedForm = () => {
-	const { metadata, setMetadata, details, setDetails } = useDetails();
+	const { metadata, setMetadata, details, setDetails, tiers } = useDetails();
 
 	const [current, setCurrent] = React.useState(0);
 	const next = () => {
@@ -41,7 +42,7 @@ const NotVestedForm = () => {
 					))}
 				</Steps>
 				<div className='w-full mt-8'>
-					<div className='bg-supadark-light p-12'>
+					<div className='bg-supadark-light p-12 rounded-xl'>
 						<div className='flex justify-start items-baseline'>
 							<div className='bg-supadark-dark border-2 border-supagreen-dark h-10 w-10 rounded-full flex justify-center items-center font-bold text-2xl'>
 								{steps[current].title}
@@ -54,14 +55,7 @@ const NotVestedForm = () => {
 						{current === 0 && (
 							<ProjectDescription details={details} setDetails={setDetails} />
 						)}
-						{current === 1 && (
-							<ProjectDetailsForm
-								metadata={metadata}
-								setMetadata={setMetadata}
-								details={details}
-								setDetails={setDetails}
-							/>
-						)}
+						{current === 1 && <TierDetails />}
 					</div>
 
 					<div className='steps-action w-full  flex justify-end items-center p-5'>
@@ -88,6 +82,7 @@ const NotVestedForm = () => {
 								}}
 								onClick={() => {
 									next();
+									console.log(tiers);
 								}}
 							>
 								Next

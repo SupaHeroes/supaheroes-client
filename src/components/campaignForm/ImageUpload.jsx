@@ -18,7 +18,7 @@ export function PicturesWall() {
 	};
 
 	return (
-		<div className='App'>
+		<div className='App '>
 			<ImageUploading
 				multiple
 				value={images}
@@ -36,7 +36,7 @@ export function PicturesWall() {
 					dragProps,
 				}) => (
 					// write your building UI
-					<div className=' bg-supadark-dark p-8'>
+					<div className=' bg-supadark-dark p-8 rounded-xl'>
 						<div>
 							<button
 								style={isDragging ? { color: 'red' } : undefined}

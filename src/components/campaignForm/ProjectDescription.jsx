@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
+import ProjectDetailsForm from './ProjectDetailsForm';
 
 const ProjectDescription = () => {
 	const { details, setDetails } = useDetails();
-	
 
 	const handleChange = (e) => {
 		setDetails({ ...details, about: e.target.value });
 		console.log(details.about);
-	
 	};
 	return (
-		<div className=' mt-6'>
+		<div className=' mt-6 rounded-xl'>
 			<h1 className='text-supagreen-light text-lg font-bold'>
 				Tell us about your project
 			</h1>
@@ -22,7 +21,7 @@ const ProjectDescription = () => {
 
 			<textarea
 				onChange={handleChange}
-				className='w-full outline-none bg-supadark-dark p-6 text-lg font-serif'
+				className='w-full outline-none bg-supadark-dark p-6 text-lg font-serif rounded-xl'
 				id='story'
 				name='story'
 				rows='10'
@@ -30,6 +29,8 @@ const ProjectDescription = () => {
 				style={{ resize: 'none' }}
 				value={details.about}
 			></textarea>
+
+			<ProjectDetailsForm />
 		</div>
 	);
 };

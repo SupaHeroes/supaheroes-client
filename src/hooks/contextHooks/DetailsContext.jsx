@@ -30,10 +30,19 @@ export function DetailsProvider({ children }) {
 		fundingTarget: '',
 	});
 
+	const [tiers, setTiers] = useState([
+		{
+			title: '',
+			description: '',
+			price: '',
+		},
+	]);
+
 	const [cloneAddress, setCloneAddress] = useState({
 		NewCampaignAddress: '',
 		creator: '',
 		RewardMaster: '',
+		vestingMaster: '',
 	});
 
 	return (
@@ -47,6 +56,8 @@ export function DetailsProvider({ children }) {
 				setCloneAddress,
 				isLoading,
 				setIsLoading,
+				tiers,
+				setTiers,
 			}}
 		>
 			{children}
