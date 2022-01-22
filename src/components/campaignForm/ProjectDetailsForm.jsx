@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DatePicker, Space, Input, Select } from 'antd';
 
-// import Input from './Form';
+import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 import PicturesWall from './ImageUpload';
 
 const { RangePicker } = DatePicker;
@@ -16,35 +16,65 @@ const styles = {
 };
 
 const ProjectDetailsForm = () => {
+	const { details, setDetails, metadata, setMetadata } = useDetails();
+
+	const calenderHandler = (info) => {
+		const startDate = parseInt(
+			(new Date(info[0]?._d).getTime() / 1000).toFixed(0)
+		);
+		const endDate = parseInt(
+			(new Date(info[1]?._d).getTime() / 1000).toFixed(0)
+		);
+
+		setDetails({ ...details, startDate, endDate });
+	};
 
 	return (
 		<div className=' mt-6'>
 			<form className='grid gap-4 grid-cols-2'>
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Campaign Symbol</h3>
-					<Input style={styles.input} title={'Campaign Symbol'} />
-				</div>
-
-				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Project Name</h3>
-					<Input style={styles.input} title={'Project Name'} />
+					<Input
+						style={styles.input}
+						title={'Project Name'}
+						value={details.title}
+						onChange={(e) => setDetails({ ...details, title: e.target.value })}
+					/>
 				</div>
 
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Short Description</h3>
-					<Input style={styles.input} title={'Short Description'} />
+					<Input
+						style={styles.input}
+						title={'Short Description'}
+						value={details.about}
+						onChange={(e) => setDetails({ ...details, about: e.target.value })}
+					/>
 				</div>
 
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Funding Period</h3>
 					<Space direction='vertical' size={'large'}>
-						<RangePicker style={styles.input} />
+						<RangePicker
+							style={styles.input}
+							onCalendarChange={(info) => {
+								calenderHandler(info);
+							}}
+						/>
 					</Space>
 				</div>
 
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Funding Goal</h3>
-					<Input style={styles.input} title={'Funding Goal'} />
+					<Input
+						style={styles.input}
+						title={'Funding Goal'}
+						type={'number'}
+						value={details.fundingTarget}
+						onChange={(e) => {
+							setDetails({ ...details, fundingTarget: e.target.value });
+						}}
+					/>
 				</div>
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Select Currency</h3>
@@ -57,6 +87,11 @@ const ProjectDetailsForm = () => {
 								height: '44px',
 							}}
 							defaultValue='Select Currency'
+							value={metadata.currency}
+							onChange={(e) => {
+								setMetadata({ ...metadata, currency: e });
+								console.log(metadata.currency);
+							}}
 						>
 							<Option value='0xdac17f958d2ee523a2206206994597c13d831ec7'>
 								USDT
@@ -73,11 +108,34 @@ const ProjectDetailsForm = () => {
 
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Website Link</h3>
-					<Input style={styles.input} title={'Website'} />
+					<Input
+						style={styles.input}
+						title={'Website'}
+						type={'url'}
+						onChange={(e) => {
+							setMetadata({ ...metadata, website: e.target.value });
+						}}
+					/>
 				</div>
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>White Paper Link</h3>
-					<Input style={styles.input} title={'Whitepaper'} />
+					<Input
+						style={styles.input}
+						title={'Whitepaper'}
+						onChange={(e) => {
+							setMetadata({ ...metadata, whitepaper: e.target.value });
+						}}
+					/>
+				</div>
+
+				<div className='flex flex-col'>
+					<h3 className=' text-2xl text-slate-100'>Twitter</h3>
+					<Input style={styles.input} title={'Twitter'} />
+				</div>
+
+				<div className='flex flex-col'>
+					<h3 className=' text-2xl text-slate-100'>Discord</h3>
+					<Input style={styles.input} title={'Discord'} />
 				</div>
 			</form>
 			<div className='mt-8'>

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 const ProjectDescription = () => {
 	const { details, setDetails } = useDetails();
+	
 
 	const handleChange = (e) => {
 		setDetails({ ...details, about: e.target.value });
 		console.log(details.about);
+	
 	};
 	return (
 		<div className=' mt-6'>

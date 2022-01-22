@@ -7,6 +7,8 @@ export function useDetails() {
 }
 
 export function DetailsProvider({ children }) {
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [metadata, setMetadata] = useState({
 		title: '',
 		description: '',
@@ -14,6 +16,10 @@ export function DetailsProvider({ children }) {
 		whitepaper: '',
 		website: '',
 		currency: '',
+		socials: {
+			twitter: '',
+			discord: '',
+		},
 	});
 
 	const [details, setDetails] = useState({
@@ -24,9 +30,24 @@ export function DetailsProvider({ children }) {
 		fundingTarget: '',
 	});
 
+	const [cloneAddress, setCloneAddress] = useState({
+		NewCampaignAddress: '',
+		creator: '',
+		RewardMaster: '',
+	});
+
 	return (
 		<DetailsContext.Provider
-			value={{ metadata, setMetadata, details, setDetails }}
+			value={{
+				metadata,
+				setMetadata,
+				details,
+				setDetails,
+				cloneAddress,
+				setCloneAddress,
+				isLoading,
+				setIsLoading,
+			}}
 		>
 			{children}
 		</DetailsContext.Provider>

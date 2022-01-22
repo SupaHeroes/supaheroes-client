@@ -9,15 +9,14 @@ import './campaign.css';
 import backgroundImg from '../assets/Ring01.png';
 import VestedForm from '../components/campaignForm/VestedForm';
 import NotVestedForm from '../components/campaignForm/NotVestedForm';
+import { useDetails } from '../hooks/contextHooks/DetailsContext';
+import Transaction from '../components/projects/Transaction';
 
 const Campaign = () => {
 	const navigate = useNavigate();
 
-	const [cloneAddress, setCloneAddress] = useState({
-		NewCampaignAddress: '',
-		creator: '',
-		RewardMaster: '',
-	});
+	const { cloneAddress, setCloneAddress, isLoading, setIsLoading } =
+		useDetails();
 
 	const [isVested, setVested] = useState({
 		started: false,
@@ -38,7 +37,7 @@ const Campaign = () => {
 	};
 
 	const options = {
-		contractAddress: '0xe9581BcDc8f4EfaC5eA0834Eed04cF130dFD8012',
+		contractAddress: cloneAddress.NewCampaignAddress,
 		functionName: 'initialize',
 		abi: campaignABI,
 		params: {
@@ -48,7 +47,7 @@ const Campaign = () => {
 			_fundTarget: 2000,
 			_fundingStartTime: 1642334338,
 			_vestingManager: '0x0000000000000000000000000000000000000000',
-			_rewardManager: '0x6905fec04baa75fef9fef71327912586fbffd931',
+			_rewardManager: cloneAddress.rewardMaster,
 		},
 	};
 
@@ -75,6 +74,7 @@ const Campaign = () => {
 	};
 
 	const createCampaign = async () => {
+		setIsLoading(true);
 		const tx = await Moralis.executeFunction({
 			awaitReceipt: false,
 			...options2,
@@ -98,6 +98,8 @@ const Campaign = () => {
 				creator: `${creator}`,
 				RewardMaster: `${rewardMaster}`,
 			});
+
+			setIsLoading(false);
 		});
 	};
 
@@ -107,13 +109,15 @@ const Campaign = () => {
 				style={{
 					backgroundImage: `url(${backgroundImg})`,
 					backgroundPosition: 'center',
-					backgroundSize: '850px 850px',
+					backgroundSize: '800px 800px',
 					backgroundRepeat: 'no-repeat',
 					width: '100vw',
 					height: '100vh',
 					overflowX: 'none',
 				}}
-				className='bg-image bg-supadark-black flex justify-center items-center '
+				className={` ${
+					isLoading && `bg-image`
+				} bg-supadark-dark flex justify-center items-center `}
 			></div>
 
 			{!isVested.started ? (
@@ -122,7 +126,8 @@ const Campaign = () => {
 						From Vision to reality
 					</h3>
 					<p className='text-center text-sm pb-3 font-light text-gray-300'>
-						Business owners and creators are society's superheroes. Now it is time for society to give back and make their dream come true.
+						Business owners and creators are society's superheroes. Now it is
+						time for society to give back and make their dream come true.
 					</p>
 					<Button
 						style={{
@@ -130,12 +135,25 @@ const Campaign = () => {
 							borderRadius: '8px',
 						}}
 						onClick={() => {
+							setIsLoading(true);
 							setVested({ ...isVested, started: true });
 							createCampaign();
 						}}
 					>
 						START CAMPAIGN
 					</Button>
+				</div>
+			) : !isLoading ? (
+				<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
+					<h3 className='text-4xl font-bold text-supagreen-dark text-center'>
+						Creating Campaign.
+					</h3>
+					<h3 className='text-4xl font-bold text-supagreen-dark'>
+						Please Wait!!
+					</h3>
+					<p className='text-center text-sm'>
+						Wait for transaction to complete.
+					</p>
 				</div>
 			) : (
 				<div className='flex flex-col justify-center items-center max-w-sm absolute h-full'>
