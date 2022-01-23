@@ -13,25 +13,15 @@ const styles = {
 const TierDetails = () => {
 	const { tiers, setTiers } = useDetails();
 
-	const [input, setInput] = useState([
-		{ title: '', description: '', price: '' },
-	]);
-
-	let handleChange = (i, e) => {
-		let newFormValues = [...tiers];
-		newFormValues[i][e.target.name] = e.target.value;
-		setTiers(newFormValues);
-	};
-
 	let addFormFields = () => {
 		setTiers([...tiers, { title: '', description: '', price: '' }]);
 	};
 
-	let removeFormFields = (i) => {
-		let newFormValues = [...tiers];
-		newFormValues.splice(i, 1);
-		setTiers(newFormValues);
-	};
+	// let removeFormFields = (i) => {
+	// 	let newFormValues = [...tiers];
+	// 	newFormValues.splice(i, 1);
+	// 	setTiers(newFormValues);
+	// };
 
 	return (
 		<div className=' mt-6'>

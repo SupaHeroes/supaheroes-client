@@ -19,7 +19,7 @@ const steps = [
 	},
 	{
 		title: 3,
-		content: 'Reward Settings',
+		content: 'Vesting Reward Settings',
 	},
 	{
 		title: 4,
@@ -28,7 +28,8 @@ const steps = [
 ];
 
 const VestedForm = () => {
-	const { metadata, setMetadata, details, setDetails } = useDetails();
+	const { metadata, setMetadata, details, setDetails, vestings, tiers } =
+		useDetails();
 
 	const [current, setCurrent] = React.useState(0);
 	const next = () => {
@@ -104,7 +105,13 @@ const VestedForm = () => {
 									borderColor: '#001529',
 									color: '#1F1F1F',
 								}}
-								onClick={() => message.success('Processing complete!')}
+								onClick={() => {
+									message.success('Processing complete!');
+									console.log(metadata);
+									console.log(details);
+									console.log(vestings);
+									console.log(tiers);
+								}}
 							>
 								Submit
 							</Button>

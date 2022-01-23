@@ -9,17 +9,39 @@ export function useDetails() {
 export function DetailsProvider({ children }) {
 	const [isLoading, setIsLoading] = useState(false);
 
+	const [tiers, setTiers] = useState([
+		{
+			title: '',
+			description: '',
+			price: '',
+		},
+	]);
+
+	const [vestings, setVesting] = useState([
+		{
+			Date: '',
+			amount: '',
+		},
+	]);
+
 	const [metadata, setMetadata] = useState({
 		title: '',
 		description: '',
 		images: [],
-		whitepaper: '',
 		website: '',
-		currency: '',
+		whitepaper: '',
 		socials: {
 			twitter: '',
 			discord: '',
 		},
+		currency: '',
+		tiers: [
+			{
+				title: '',
+				description: '',
+				price: '',
+			},
+		],
 	});
 
 	const [details, setDetails] = useState({
@@ -28,14 +50,6 @@ export function DetailsProvider({ children }) {
 		endDate: '',
 		fundingTarget: '',
 	});
-
-	const [tiers, setTiers] = useState([
-		{
-			title: '',
-			description: '',
-			price: '',
-		},
-	]);
 
 	const [cloneAddress, setCloneAddress] = useState({
 		NewCampaignAddress: '',
@@ -57,6 +71,8 @@ export function DetailsProvider({ children }) {
 				setIsLoading,
 				tiers,
 				setTiers,
+				vestings,
+				setVesting,
 			}}
 		>
 			{children}
