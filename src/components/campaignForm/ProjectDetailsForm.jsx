@@ -37,8 +37,10 @@ const ProjectDetailsForm = () => {
 					<Input
 						style={styles.input}
 						title={'Project Name'}
-						value={details.title}
-						onChange={(e) => setDetails({ ...details, title: e.target.value })}
+						value={metadata.title}
+						onChange={(e) =>
+							setMetadata({ ...metadata, title: e.target.value })
+						}
 					/>
 				</div>
 
@@ -47,8 +49,10 @@ const ProjectDetailsForm = () => {
 					<Input
 						style={styles.input}
 						title={'Short Description'}
-						value={details.about}
-						onChange={(e) => setDetails({ ...details, about: e.target.value })}
+						value={metadata.description}
+						onChange={(e) =>
+							setMetadata({ ...metadata, description: e.target.value })
+						}
 					/>
 				</div>
 
@@ -112,6 +116,7 @@ const ProjectDetailsForm = () => {
 						style={styles.input}
 						title={'Website'}
 						type={'url'}
+						value={metadata.website}
 						onChange={(e) => {
 							setMetadata({ ...metadata, website: e.target.value });
 						}}
@@ -122,6 +127,7 @@ const ProjectDetailsForm = () => {
 					<Input
 						style={styles.input}
 						title={'Whitepaper'}
+						value={metadata.whitepaper}
 						onChange={(e) => {
 							setMetadata({ ...metadata, whitepaper: e.target.value });
 						}}
@@ -130,12 +136,32 @@ const ProjectDetailsForm = () => {
 
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Twitter</h3>
-					<Input style={styles.input} title={'Twitter'} />
+					<Input
+						style={styles.input}
+						title={'Twitter'}
+						value={metadata.socials.twitter}
+						onChange={(e) => {
+							setMetadata({
+								...metadata,
+								socials: { ...metadata.socials, twitter: e.target.value },
+							});
+						}}
+					/>
 				</div>
 
 				<div className='flex flex-col'>
 					<h3 className=' text-2xl text-slate-100'>Discord</h3>
-					<Input style={styles.input} title={'Discord'} />
+					<Input
+						style={styles.input}
+						title={'Discord'}
+						value={metadata.socials.discord}
+						onChange={(e) => {
+							setMetadata({
+								...metadata,
+								socials: { ...metadata.socials, discord: e.target.value },
+							});
+						}}
+					/>
 				</div>
 			</form>
 			<div className='mt-8'>

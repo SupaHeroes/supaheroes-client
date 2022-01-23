@@ -5,23 +5,25 @@ import {
 	DeleteOutlined,
 	EditOutlined,
 } from '@ant-design/icons';
+import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 export function PicturesWall() {
+	const { metadata, setMetadata } = useDetails();
 	const [images, setImages] = React.useState([]);
 	const maxNumber = 6;
 
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
 		console.log(imageList, addUpdateIndex);
-		setImages(imageList);
-		console.log('images', images);
+		setMetadata({ ...metadata, images: imageList });
+		console.log('images', metadata.images);
 	};
 
 	return (
 		<div className='App '>
 			<ImageUploading
 				multiple
-				value={images}
+				value={metadata.images}
 				onChange={onChange}
 				maxNumber={maxNumber}
 				dataURLKey='data_url'
@@ -51,7 +53,7 @@ export function PicturesWall() {
 								</div>
 							</button>
 							&nbsp;
-							{images.length === 0 ? null : (
+							{metadata.images.length === 0 ? null : (
 								<button
 									className='text-2xl bg-supagreen-light rounded-xl p-5 text-supadark-light'
 									onClick={onImageRemoveAll}

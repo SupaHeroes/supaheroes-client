@@ -96,7 +96,12 @@ const NotVestedForm = () => {
 									borderColor: '#001529',
 									color: '#1F1F1F',
 								}}
-								onClick={() => message.success('Processing complete!')}
+								onClick={() => {
+									message.success('Processing complete!');
+									console.log('metadata:::', metadata);
+									console.log('details:::', details);
+									console.log('tiers:::', tiers);
+								}}
 							>
 								Submit
 							</Button>

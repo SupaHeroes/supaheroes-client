@@ -23,7 +23,6 @@ export function DetailsProvider({ children }) {
 	});
 
 	const [details, setDetails] = useState({
-		title: '',
 		about: '',
 		startDate: '',
 		endDate: '',

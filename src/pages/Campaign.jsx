@@ -162,7 +162,7 @@ const Campaign = () => {
 				}}
 				className={` ${
 					isLoading && `bg-image`
-				} bg-supadark-dark flex justify-center items-center `}
+				} bg-supadark-black flex justify-center items-center `}
 			></div>
 
 			{!isVested.started ? (
