@@ -15,7 +15,7 @@ const Style = {
 
 const Grants = () => {
   
-  const [useGrantAmount, setGrantAmount] = useState(0);
+  const [useGrantAmount, setGrantAmount] = useState(10000);
   const [goalArray, setGoalArray] = useState([6500, 5000, 6000, 7000]);
   const [contributionArray, setContributionArray] = useState([
     2000, 1500, 3000, 5200,
@@ -25,7 +25,11 @@ const Grants = () => {
   
 
   const match = (index) => {
-    
+    let total = 0;
+   for (let i = 0; i < contributionArray.length; i++) {
+      total += contributionArray[i];
+    }
+    const matchAmt = (contributionArray[index]/goalArray[index] * useGrantAmount * contributionArray[index]/total).toFixed(2);
     // let total = 0;
     // let pool = 0;
     // for (let i = 0; i < goalArray.length; i++) {
@@ -109,6 +113,7 @@ const Grants = () => {
                 }
                 contributeBtn={
                   <InputNumber
+                  max={e}
                   prefix="$" style={{ width: '100%' }}
                     defaultValue={contributionArray[i]}
                     onChange={(e) => changeCont(i, e)}

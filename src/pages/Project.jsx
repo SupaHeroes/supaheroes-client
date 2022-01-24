@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Breadcrumb, Progress, Menu, Space } from 'antd';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
+import dummy from '../abi/dummyMetadata.json';
 import ProjectButton from '../components/projects/ProjectButton';
 
 const Project = () => {
+	const [metadata, setMetadata] = useState({});
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setMetadata(dummy);
+		setLoading = false;
+	}, []);
+	
 	return (
 		<div className='mt-20 bg-supadark-black'>
 			<div className=' flex justify-center text-3xl  '>
@@ -23,7 +32,7 @@ const Project = () => {
 						<div className='lg:w-10/12'>
 							<img
 								className='  h-auto object-cover rounded-[6%] pt-4'
-								src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
+								src={metadata.images[0]}
 								alt='project display'
 							/>
 							<div className='flex pt-4'>

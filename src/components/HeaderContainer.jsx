@@ -23,7 +23,7 @@ const HeaderContainer = () => {
 			className='flex border-b border-gray-500 border-opacity-40 justify-center items-center '
 		>
 			<div>
-				<img src={logo} alt='logo' className='h-24 w-auto mr-11' />
+				<img src={logo} alt='logo' className='h-16 w-auto mr-11' />
 			</div>
 
 			<Menu
