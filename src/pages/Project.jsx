@@ -5,14 +5,16 @@ import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
 import dummy from '../abi/dummyMetadata.json';
 import ProjectButton from '../components/projects/ProjectButton';
+import { useDetails } from '../hooks/contextHooks/DetailsContext';
+
 
 const Project = () => {
-	const [metadata, setMetadata] = useState({});
 	const [loading, setLoading] = useState(true);
-
+	const {openedProject, setOpenedProject} = useDetails();
 	useEffect(() => {
-		setMetadata(dummy);
-		setLoading = false;
+		setOpenedProject(dummy);
+		console.log(openedProject);
+		// setLoading = false;
 	}, []);
 	
 	return (
@@ -26,13 +28,13 @@ const Project = () => {
 							</Link>
 						</Breadcrumb.Item>
 
-						<Breadcrumb.Item>Newton | The crypto Laptop</Breadcrumb.Item>
+						<Breadcrumb.Item>{openedProject.title}</Breadcrumb.Item>
 					</Breadcrumb>
 					<div className='flex flex-col lg:flex-row  '>
 						<div className='lg:w-10/12'>
 							<img
 								className='  h-auto object-cover rounded-[6%] pt-4'
-								src={metadata.images[0]}
+								src={openedProject.images[0]}
 								alt='project display'
 							/>
 							<div className='flex pt-4'>
@@ -62,7 +64,7 @@ const Project = () => {
 						<div className='flex flex-col justify-between w-full'>
 							<div className='p-8'>
 								<h1 className='text-white font-cormorant font-bold uppercase text-5xl'>
-									Newton | The crypto Laptop
+									{openedProject.title}
 								</h1>
 
 								<div className='flex flex-wrap justify-start items-center'>
