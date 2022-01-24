@@ -15,7 +15,7 @@ const Style = {
 
 const Grants = () => {
   
-  const [useGrantAmount, setGrantAmount] = useState(5000);
+  const [useGrantAmount, setGrantAmount] = useState(0);
   const [goalArray, setGoalArray] = useState([6500, 5000, 6000, 7000]);
   const [contributionArray, setContributionArray] = useState([
     2000, 1500, 3000, 5200,
@@ -25,20 +25,27 @@ const Grants = () => {
   
 
   const match = (index) => {
-    let total = 0;
-    for (let i = 0; i < goalArray.length; i++) {
-      total += ((goalArray[i] - contributionArray[i]) * 100) / useGrantAmount;
-    }
-    console.log("index of" + index + total);
-    const matchAmt = (
-      (((goalArray[index] - contributionArray[index]) * 100) /
-        useGrantAmount /
-        total) *
-      useGrantAmount
-    ).toFixed(2);
-    if (matchAmt + contributionArray[index] >= goalArray[index]) {
-      return goalArray[index] - contributionArray[index];
-    }
+    
+    // let total = 0;
+    // let pool = 0;
+    // for (let i = 0; i < goalArray.length; i++) {
+    //   pool += goalArray[i] - contributionArray[i];
+    // }
+    // console.log("pool amount" + pool)
+    // for (let i = 0; i < goalArray.length; i++) {
+    //   total += ((goalArray[i] - contributionArray[i]) * 100) / pool;
+    // }
+    // // setGrantAmount(pool);
+    // console.log("index of" + index + total);
+    // const matchAmt = (
+    //   (((goalArray[index] - contributionArray[index]) * 100) /
+    //     pool /
+    //     total) *
+    //   pool
+    // ).toFixed(2);
+    // if (matchAmt + contributionArray[index] >= goalArray[index]) {
+    //   return goalArray[index] - contributionArray[index];
+    // }
     return matchAmt;
   };
 

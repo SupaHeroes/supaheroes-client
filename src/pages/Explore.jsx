@@ -16,12 +16,14 @@ const Explore = () => {
 	const [category, setCategory] = useState('Categories');
 
 	useEffect(() => {
+		console.log(isInitialized);
 		if (isInitialized) {
+			console.log("is init?" + isInitialized);
 			getCampaign('43113')
 				.then((e) => setCampaignList(e))
 				.catch((error) => console.log(error));
 		}
-	}, []);
+	}, [isInitialized]);
 
 	const getCampaign = async (chain) => {
 		console.log('calling function');
