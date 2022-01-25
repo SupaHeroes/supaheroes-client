@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMoralis } from 'react-moralis';
-import { Steps, Button, message } from 'antd';
+import { Steps, Button, message, notification } from 'antd';
+import campaignABI from '../../abi/StandardCampaignStrategy.json';
+import rewardABI from '../../abi/RewardManager.json';
+
 import ProjectDetailsForm from './ProjectDetailsForm';
 import ProjectDescription from './ProjectDescription';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
@@ -25,7 +28,18 @@ const steps = [
 
 const NotVestedForm = () => {
 	const { Moralis } = useMoralis();
-	const { metadata, setMetadata, details, setDetails, tiers } = useDetails();
+
+	const {
+		metadata,
+		setMetadata,
+		details,
+		setDetails,
+		tiers,
+		cloneAddress,
+		metadataUrl,
+		setMetadataUrl,
+	} = useDetails();
+	const [responses, setResponses] = useState({});
 
 	const [current, setCurrent] = React.useState(0);
 	const next = () => {
@@ -36,29 +50,89 @@ const NotVestedForm = () => {
 		setCurrent(current - 1);
 	};
 
-	// const fileUpload = async () => {
-	// 	const imageUrl = metadata.images.map(async (image) => {
-	// 		const file = new Moralis.File('project-image.png', {
-	// 			base64: image.data_url,
-	// 		});
-	// 		await file.saveIPFS();
-	// 	});
+	const openNotification = ({ message, description }) => {
+		notification.open({
+			placement: 'bottomRight',
+			message,
+			description,
+		});
+	};
 
-	// 	return imageUrl;
-	// };
+	// console.log('metadataUrl: ', metadataUrl);
+	// console.log('clone address: ', cloneAddress);
+
+	const optionsCampaign = {
+		contractAddress: cloneAddress.NewCampaignAddress,
+		functionName: 'initialize',
+		abi: campaignABI,
+		params: {
+			_currency: metadata.currency,
+			_metadata: `${metadataUrl}`,
+			_fundingEndTime: details.endDate,
+			_fundTarget: details.fundingTarget,
+			_fundingStartTime: details.startDate,
+			_vestingManager: '0x0000000000000000000000000000000000000000',
+			_rewardManager: `${cloneAddress.RewardMaster}`,
+		},
+	};
+
+	const initializeCampaign = async () => {
+		const tx = await Moralis.executeFunction({
+			awaitReceipt: false,
+			...optionsCampaign,
+		});
+		console.log(tx);
+		tx.on('transactionHash', (hash) => {
+			setResponses({ ...responses, name: { result: null, isLoading: true } });
+			openNotification({
+				message: '🔊 New Transaction',
+				description: `${hash}`,
+			});
+			console.log('🔊 New Transaction', hash);
+		});
+	};
+
+	const optionsReward = {
+		contractAddress: cloneAddress.RewardMaster,
+		functionName: 'initialize',
+		abi: rewardABI,
+		params: {
+			_campaign: `{${cloneAddress.NewCampaignAddress}}`,
+			_uri: '',
+			quantities: '',
+			tiers: '',
+			_projectName: '',
+		},
+	};
+
+	const initializeReward = async () => {
+		const tx = await Moralis.executeFunction({
+			awaitReceipt: false,
+			...optionsReward,
+		});
+		console.log(tx);
+		tx.on('transactionHash', (hash) => {
+			setResponses({ ...responses, name: { result: null, isLoading: true } });
+			openNotification({
+				message: '🔊 New Transaction',
+				description: `${hash}`,
+			});
+			console.log('🔊 New Transaction', hash);
+		});
+	};
 
 	const metadataIPFS = async () => {
-
 		const file = new Moralis.File('file.json', {
 			base64: btoa(JSON.stringify(metadata)),
 		});
 		await file.saveIPFS();
-
+		setMetadataUrl(file.ipfs());
 		return file.ipfs();
 	};
 
 	const submitCampaign = async () => {
-		console.log(await metadataIPFS());
+		await metadataIPFS();
+		await initializeCampaign();
 	};
 
 	return (

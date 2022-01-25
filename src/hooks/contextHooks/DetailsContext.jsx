@@ -46,6 +46,8 @@ export function DetailsProvider({ children }) {
 		],
 	});
 
+	const [metadataUrl, setMetadataUrl] = useState('');
+
 	const [details, setDetails] = useState({
 		about: '',
 		startDate: '',
@@ -75,8 +77,10 @@ export function DetailsProvider({ children }) {
 				setTiers,
 				vestings,
 				setVesting,
-				openedProject, 
-				setOpenedProject
+				openedProject,
+				setOpenedProject,
+				metadataUrl,
+				setMetadataUrl,
 			}}
 		>
 			{children}
