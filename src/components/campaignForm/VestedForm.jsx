@@ -1,7 +1,6 @@
 import React from 'react';
 import { useMoralis } from 'react-moralis';
 import { Steps, Button, message } from 'antd';
-import ProjectDetailsForm from './ProjectDetailsForm';
 import RewardSettingsForm from './RewardSettingsForm';
 import ProjectDescription from './ProjectDescription';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
@@ -30,8 +29,7 @@ const steps = [
 
 const VestedForm = () => {
 	const { Moralis } = useMoralis();
-	const { metadata, setMetadata, details, setDetails, vestings, tiers } =
-		useDetails();
+	const { metadata, details, setDetails } = useDetails();
 
 	const [current, setCurrent] = React.useState(0);
 	const next = () => {

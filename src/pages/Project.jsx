@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Breadcrumb, Progress, Menu, Space } from 'antd';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
@@ -7,16 +7,15 @@ import dummy from '../abi/dummyMetadata.json';
 import ProjectButton from '../components/projects/ProjectButton';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
 
-
 const Project = () => {
-	const [loading, setLoading] = useState(true);
-	const {openedProject, setOpenedProject} = useDetails();
+	// const [loading, setLoading] = useState(true);
+	const { openedProject, setOpenedProject } = useDetails();
 	useEffect(() => {
 		setOpenedProject(dummy);
 		console.log(openedProject);
 		// setLoading = false;
 	}, []);
-	
+
 	return (
 		<div className='mt-20 bg-supadark-black'>
 			<div className=' flex justify-center text-3xl  '>
@@ -69,9 +68,9 @@ const Project = () => {
 
 								<div className='flex flex-wrap justify-start items-center'>
 									<Space>
-									<ProjectButton title={'Website'} />
-									<ProjectButton title={'Whitepaper'} />
-									<ProjectButton title={'Smart Contract'} />
+										<ProjectButton title={'Website'} />
+										<ProjectButton title={'Whitepaper'} />
+										<ProjectButton title={'Smart Contract'} />
 									</Space>
 								</div>
 
@@ -83,11 +82,11 @@ const Project = () => {
 									<Progress
 										percent={70}
 										size='large'
-										strokeWidth="10px"
+										strokeWidth='10px'
 										strokeColor={{
 											'0%': '#79D38A',
 											'100%': '#269BA8',
-										  }}
+										}}
 										showInfo={false}
 									/>
 									<div className='flex justify-between  items-center mt-3'>
@@ -107,7 +106,10 @@ const Project = () => {
 									<SafetyCertificateOutlined className='mr-3' /> This campaign
 									is vested
 								</h3>
-								<a className=' font-inter text-sm text-supadark-light underline'>
+								<a
+									href='https://supaheroes.fund'
+									className=' font-inter text-sm text-supadark-light underline'
+								>
 									Learn more about vested campaign
 								</a>
 							</div>
@@ -118,22 +120,14 @@ const Project = () => {
 
 			<div className='flex justify-center mt-12'>
 				<div className='  w-4/6 '>
-					{/* <div className='flex justify-between font-sans font-bold text-2xl'>
-						<Link to=''>Story</Link>
-						<Link to='transaction'>Transaction</Link>
-						<Link to='certificate'>Get Certificate</Link>
-						<Link to='vesting'>Vesting Term</Link>
-						<Link to='contract'>Trace Contract</Link>
-					</div> */}
-
 					<Menu
 						mode='inline'
 						defaultSelectedKeys={['1']}
-						theme="dark"
+						theme='dark'
 						style={{
-							backgroundColor:"transparent",
+							backgroundColor: 'transparent',
 							textDecoration: 'none',
-							fontSize:"18px",
+							fontSize: '18px',
 							border: 'none',
 							display: 'flex',
 						}}

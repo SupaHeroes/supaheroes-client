@@ -4,7 +4,6 @@ import { Steps, Button, message, notification } from 'antd';
 import campaignABI from '../../abi/StandardCampaignStrategy.json';
 import rewardABI from '../../abi/RewardManager.json';
 
-import ProjectDetailsForm from './ProjectDetailsForm';
 import ProjectDescription from './ProjectDescription';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 import TierDetails from './TierDetails';
@@ -31,7 +30,6 @@ const NotVestedForm = () => {
 
 	const {
 		metadata,
-		setMetadata,
 		details,
 		setDetails,
 		tiers,

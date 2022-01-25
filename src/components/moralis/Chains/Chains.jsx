@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu, Dropdown, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo } from './Logos';
+import { AvaxLogo } from './Logos';
 import { useChain, useMoralis } from 'react-moralis';
 
 const styles = {
