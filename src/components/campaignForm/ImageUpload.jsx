@@ -9,7 +9,6 @@ import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 export function PicturesWall() {
 	const { metadata, setMetadata } = useDetails();
-	const [images, setImages] = React.useState([]);
 	const maxNumber = 6;
 
 	const onChange = (imageList, addUpdateIndex) => {

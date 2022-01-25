@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMoralis } from 'react-moralis';
 import { Steps, Button, message } from 'antd';
 import ProjectDetailsForm from './ProjectDetailsForm';
 import ProjectDescription from './ProjectDescription';
@@ -23,6 +24,7 @@ const steps = [
 ];
 
 const NotVestedForm = () => {
+	const { Moralis } = useMoralis();
 	const { metadata, setMetadata, details, setDetails, tiers } = useDetails();
 
 	const [current, setCurrent] = React.useState(0);
@@ -33,6 +35,32 @@ const NotVestedForm = () => {
 	const prev = () => {
 		setCurrent(current - 1);
 	};
+
+	// const fileUpload = async () => {
+	// 	const imageUrl = metadata.images.map(async (image) => {
+	// 		const file = new Moralis.File('project-image.png', {
+	// 			base64: image.data_url,
+	// 		});
+	// 		await file.saveIPFS();
+	// 	});
+
+	// 	return imageUrl;
+	// };
+
+	const metadataIPFS = async () => {
+
+		const file = new Moralis.File('file.json', {
+			base64: btoa(JSON.stringify(metadata)),
+		});
+		await file.saveIPFS();
+
+		return file.ipfs();
+	};
+
+	const submitCampaign = async () => {
+		console.log(await metadataIPFS());
+	};
+
 	return (
 		<div className='flex justify-center bg-supadark-dark  mt-20'>
 			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
@@ -98,9 +126,7 @@ const NotVestedForm = () => {
 								}}
 								onClick={() => {
 									message.success('Processing complete!');
-									console.log('metadata:::', metadata);
-									console.log('details:::', details);
-									console.log('tiers:::', tiers);
+									submitCampaign();
 								}}
 							>
 								Submit

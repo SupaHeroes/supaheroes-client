@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMoralis } from 'react-moralis';
 import { Steps, Button, message } from 'antd';
 import ProjectDetailsForm from './ProjectDetailsForm';
 import RewardSettingsForm from './RewardSettingsForm';
@@ -28,6 +29,7 @@ const steps = [
 ];
 
 const VestedForm = () => {
+	const { Moralis } = useMoralis();
 	const { metadata, setMetadata, details, setDetails, vestings, tiers } =
 		useDetails();
 
@@ -39,6 +41,20 @@ const VestedForm = () => {
 	const prev = () => {
 		setCurrent(current - 1);
 	};
+
+	const metadataIPFS = async () => {
+		const file = new Moralis.File('file.json', {
+			base64: btoa(JSON.stringify(metadata)),
+		});
+		await file.saveIPFS();
+
+		return file.ipfs();
+	};
+
+	const submitCampaign = async () => {
+		console.log(await metadataIPFS());
+	};
+
 	return (
 		<div className='flex justify-center bg-supadark-dark  mt-20'>
 			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
@@ -107,10 +123,7 @@ const VestedForm = () => {
 								}}
 								onClick={() => {
 									message.success('Processing complete!');
-									console.log(metadata);
-									console.log(details);
-									console.log(vestings);
-									console.log(tiers);
+									submitCampaign();
 								}}
 							>
 								Submit

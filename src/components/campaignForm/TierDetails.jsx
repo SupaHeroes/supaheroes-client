@@ -11,7 +11,7 @@ const styles = {
 };
 
 const TierDetails = () => {
-	const { tiers, setTiers } = useDetails();
+	const { tiers, setTiers, setMetadata, metadata } = useDetails();
 
 	let addFormFields = () => {
 		setTiers([...tiers, { title: '', description: '', price: '' }]);
@@ -41,7 +41,6 @@ const TierDetails = () => {
 									onChange={(e) => {
 										setTiers(
 											[...tiers].map((object) => {
-												console.log('object:::', object);
 												if (object.title === tier.title) {
 													return {
 														...object,
@@ -52,6 +51,8 @@ const TierDetails = () => {
 												}
 											})
 										);
+
+										setMetadata({ ...metadata, tiers: tiers });
 									}}
 								/>
 							</div>
@@ -64,7 +65,6 @@ const TierDetails = () => {
 									onChange={(e) => {
 										setTiers(
 											[...tiers].map((object) => {
-												console.log('object:::', object);
 												if (object.description === tier.description) {
 													return {
 														...object,
@@ -75,6 +75,7 @@ const TierDetails = () => {
 												}
 											})
 										);
+										setMetadata({ ...metadata, tiers: tiers });
 									}}
 								/>
 							</div>
@@ -88,7 +89,6 @@ const TierDetails = () => {
 									onChange={(e) => {
 										setTiers(
 											[...tiers].map((object) => {
-												console.log('object:::', object);
 												if (object.price === tier.price) {
 													return {
 														...object,
@@ -99,6 +99,7 @@ const TierDetails = () => {
 												}
 											})
 										);
+										setMetadata({ ...metadata, tiers: tiers });
 									}}
 								/>
 							</div>

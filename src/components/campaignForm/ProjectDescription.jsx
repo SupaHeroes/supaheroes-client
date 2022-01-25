@@ -7,7 +7,6 @@ const ProjectDescription = () => {
 
 	const handleChange = (e) => {
 		setDetails({ ...details, about: e.target.value });
-		console.log(details.about);
 	};
 	return (
 		<div className=' mt-6 rounded-xl'>
