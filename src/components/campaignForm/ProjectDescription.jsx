@@ -11,7 +11,7 @@ const ProjectDescription = () => {
 	};
 	return (
 		<div className=' mt-6 rounded-xl'>
-			<h1 className='text-supagreen-light text-lg font-bold'>
+			<h1 className='text-white text-lg font-bold'>
 				Tell us about your project
 			</h1>
 			<p>
@@ -21,7 +21,7 @@ const ProjectDescription = () => {
 
 			<textarea
 				onChange={handleChange}
-				className='w-full outline-none bg-supadark-dark p-6 text-lg font-serif rounded-xl'
+				className='w-full outline-none bg-supadark-black p-6 text-lg font-serif border border-supagreen-dark'
 				id='story'
 				name='story'
 				rows='10'

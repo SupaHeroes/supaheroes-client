@@ -33,7 +33,7 @@ const ProjectDetailsForm = () => {
 		<div className=' mt-6'>
 			<form className='grid gap-4 grid-cols-2'>
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Project Name</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Project Name</h3>
 					<Input
 						style={styles.input}
 						title={'Project Name'}
@@ -45,7 +45,7 @@ const ProjectDetailsForm = () => {
 				</div>
 
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Short Description</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Short Description</h3>
 					<Input
 						style={styles.input}
 						title={'Short Description'}
@@ -57,7 +57,7 @@ const ProjectDetailsForm = () => {
 				</div>
 
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Funding Period</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Funding Period</h3>
 					<Space direction='vertical' size={'large'}>
 						<RangePicker
 							style={styles.input}
@@ -69,7 +69,7 @@ const ProjectDetailsForm = () => {
 				</div>
 
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Funding Goal</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Funding Goal</h3>
 					<Input
 						style={styles.input}
 						title={'Funding Goal'}
@@ -81,7 +81,7 @@ const ProjectDetailsForm = () => {
 					/>
 				</div>
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Select Currency</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Select Currency</h3>
 					<Input.Group>
 						<Select
 							size='large'
@@ -111,7 +111,7 @@ const ProjectDetailsForm = () => {
 				</div>
 
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Website Link</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Website Link</h3>
 					<Input
 						style={styles.input}
 						title={'Website'}
@@ -123,7 +123,7 @@ const ProjectDetailsForm = () => {
 					/>
 				</div>
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>White Paper Link</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>White Paper Link</h3>
 					<Input
 						style={styles.input}
 						title={'Whitepaper'}
@@ -135,7 +135,7 @@ const ProjectDetailsForm = () => {
 				</div>
 
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Twitter</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Twitter</h3>
 					<Input
 						style={styles.input}
 						title={'Twitter'}
@@ -150,7 +150,7 @@ const ProjectDetailsForm = () => {
 				</div>
 
 				<div className='flex flex-col'>
-					<h3 className=' text-2xl text-slate-100'>Discord</h3>
+					<h3 className=' text-lg text-supagreen-dark text-slate-100'>Discord</h3>
 					<Input
 						style={styles.input}
 						title={'Discord'}

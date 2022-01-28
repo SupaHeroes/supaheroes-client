@@ -29,6 +29,7 @@ const Grants = () => {
    for (let i = 0; i < contributionArray.length; i++) {
       total += contributionArray[i];
     }
+    console.log(total);
     // const matchAmt = (contributionArray[index] * useGrantAmount / total).toFixed(2);
     const matchAmt = (contributionArray[index]/goalArray[index] * useGrantAmount * contributionArray[index]/total).toFixed(2);
     return matchAmt;
