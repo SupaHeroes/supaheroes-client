@@ -103,6 +103,30 @@ const TierDetails = () => {
 									}}
 								/>
 							</div>
+
+							<div className='flex flex-col'>
+								<h3 className=' text-2xl text-slate-100'>Quantities</h3>
+								<Input
+									style={styles.input}
+									title={'Quantities'}
+									value={tiers[index].quantities}
+									onChange={(e) => {
+										setTiers(
+											[...tiers].map((object) => {
+												if (object.quantities === tier.quantities) {
+													return {
+														...object,
+														quantities: e.target.value,
+													};
+												} else {
+													return object;
+												}
+											})
+										);
+										setMetadata({ ...metadata, tiers: tiers });
+									}}
+								/>
+							</div>
 						</div>
 					</div>
 				))}

@@ -58,7 +58,7 @@ const Campaign = () => {
 			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
 			const creator = receipt.events.NewCampaign.returnValues.creator;
 			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
-
+			console.log(receipt);
 			setCloneAddress({
 				NewCampaignAddress: `${cloneAdd}`,
 				creator: `${creator}`,

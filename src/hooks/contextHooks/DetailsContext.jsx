@@ -16,6 +16,7 @@ export function DetailsProvider({ children }) {
 			title: '',
 			description: '',
 			price: '',
+			quantities: '',
 		},
 	]);
 
@@ -42,6 +43,7 @@ export function DetailsProvider({ children }) {
 				title: '',
 				description: '',
 				price: '',
+				quantities: '',
 			},
 		],
 	});

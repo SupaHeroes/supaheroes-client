@@ -7,6 +7,7 @@ import rewardABI from '../../abi/RewardManager.json';
 import ProjectDescription from './ProjectDescription';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 import TierDetails from './TierDetails';
+import Review from './Review';
 
 const { Step } = Steps;
 
@@ -56,16 +57,13 @@ const NotVestedForm = () => {
 		});
 	};
 
-	// console.log('metadataUrl: ', metadataUrl);
-	// console.log('clone address: ', cloneAddress);
-
 	const optionsCampaign = {
 		contractAddress: cloneAddress.NewCampaignAddress,
 		functionName: 'initialize',
 		abi: campaignABI,
 		params: {
 			_currency: metadata.currency,
-			_metadata: `${metadataUrl}`,
+			_metadata: `${async () => await metadataIPFS()}`,
 			_fundingEndTime: details.endDate,
 			_fundTarget: details.fundingTarget,
 			_fundingStartTime: details.startDate,
@@ -88,22 +86,31 @@ const NotVestedForm = () => {
 			});
 			console.log('🔊 New Transaction', hash);
 		});
+		tx.on('receipt', (receipt) => {
+			console.log(receipt);
+		});
 	};
+
+	const newQuantities = tiers.map((tier) => tier.quantities);
+	const newTiers = tiers.map((tier) => tier.price);
 
 	const optionsReward = {
 		contractAddress: cloneAddress.RewardMaster,
 		functionName: 'initialize',
 		abi: rewardABI,
 		params: {
-			_campaign: `{${cloneAddress.NewCampaignAddress}}`,
-			_uri: '',
-			quantities: '',
-			tiers: '',
-			_projectName: '',
+			_campaign: `${cloneAddress.NewCampaignAddress}`,
+			_uri: `ipfs://QmNbqLeV9cZrBhhkFyESD5sWXhGfPfaPQUT4LfmXz6VETQ/{id}.json`,
+			quantities: newQuantities,
+			tiers: newTiers,
+			_cc: `0x96EC404762de3974bb11eab4e528Cd99A8327B34`,
 		},
 	};
 
+	// ipfs://QmNbqLeV9cZrBhhkFyESD5sWXhGfPfaPQUT4LfmXz6VETQ/{id}.json
+
 	const initializeReward = async () => {
+		console.log(newQuantities, newTiers);
 		const tx = await Moralis.executeFunction({
 			awaitReceipt: false,
 			...optionsReward,
@@ -117,6 +124,9 @@ const NotVestedForm = () => {
 			});
 			console.log('🔊 New Transaction', hash);
 		});
+		tx.on('receipt', (receipt) => {
+			console.log(receipt);
+		});
 	};
 
 	const metadataIPFS = async () => {
@@ -129,8 +139,8 @@ const NotVestedForm = () => {
 	};
 
 	const submitCampaign = async () => {
-		await metadataIPFS();
 		await initializeCampaign();
+		await initializeReward();
 	};
 
 	return (
@@ -156,6 +166,7 @@ const NotVestedForm = () => {
 							<ProjectDescription details={details} setDetails={setDetails} />
 						)}
 						{current === 1 && <TierDetails />}
+						{current === 2 && <Review />}
 					</div>
 
 					<div className='steps-action w-full  flex justify-end items-center p-5'>
@@ -182,7 +193,6 @@ const NotVestedForm = () => {
 								}}
 								onClick={() => {
 									next();
-									console.log(tiers);
 								}}
 							>
 								Next
@@ -196,9 +206,9 @@ const NotVestedForm = () => {
 									borderColor: '#001529',
 									color: '#1F1F1F',
 								}}
-								onClick={() => {
+								onClick={async () => {
+									await submitCampaign();
 									message.success('Processing complete!');
-									submitCampaign();
 								}}
 							>
 								Submit
