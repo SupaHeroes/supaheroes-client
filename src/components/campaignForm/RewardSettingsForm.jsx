@@ -1,6 +1,5 @@
 import React from 'react';
 import { DatePicker, Space, Input } from 'antd';
-import moment from 'moment';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 const styles = {

@@ -8,7 +8,6 @@ import TierDetails from './TierDetails';
 import rewardABI from '../../abi/RewardManager.json';
 import campaignABI from '../../abi/StandardCampaignStrategy.json';
 import vestingABI from '../../abi/VestingManager.json';
-import moment from 'moment';
 
 const { Step } = Steps;
 
