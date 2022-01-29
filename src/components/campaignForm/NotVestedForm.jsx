@@ -10,7 +10,6 @@ import TierDetails from './TierDetails';
 import Review from './Review';
 
 const { Step } = Steps;
-
 const steps = [
 	{
 		title: 1,
@@ -37,6 +36,7 @@ const NotVestedForm = () => {
 		cloneAddress,
 		metadataUrl,
 		setMetadataUrl,
+		currentChain,
 	} = useDetails();
 	const [responses, setResponses] = useState({});
 
@@ -139,7 +139,41 @@ const NotVestedForm = () => {
 	};
 
 	const submitCampaign = async () => {
-		await initializeCampaign();
+		await initializeCampaign()
+			.then(async () => {
+				const Campaigns = Moralis.Object.extend('campaigns');
+				const campaigns = new Campaigns();
+				const newMetadata = await metadataIPFS();
+
+				campaigns
+					.save({
+						name: metadata.title,
+						desc: metadata.description,
+						endDate: details.endDate,
+						address: cloneAddress.NewCampaignAddress,
+						chainId: currentChain,
+						fundingTarget: details.fundingTarget,
+						currency: metadata.currency,
+						thumbnail: metadata.images[0].data_url,
+						metadata: newMetadata,
+					})
+					.then(
+						(campaigns) => {
+							// Execute any logic that should take place after the object is saved.
+							// alert('New object created with objectId: ' + campaign.id);
+						},
+						(error) => {
+							// Execute any logic that should take place if the save fails.
+							// error is a Moralis.Error with an error code and message.
+							alert(
+								'Failed to create new object, with error code: ' + error.message
+							);
+						}
+					);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 		await initializeReward();
 	};
 

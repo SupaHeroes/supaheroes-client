@@ -1,6 +1,6 @@
 import React from 'react';
 import { DatePicker, Space, Input } from 'antd';
-
+import moment from 'moment';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 const styles = {
@@ -24,7 +24,8 @@ const RewardSettingsForm = () => {
 	// 	setVesting(newFormValues);
 	// };
 
-	
+	// parseInt((new Date(date._d)/1000).toFixed(0));
+	// parseInt((new Date(dateString).getTime() / 1000).toFixed(0));
 
 	return (
 		<div className=' mt-6'>
@@ -35,17 +36,19 @@ const RewardSettingsForm = () => {
 						<div className='flex flex-col'>
 							<h3 className=' text-2xl text-slate-100'>Vesting Date</h3>{' '}
 							<Space direction='vertical' size={'large'}>
-								<DatePicker
+								<input
+									className='bg-supadark-dark text-white'
 									style={styles.input}
 									value={vesting.date}
-									onChange={(date, dateString) => {
+									type={'date'}
+									onChange={(e) => {
 										setVesting(
 											[...vestings].map((object) => {
-												console.log('object:::', object);
+												console.log('object:::', e.target.value);
 												if (object.date === vesting.date) {
 													return {
 														...object,
-														date: date,
+														date: e.target.value,
 													};
 												} else {
 													return object;

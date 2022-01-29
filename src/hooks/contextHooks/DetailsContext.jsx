@@ -22,7 +22,7 @@ export function DetailsProvider({ children }) {
 
 	const [vestings, setVesting] = useState([
 		{
-			Date: '',
+			date: '',
 			amount: '',
 		},
 	]);
@@ -47,6 +47,8 @@ export function DetailsProvider({ children }) {
 			},
 		],
 	});
+
+	const [currentChain, setChain] = useState();
 
 	const [metadataUrl, setMetadataUrl] = useState('');
 
@@ -83,6 +85,8 @@ export function DetailsProvider({ children }) {
 				setOpenedProject,
 				metadataUrl,
 				setMetadataUrl,
+				currentChain,
+				setChain,
 			}}
 		>
 			{children}

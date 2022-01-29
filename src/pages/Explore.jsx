@@ -18,8 +18,11 @@ const Explore = () => {
 	useEffect(() => {
 		if (isInitialized) {
 			console.log('is init?' + isInitialized);
-			getCampaign('43113')
-				.then((e) => setCampaignList(e))
+			getCampaign('0xa869')
+				.then((e) => {
+					setCampaignList(e);
+					console.log(e);
+				})
 				.catch((error) => console.log(error));
 		}
 	}, [isInitialized]);
@@ -28,8 +31,9 @@ const Explore = () => {
 		console.log('calling function');
 		setLoading(true);
 		const query = new Moralis.Query(obj);
-		const res = await query.equalTo('chain', chain).limit(18).find();
+		const res = await query.equalTo('chainId', chain).limit(18).find();
 		setLoading(false);
+
 		return res;
 	};
 
@@ -161,8 +165,8 @@ const Explore = () => {
 											key={i}
 											image={e.get('thumbnail')}
 											date={e.get('endDate')}
-											title={e.get('title')}
-											shortdesc={e.get('shortdesc')}
+											title={e.get('name')}
+											shortdesc={e.get('desc')}
 										/>
 									</Col>
 								))

@@ -3,6 +3,7 @@ import { Menu, Dropdown, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { AvaxLogo } from './Logos';
 import { useChain, useMoralis } from 'react-moralis';
+import { useDetails } from '../../../hooks/contextHooks/DetailsContext';
 
 const styles = {
 	item: {
@@ -35,16 +36,18 @@ const menuItems = [
 ];
 
 function Chains() {
+	const { setChain } = useDetails();
 	const { switchNetwork, chainId, chain } = useChain();
 	const { isAuthenticated } = useMoralis();
 	const [selected, setSelected] = useState({});
 
-	console.log('chain', chain);
+	// console.log('chain', chain);
 
 	useEffect(() => {
 		if (!chainId) return null;
 		const newSelected = menuItems.find((item) => item.key === chainId);
 		setSelected(newSelected);
+		setChain(chainId);
 		console.log('current chainId: ', chainId);
 	}, [chainId]);
 
