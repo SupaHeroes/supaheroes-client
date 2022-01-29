@@ -187,7 +187,7 @@ const Project = () => {
 										: ' vested'}
 								</h3>
 								<a
-									href='https://supaheroes.fund'
+									href='https://docs.supaheroes.fund/reward-based-campaign/vested-campaign'
 									className=' font-inter text-sm text-supadark-light underline'
 								>
 									Learn more about vested campaign
