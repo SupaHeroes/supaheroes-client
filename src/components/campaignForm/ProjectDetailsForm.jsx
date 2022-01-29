@@ -108,6 +108,9 @@ const ProjectDetailsForm = () => {
 							<Option value='0x0eaC97A78a93B75549D49145dF41DbE9CD520874'>
 								YRT
 							</Option>
+							<Option value='0x39A7feB2cB226c632731346e74BF8D33DF44cAA2'>
+								SUPA
+							</Option>
 						</Select>
 					</Input.Group>
 				</div>
