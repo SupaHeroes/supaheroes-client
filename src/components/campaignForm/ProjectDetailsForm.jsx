@@ -27,6 +27,7 @@ const ProjectDetailsForm = () => {
 		);
 
 		setDetails({ ...details, startDate, endDate });
+		setMetadata({ ...metadata, details: details });
 	};
 
 	return (
@@ -77,6 +78,7 @@ const ProjectDetailsForm = () => {
 						value={details.fundingTarget}
 						onChange={(e) => {
 							setDetails({ ...details, fundingTarget: e.target.value });
+							setMetadata({ ...metadata, details: details });
 						}}
 					/>
 				</div>

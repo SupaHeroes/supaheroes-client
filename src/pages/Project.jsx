@@ -9,6 +9,7 @@ import ProjectButton from '../components/projects/ProjectButton';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
 
 const Project = () => {
+	const { metadata } = useDetails();
 	const params = useParams();
 	const { Moralis, isInitialized } = useMoralis();
 
@@ -31,7 +32,6 @@ const Project = () => {
 			const ipfs = await getProjectIPFS();
 			const response = await axios.get(ipfs);
 			await setNewMetadata(response.data);
-			console.log('newMetadata', newMetadata);
 
 			setLoading(false);
 		} catch (error) {
@@ -40,13 +40,51 @@ const Project = () => {
 		}
 	};
 
+	// const getTimeRemaining = () => {
+	// 	const endDate = timeConverter(newMetadata?.details?.endDate);
+	// 	const date = new Date();
+
+	// 	console.log(' Remaining date:::', endDate);
+	// };
+
+	function timeConverter(UNIX_timestamp) {
+		var a = new Date(UNIX_timestamp * 1000);
+		var months = [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec',
+		];
+		var year = a.getFullYear();
+		var month = months[a.getMonth()];
+		var date = a.getDate();
+		var hour = a.getHours();
+		var min = a.getMinutes();
+		var sec = a.getSeconds();
+		var time = date + ' ' + month + ' ' + year + ' ';
+
+		return time;
+	}
+
 	useEffect(() => {
 		if (isInitialized) {
 			setLoading(true);
 			getMetadata();
+
 			setLoading(false);
 		}
-	}, [isInitialized]);
+		console.log('newMetadata', newMetadata);
+	}, [isInitialized, isLoading]);
+
+	// console.log('newMetadata', newMetadata);
 
 	return !isLoading ? (
 		<div className='mt-20 bg-supadark-black'>
@@ -64,31 +102,19 @@ const Project = () => {
 					<div className='flex flex-col lg:flex-row  '>
 						<div className='lg:w-10/12'>
 							<img
-								className='  h-auto max-h-96 object-cover rounded-[6%] pt-4'
+								className='  h-auto max-h-96 min-w-full object-cover rounded-[6%] pt-4'
 								src={newMetadata?.images[0].data_url}
 								alt='project display'
 							/>
 							<div className='flex pt-4'>
-								<img
-									className='w-16 flex-1 h-auto object-cover rounded-[15%]  pr-4'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
-								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%] pr-4'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
-								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%]  pr-4'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
-								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%]'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
+								{newMetadata?.images.map((image, i) => (
+									<img
+										key={i}
+										className='w-16 flex-1 h-auto max-h-24 object-cover rounded-[15%]  pr-4'
+										src={image.data_url}
+										alt='project display'
+									/>
+								))}
 							</div>
 						</div>
 
@@ -100,16 +126,29 @@ const Project = () => {
 
 								<div className='flex flex-wrap justify-start items-center'>
 									<Space>
-										<ProjectButton title={'Website'} />
-										<ProjectButton title={'Whitepaper'} />
-										<ProjectButton title={'Smart Contract'} />
+										<ProjectButton
+											title={'Website'}
+											link={newMetadata?.website}
+										/>
+										<ProjectButton
+											link={newMetadata?.whitepaper}
+											title={'Whitepaper'}
+										/>
+										<ProjectButton
+											link={`https://testnet.snowtrace.io/address/${params.campaignId}`}
+											title={'Smart Contract'}
+										/>
 									</Space>
 								</div>
 
 								<div className='mt-8 w-full'>
 									<p className='flex items-center -mb-1 text-white font-bold text-xl '>
 										{' '}
-										<MdOutlineTimer className='mr-2 ' /> 5d 20h left
+										<MdOutlineTimer className='mr-2 ' />
+										{/* 5d 20h left */}
+										{`End Date: ${timeConverter(
+											newMetadata?.details?.endDate
+										)}`}
 									</p>
 									<Progress
 										percent={70}
@@ -132,11 +171,20 @@ const Project = () => {
 								</div>
 							</div>
 
-							<div className='flex flex-col justify-center bg-supadark border border-supagreen-dark w-11/12 text-white items-start pl-16 py-5  mx-8'>
+							<div
+								className={`flex flex-col justify-center ${
+									newMetadata?.vestings[0]?.date === ''
+										? 'bg-red-400'
+										: 'bg-supadark'
+								}   border border-supagreen-dark w-11/12 text-white items-start pl-16 py-5  mx-8`}
+							>
 								<h3 className='flex justify-center items-center text-white text-lg h-auto'>
 									{' '}
 									<SafetyCertificateOutlined className='mr-3' /> This campaign
-									is vested
+									is
+									{newMetadata?.vestings[0]?.date === ''
+										? ' not vested'
+										: ' vested'}
 								</h3>
 								<a
 									href='https://supaheroes.fund'

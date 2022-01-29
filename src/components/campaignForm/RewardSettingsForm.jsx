@@ -11,7 +11,7 @@ const styles = {
 };
 
 const RewardSettingsForm = () => {
-	const { vestings, setVesting } = useDetails();
+	const { vestings, setVesting, metadata, setMetadata } = useDetails();
 
 	let addFormFields = () => {
 		setVesting([...vestings, { date: '', amount: '' }]);
@@ -54,6 +54,9 @@ const RewardSettingsForm = () => {
 												}
 											})
 										);
+
+										setMetadata({ ...metadata, vestings: vestings });
+										console.log(metadata);
 									}}
 								/>
 							</Space>
@@ -79,6 +82,8 @@ const RewardSettingsForm = () => {
 											}
 										})
 									);
+									setMetadata({ ...metadata, vestings: vestings });
+									console.log(metadata);
 								}}
 							/>
 						</div>

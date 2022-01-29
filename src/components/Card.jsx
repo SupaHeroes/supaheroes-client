@@ -72,7 +72,7 @@ const Card = ({ date, title, shortdesc, image, address }) => {
 
 			<div
 				onClick={() => {
-					navigate(`/${address}`);
+					navigate(`/project/${address}`);
 				}}
 				className='flex mx-9 rounded-md mb-6 justify-center items-center text-white bg-supadark-medium hover:bg-supagreen-dark text-lg cursor-pointer'
 			>

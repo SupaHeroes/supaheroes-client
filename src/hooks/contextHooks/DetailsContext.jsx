@@ -44,6 +44,18 @@ export function DetailsProvider({ children }) {
 				quantities: '',
 			},
 		],
+		vestings: [
+			{
+				date: '',
+				amount: '',
+			},
+		],
+		details: {
+			about: '',
+			startDate: '',
+			endDate: '',
+			fundingTarget: '',
+		},
 	});
 
 	const [currentChain, setChain] = useState();
