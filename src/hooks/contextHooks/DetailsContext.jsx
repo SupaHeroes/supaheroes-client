@@ -9,8 +9,6 @@ export function useDetails() {
 export function DetailsProvider({ children }) {
 	const [isLoading, setIsLoading] = useState(false);
 
-	const [openedProject, setOpenedProject] = useState();
-
 	const [tiers, setTiers] = useState([
 		{
 			title: '',
@@ -81,8 +79,6 @@ export function DetailsProvider({ children }) {
 				setTiers,
 				vestings,
 				setVesting,
-				openedProject,
-				setOpenedProject,
 				metadataUrl,
 				setMetadataUrl,
 				currentChain,

@@ -167,6 +167,7 @@ const Explore = () => {
 											date={e.get('endDate')}
 											title={e.get('name')}
 											shortdesc={e.get('desc')}
+											address={e.get('address')}
 										/>
 									</Col>
 								))

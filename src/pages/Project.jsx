@@ -1,22 +1,54 @@
-import React, { useEffect } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, Link, useParams } from 'react-router-dom';
 import { Breadcrumb, Progress, Menu, Space } from 'antd';
+import axios from 'axios';
+import { useMoralis } from 'react-moralis';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
-import dummy from '../abi/dummyMetadata.json';
 import ProjectButton from '../components/projects/ProjectButton';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
 
 const Project = () => {
-	// const [loading, setLoading] = useState(true);
-	const { openedProject, setOpenedProject } = useDetails();
-	useEffect(() => {
-		setOpenedProject(dummy);
-		console.log(openedProject);
-		// setLoading = false;
-	}, []);
+	const params = useParams();
+	const { Moralis, isInitialized } = useMoralis();
 
-	return (
+	const [newMetadata, setNewMetadata] = useState();
+	const [isLoading, setLoading] = useState(false);
+
+	const getProjectIPFS = async () => {
+		setLoading(true);
+		const project = Moralis.Object.extend('campaigns');
+		const query = new Moralis.Query(project);
+		query.equalTo('address', `${params.campaignId}`);
+		const results = await query.find();
+		const newIPFS = results[0].get('metadata');
+		setLoading(false);
+		return newIPFS;
+	};
+	const getMetadata = async () => {
+		try {
+			setLoading(true);
+			const ipfs = await getProjectIPFS();
+			const response = await axios.get(ipfs);
+			await setNewMetadata(response.data);
+			console.log('newMetadata', newMetadata);
+
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		if (isInitialized) {
+			setLoading(true);
+			getMetadata();
+			setLoading(false);
+		}
+	}, [isInitialized]);
+
+	return !isLoading ? (
 		<div className='mt-20 bg-supadark-black'>
 			<div className=' flex justify-center text-3xl  '>
 				<div className='w-4/6 mt-8 '>
@@ -27,13 +59,13 @@ const Project = () => {
 							</Link>
 						</Breadcrumb.Item>
 
-						<Breadcrumb.Item>{openedProject.title}</Breadcrumb.Item>
+						<Breadcrumb.Item>{newMetadata?.title}</Breadcrumb.Item>
 					</Breadcrumb>
 					<div className='flex flex-col lg:flex-row  '>
 						<div className='lg:w-10/12'>
 							<img
-								className='  h-auto object-cover rounded-[6%] pt-4'
-								src={openedProject.images[0]}
+								className='  h-auto max-h-96 object-cover rounded-[6%] pt-4'
+								src={newMetadata?.images[0].data_url}
 								alt='project display'
 							/>
 							<div className='flex pt-4'>
@@ -63,7 +95,7 @@ const Project = () => {
 						<div className='flex flex-col justify-between w-full'>
 							<div className='p-8'>
 								<h1 className='text-white font-cormorant font-bold uppercase text-5xl'>
-									{openedProject.title}
+									{newMetadata?.title}
 								</h1>
 
 								<div className='flex flex-wrap justify-start items-center'>
@@ -166,6 +198,8 @@ const Project = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<div> Loading!!!! Please Wait</div>
 	);
 };
 

@@ -4,7 +4,7 @@ import { Progress } from 'antd';
 import { MdOutlineTimer } from 'react-icons/md';
 import { BsBookFill } from 'react-icons/bs';
 
-const Card = ({ date, title, shortdesc, image, addressVal }) => {
+const Card = ({ date, title, shortdesc, image, address }) => {
 	const navigate = useNavigate();
 
 	function timeConverter(UNIX_timestamp) {
@@ -72,7 +72,7 @@ const Card = ({ date, title, shortdesc, image, addressVal }) => {
 
 			<div
 				onClick={() => {
-					navigate('/Newton');
+					navigate(`/${address}`);
 				}}
 				className='flex mx-9 rounded-md mb-6 justify-center items-center text-white bg-supadark-medium hover:bg-supagreen-dark text-lg cursor-pointer'
 			>
