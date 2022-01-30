@@ -179,21 +179,21 @@ const NotVestedForm = () => {
 	};
 
 	return (
-		<div className='flex justify-center bg-supadark-dark  mt-20'>
+		<div className='flex justify-center bg-supadark-black  mt-20'>
 			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
-				<Steps style={{ width: '600px' }} current={current}>
+				<Steps style={{ width: '600px'}} current={current}>
 					{steps.map((item) => (
 						<Step key={item.title} />
 					))}
 				</Steps>
 				<div className='w-full mt-8'>
-					<div className='bg-supadark-light p-12 rounded-xl'>
+					<div className='bg-supadark p-12 rounded-xl'>
 						<div className='flex justify-start items-baseline'>
 							<div className='bg-supadark-dark border-2 border-supagreen-dark h-10 w-10 rounded-full flex justify-center items-center font-bold text-2xl'>
 								{steps[current].title}
 							</div>
 
-							<h1 className='ml-8 text-2xl text-slate-100 font-bold'>
+							<h1 className='ml-8 text-2xl text-slate-100 text-supagreen-dark font-bold'>
 								{steps[current].content}
 							</h1>
 						</div>
