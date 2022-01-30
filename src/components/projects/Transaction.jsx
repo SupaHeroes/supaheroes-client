@@ -1,11 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import ERC20Transfers from '../moralis/ERC20Transfers';
 
 const Transaction = () => {
+	const params = useParams();
 	return (
 		<div>
-			<div className='h-60 text-3xl '>
-				<h1 className='text-supagreen'>Transaction</h1>
-			</div>
+			<ERC20Transfers address={params.campaignId} />{' '}
 		</div>
 	);
 };
