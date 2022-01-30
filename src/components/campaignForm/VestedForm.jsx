@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMoralis } from 'react-moralis';
 import { Steps, Button, message, notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import RewardSettingsForm from './RewardSettingsForm';
 import ProjectDescription from './ProjectDescription';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
@@ -8,6 +9,7 @@ import TierDetails from './TierDetails';
 import rewardABI from '../../abi/RewardManager.json';
 import campaignABI from '../../abi/StandardCampaignStrategy.json';
 import vestingABI from '../../abi/VestingManager.json';
+import Review from './Review';
 
 const { Step } = Steps;
 
@@ -32,6 +34,8 @@ const steps = [
 
 const VestedForm = () => {
 	const { Moralis } = useMoralis();
+	const navigate = useNavigate();
+
 	const {
 		metadata,
 		details,
@@ -252,6 +256,7 @@ const VestedForm = () => {
 
 						{current === 1 && <TierDetails />}
 						{current === 2 && <RewardSettingsForm />}
+						{current === 3 && <Review />}
 					</div>
 
 					<div className='steps-action w-full  flex justify-end items-center p-5'>
@@ -294,6 +299,7 @@ const VestedForm = () => {
 								onClick={() => {
 									message.success('Processing complete!');
 									submitCampaign();
+									// navigate(`/`);
 								}}
 							>
 								Submit

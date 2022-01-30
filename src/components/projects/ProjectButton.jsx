@@ -18,6 +18,7 @@ const ProjectButton = ({ title, link }) => {
 				borderRadius: '50px',
 				display: 'flex',
 				alignItems: 'center',
+				margin: '0 10px',
 			}}
 			href={link}
 		>
