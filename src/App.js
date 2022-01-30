@@ -35,7 +35,7 @@ function App() {
 
 				<Routes>
 					<Route path='/' element={<Explore />} />
-					<Route path='/:campaignId' element={<Project />}>
+					<Route path='/project/:campaignId' element={<Project />}>
 						<Route index element={<Story />} />
 						<Route path='transaction' element={<Transaction />} />
 						<Route path='certificate' element={<Certificate />} />

@@ -2,7 +2,7 @@ import { Layout, Row, Col, Input, Skeleton } from 'antd';
 import Card from '../components/Card';
 import { useMoralis } from 'react-moralis';
 import { SearchOutlined } from '@ant-design/icons';
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import { useState, useEffect } from 'react';
 
 const { Content } = Layout;
@@ -16,11 +16,13 @@ const Explore = () => {
 	const [category, setCategory] = useState('Categories');
 
 	useEffect(() => {
-		console.log(isInitialized);
 		if (isInitialized) {
-			console.log("is init?" + isInitialized);
-			getCampaign('43113')
-				.then((e) => setCampaignList(e))
+			console.log('is init?' + isInitialized);
+			getCampaign('0xa869')
+				.then((e) => {
+					setCampaignList(e);
+					console.log(e);
+				})
 				.catch((error) => console.log(error));
 		}
 	}, [isInitialized]);
@@ -29,8 +31,9 @@ const Explore = () => {
 		console.log('calling function');
 		setLoading(true);
 		const query = new Moralis.Query(obj);
-		const res = await query.equalTo('chain', chain).limit(18).find();
+		const res = await query.equalTo('chainId', chain).limit(18).find();
 		setLoading(false);
+
 		return res;
 	};
 
@@ -162,8 +165,9 @@ const Explore = () => {
 											key={i}
 											image={e.get('thumbnail')}
 											date={e.get('endDate')}
-											title={e.get('title')}
-											shortdesc={e.get('shortdesc')}
+											title={e.get('name')}
+											shortdesc={e.get('desc')}
+											address={e.get('address')}
 										/>
 									</Col>
 								))

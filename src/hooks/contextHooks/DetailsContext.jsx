@@ -9,19 +9,18 @@ export function useDetails() {
 export function DetailsProvider({ children }) {
 	const [isLoading, setIsLoading] = useState(false);
 
-	const [openedProject, setOpenedProject] = useState();
-
 	const [tiers, setTiers] = useState([
 		{
 			title: '',
 			description: '',
 			price: '',
+			quantities: '',
 		},
 	]);
 
 	const [vestings, setVesting] = useState([
 		{
-			Date: '',
+			date: '',
 			amount: '',
 		},
 	]);
@@ -42,9 +41,26 @@ export function DetailsProvider({ children }) {
 				title: '',
 				description: '',
 				price: '',
+				quantities: '',
 			},
 		],
+		vestings: [
+			{
+				date: '',
+				amount: '',
+			},
+		],
+		details: {
+			about: '',
+			startDate: '',
+			endDate: '',
+			fundingTarget: '',
+		},
 	});
+
+	const [currentChain, setChain] = useState();
+
+	const [metadataUrl, setMetadataUrl] = useState('');
 
 	const [details, setDetails] = useState({
 		about: '',
@@ -75,8 +91,10 @@ export function DetailsProvider({ children }) {
 				setTiers,
 				vestings,
 				setVesting,
-				openedProject, 
-				setOpenedProject
+				metadataUrl,
+				setMetadataUrl,
+				currentChain,
+				setChain,
 			}}
 		>
 			{children}

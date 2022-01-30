@@ -1,23 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, Link, useParams } from 'react-router-dom';
 import { Breadcrumb, Progress, Menu, Space } from 'antd';
+import axios from 'axios';
+import { useMoralis } from 'react-moralis';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
-import dummy from '../abi/dummyMetadata.json';
 import ProjectButton from '../components/projects/ProjectButton';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
 
-
 const Project = () => {
-	const [loading, setLoading] = useState(true);
-	const {openedProject, setOpenedProject} = useDetails();
+	const { metadata } = useDetails();
+	const params = useParams();
+	const { Moralis, isInitialized } = useMoralis();
+
+	const [newMetadata, setNewMetadata] = useState();
+	const [isLoading, setLoading] = useState(false);
+
+	const getProjectIPFS = async () => {
+		setLoading(true);
+		const project = Moralis.Object.extend('campaigns');
+		const query = new Moralis.Query(project);
+		query.equalTo('address', `${params.campaignId}`);
+		const results = await query.find();
+		const newIPFS = results[0].get('metadata');
+		setLoading(false);
+		return newIPFS;
+	};
+	const getMetadata = async () => {
+		try {
+			setLoading(true);
+			const ipfs = await getProjectIPFS();
+			const response = await axios.get(ipfs);
+			await setNewMetadata(response.data);
+
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+		}
+	};
+
+	// const getTimeRemaining = () => {
+	// 	const endDate = timeConverter(newMetadata?.details?.endDate);
+	// 	const date = new Date();
+
+	// 	console.log(' Remaining date:::', endDate);
+	// };
+
+	function timeConverter(UNIX_timestamp) {
+		var a = new Date(UNIX_timestamp * 1000);
+		var months = [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec',
+		];
+		var year = a.getFullYear();
+		var month = months[a.getMonth()];
+		var date = a.getDate();
+		var hour = a.getHours();
+		var min = a.getMinutes();
+		var sec = a.getSeconds();
+		var time = date + ' ' + month + ' ' + year + ' ';
+
+		return time;
+	}
+
 	useEffect(() => {
-		setOpenedProject(dummy);
-		console.log(openedProject);
-		// setLoading = false;
-	}, []);
-	
-	return (
+		if (isInitialized) {
+			setLoading(true);
+			getMetadata();
+
+			setLoading(false);
+		}
+		console.log('newMetadata', newMetadata);
+	}, [isInitialized, isLoading]);
+
+	// console.log('newMetadata', newMetadata);
+
+	return !isLoading ? (
 		<div className='mt-20 bg-supadark-black'>
 			<div className=' flex justify-center text-3xl  '>
 				<div className='w-4/6 mt-8 '>
@@ -28,66 +97,67 @@ const Project = () => {
 							</Link>
 						</Breadcrumb.Item>
 
-						<Breadcrumb.Item>{openedProject.title}</Breadcrumb.Item>
+						<Breadcrumb.Item>{newMetadata?.title}</Breadcrumb.Item>
 					</Breadcrumb>
 					<div className='flex flex-col lg:flex-row  '>
 						<div className='lg:w-10/12'>
 							<img
-								className='  h-auto object-cover rounded-[6%] pt-4'
-								src={openedProject.images[0]}
+								className='  h-auto max-h-96 min-w-full object-cover rounded-[6%] pt-4'
+								src={newMetadata?.images[0].data_url}
 								alt='project display'
 							/>
 							<div className='flex pt-4'>
-								<img
-									className='w-16 flex-1 h-auto object-cover rounded-[15%]  pr-4'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
-								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%] pr-4'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
-								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%]  pr-4'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
-								<img
-									className='w-16 flex-1  h-auto object-cover rounded-[15%]'
-									src='https://images.unsplash.com/photo-1560762484-813fc97650a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'
-									alt='project display'
-								/>
+								{newMetadata?.images.map((image, i) => (
+									<img
+										key={i}
+										className='w-16 flex-1 h-auto max-h-24 object-cover rounded-[15%]  pr-4'
+										src={image.data_url}
+										alt='project display'
+									/>
+								))}
 							</div>
 						</div>
 
 						<div className='flex flex-col justify-between w-full'>
 							<div className='p-8'>
 								<h1 className='text-white font-cormorant font-bold uppercase text-5xl'>
-									{openedProject.title}
+									{newMetadata?.title}
 								</h1>
 
 								<div className='flex flex-wrap justify-start items-center'>
 									<Space>
-									<ProjectButton title={'Website'} />
-									<ProjectButton title={'Whitepaper'} />
-									<ProjectButton title={'Smart Contract'} />
+										<ProjectButton
+											title={'Website'}
+											link={newMetadata?.website}
+										/>
+										<ProjectButton
+											link={newMetadata?.whitepaper}
+											title={'Whitepaper'}
+										/>
+										<ProjectButton
+											link={`https://testnet.snowtrace.io/address/${params.campaignId}`}
+											title={'Smart Contract'}
+										/>
 									</Space>
 								</div>
 
 								<div className='mt-8 w-full'>
 									<p className='flex items-center -mb-1 text-white font-bold text-xl '>
 										{' '}
-										<MdOutlineTimer className='mr-2 ' /> 5d 20h left
+										<MdOutlineTimer className='mr-2 ' />
+										{/* 5d 20h left */}
+										{`End Date: ${timeConverter(
+											newMetadata?.details?.endDate
+										)}`}
 									</p>
 									<Progress
 										percent={70}
 										size='large'
-										strokeWidth="10px"
+										strokeWidth='10px'
 										strokeColor={{
 											'0%': '#79D38A',
 											'100%': '#269BA8',
-										  }}
+										}}
 										showInfo={false}
 									/>
 									<div className='flex justify-between  items-center mt-3'>
@@ -101,13 +171,25 @@ const Project = () => {
 								</div>
 							</div>
 
-							<div className='flex flex-col justify-center bg-supadark border border-supagreen-dark w-11/12 text-white items-start pl-16 py-5  mx-8'>
+							<div
+								className={`flex flex-col justify-center ${
+									newMetadata?.vestings[0]?.date === ''
+										? 'bg-red-400'
+										: 'bg-supadark'
+								}   border border-supagreen-dark w-11/12 text-white items-start pl-16 py-5  mx-8`}
+							>
 								<h3 className='flex justify-center items-center text-white text-lg h-auto'>
 									{' '}
 									<SafetyCertificateOutlined className='mr-3' /> This campaign
-									is vested
+									is
+									{newMetadata?.vestings[0]?.date === ''
+										? ' not vested'
+										: ' vested'}
 								</h3>
-								<a className=' font-inter text-sm text-supadark-light underline'>
+								<a
+									href='https://docs.supaheroes.fund/reward-based-campaign/vested-campaign'
+									className=' font-inter text-sm text-supadark-light underline'
+								>
 									Learn more about vested campaign
 								</a>
 							</div>
@@ -118,22 +200,14 @@ const Project = () => {
 
 			<div className='flex justify-center mt-12'>
 				<div className='  w-4/6 '>
-					{/* <div className='flex justify-between font-sans font-bold text-2xl'>
-						<Link to=''>Story</Link>
-						<Link to='transaction'>Transaction</Link>
-						<Link to='certificate'>Get Certificate</Link>
-						<Link to='vesting'>Vesting Term</Link>
-						<Link to='contract'>Trace Contract</Link>
-					</div> */}
-
 					<Menu
 						mode='inline'
 						defaultSelectedKeys={['1']}
-						theme="dark"
+						theme='dark'
 						style={{
-							backgroundColor:"transparent",
+							backgroundColor: 'transparent',
 							textDecoration: 'none',
-							fontSize:"18px",
+							fontSize: '18px',
 							border: 'none',
 							display: 'flex',
 						}}
@@ -172,6 +246,8 @@ const Project = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<div> Loading!!!! Please Wait</div>
 	);
 };
 

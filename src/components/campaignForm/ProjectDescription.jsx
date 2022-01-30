@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 import ProjectDetailsForm from './ProjectDetailsForm';
 
 const ProjectDescription = () => {
-	const { details, setDetails } = useDetails();
+	const { details, setDetails, metadata, setMetadata } = useDetails();
 
 	const handleChange = (e) => {
 		setDetails({ ...details, about: e.target.value });
-		console.log(details.about);
+		setMetadata({ ...metadata, details: details });
 	};
 	return (
 		<div className=' mt-6 rounded-xl'>

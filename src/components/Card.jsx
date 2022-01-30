@@ -4,13 +4,34 @@ import { Progress } from 'antd';
 import { MdOutlineTimer } from 'react-icons/md';
 import { BsBookFill } from 'react-icons/bs';
 
-const Card = ({date, title, shortdesc, image}) => {
+const Card = ({ date, title, shortdesc, image, address }) => {
 	const navigate = useNavigate();
-	const endDate = new Date(date);
-	const days = endDate.getDate();
-	const month = endDate.getMonth();
-	const year = endDate.getFullYear();
-	console.log(endDate);
+
+	function timeConverter(UNIX_timestamp) {
+		var a = new Date(UNIX_timestamp * 1000);
+		var months = [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec',
+		];
+		var year = a.getFullYear();
+		var month = months[a.getMonth()];
+		var date = a.getDate();
+		var hour = a.getHours();
+		var min = a.getMinutes();
+		var sec = a.getSeconds();
+		var time = date + ' ' + month + ' ' + year;
+		return time;
+	}
 	return (
 		<div className=' bg-supadark font-sans h-auto rounded-lg border border-supadark-medium'>
 			<img
@@ -21,9 +42,11 @@ const Card = ({date, title, shortdesc, image}) => {
 
 			<div className='mx-9'>
 				<div className='flex justify-between  items-center mt-6 '>
-					<p className='text-white font-bold font-inter text-xl uppercase'>23 Eth</p>
+					<p className='text-white font-bold font-inter text-xl uppercase'>
+						23 Eth
+					</p>
 					<p className='flex items-center  text-white text-lg'>
-						<MdOutlineTimer className='mr-2' /> {days + "/" + month + "/" + year}
+						<MdOutlineTimer className='mr-2' /> {timeConverter(date)}
 					</p>
 				</div>
 				<Progress
@@ -32,7 +55,7 @@ const Card = ({date, title, shortdesc, image}) => {
 					strokeColor={{
 						'0%': '#79D38A',
 						'100%': '#269BA8',
-					  }}
+					}}
 					showInfo={false}
 				/>
 			</div>
@@ -49,13 +72,12 @@ const Card = ({date, title, shortdesc, image}) => {
 
 			<div
 				onClick={() => {
-					navigate('/Newton');
+					navigate(`/project/${address}`);
 				}}
 				className='flex mx-9 rounded-md mb-6 justify-center items-center text-white bg-supadark-medium hover:bg-supagreen-dark text-lg cursor-pointer'
 			>
 				<BsBookFill />
-				<p className="pt-4 pl-3">Read More</p>
-				
+				<p className='pt-4 pl-3'>Read More</p>
 			</div>
 		</div>
 	);

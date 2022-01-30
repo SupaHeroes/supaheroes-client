@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Input, message } from 'antd';
+import React from 'react';
+import { Input } from 'antd';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 
 const styles = {
@@ -11,7 +11,7 @@ const styles = {
 };
 
 const TierDetails = () => {
-	const { tiers, setTiers } = useDetails();
+	const { tiers, setTiers, setMetadata, metadata } = useDetails();
 
 	let addFormFields = () => {
 		setTiers([...tiers, { title: '', description: '', price: '' }]);
@@ -41,7 +41,6 @@ const TierDetails = () => {
 									onChange={(e) => {
 										setTiers(
 											[...tiers].map((object) => {
-												console.log('object:::', object);
 												if (object.title === tier.title) {
 													return {
 														...object,
@@ -52,6 +51,8 @@ const TierDetails = () => {
 												}
 											})
 										);
+
+										setMetadata({ ...metadata, tiers: tiers });
 									}}
 								/>
 							</div>
@@ -64,7 +65,6 @@ const TierDetails = () => {
 									onChange={(e) => {
 										setTiers(
 											[...tiers].map((object) => {
-												console.log('object:::', object);
 												if (object.description === tier.description) {
 													return {
 														...object,
@@ -75,6 +75,7 @@ const TierDetails = () => {
 												}
 											})
 										);
+										setMetadata({ ...metadata, tiers: tiers });
 									}}
 								/>
 							</div>
@@ -88,7 +89,6 @@ const TierDetails = () => {
 									onChange={(e) => {
 										setTiers(
 											[...tiers].map((object) => {
-												console.log('object:::', object);
 												if (object.price === tier.price) {
 													return {
 														...object,
@@ -99,6 +99,31 @@ const TierDetails = () => {
 												}
 											})
 										);
+										setMetadata({ ...metadata, tiers: tiers });
+									}}
+								/>
+							</div>
+
+							<div className='flex flex-col'>
+								<h3 className=' text-2xl text-slate-100'>Quantities</h3>
+								<Input
+									style={styles.input}
+									title={'Quantities'}
+									value={tiers[index].quantities}
+									onChange={(e) => {
+										setTiers(
+											[...tiers].map((object) => {
+												if (object.quantities === tier.quantities) {
+													return {
+														...object,
+														quantities: e.target.value,
+													};
+												} else {
+													return object;
+												}
+											})
+										);
+										setMetadata({ ...metadata, tiers: tiers });
 									}}
 								/>
 							</div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DatePicker, Space, Input, Select } from 'antd';
 
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
@@ -27,6 +27,7 @@ const ProjectDetailsForm = () => {
 		);
 
 		setDetails({ ...details, startDate, endDate });
+		setMetadata({ ...metadata, details: details });
 	};
 
 	return (
@@ -77,6 +78,7 @@ const ProjectDetailsForm = () => {
 						value={details.fundingTarget}
 						onChange={(e) => {
 							setDetails({ ...details, fundingTarget: e.target.value });
+							setMetadata({ ...metadata, details: details });
 						}}
 					/>
 				</div>
@@ -97,14 +99,17 @@ const ProjectDetailsForm = () => {
 								console.log(metadata.currency);
 							}}
 						>
-							<Option value='0xdac17f958d2ee523a2206206994597c13d831ec7'>
-								USDT
+							<Option value='0x51203d73c94273C495F5d515dE87795649c21D53'>
+								QiUSDC
 							</Option>
-							<Option value='0x4fabb145d64652a948d72533023f6e7a623c7c53'>
-								BUSD
+							<Option value='0x45ea5d57BA80B5e3b0Ed502e9a08d568c96278F9'>
+								USDC
 							</Option>
-							<Option value='0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0'>
-								MATIC
+							<Option value='0x0eaC97A78a93B75549D49145dF41DbE9CD520874'>
+								YRT
+							</Option>
+							<Option value='0x39A7feB2cB226c632731346e74BF8D33DF44cAA2'>
+								SUPA
 							</Option>
 						</Select>
 					</Input.Group>

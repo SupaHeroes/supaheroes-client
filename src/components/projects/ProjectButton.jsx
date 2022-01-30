@@ -2,9 +2,9 @@ import React from 'react';
 import { Button } from 'antd';
 import { MessageOutlined, RightOutlined } from '@ant-design/icons';
 
-const ProjectButton = ({ title }) => {
+const ProjectButton = ({ title, link }) => {
 	return (
-		<Button
+		<a
 			icon={<MessageOutlined />}
 			style={{
 				backgroundColor: '#DEFFEE',
@@ -14,14 +14,17 @@ const ProjectButton = ({ title }) => {
 				fontWeight: '600',
 				fontSize: '12px',
 				lineHeight: '10px',
+				padding: '10px',
+				borderRadius: '50px',
 				display: 'flex',
 				alignItems: 'center',
+				margin: '0 10px',
 			}}
-			shape='round'
+			href={link}
 		>
 			{title}
 			<RightOutlined />
-		</Button>
+		</a>
 	);
 };
 

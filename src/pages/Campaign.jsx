@@ -1,16 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { useMoralis, useMoralisQuery } from 'react-moralis';
+import { useMoralis } from 'react-moralis';
 import { useNavigate } from 'react-router-dom';
 import { Button, notification } from 'antd';
-import campaignABI from '../abi/StandardCampaignStrategy.json';
 import factoryABI from '../abi/CampaignFactory.json';
 import './campaign.css';
 import backgroundImg from '../assets/Ring01.png';
-import VestedForm from '../components/campaignForm/VestedForm';
-import NotVestedForm from '../components/campaignForm/NotVestedForm';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
-import Transaction from '../components/projects/Transaction';
 
 const Campaign = () => {
 	const navigate = useNavigate();
@@ -24,7 +20,7 @@ const Campaign = () => {
 		withoutVested: false,
 	});
 
-	const { Moralis, chainId } = useMoralis();
+	const { Moralis } = useMoralis();
 	const [responses, setResponses] = useState({});
 
 	/** Default function for showing notifications*/
@@ -33,37 +29,6 @@ const Campaign = () => {
 			placement: 'bottomRight',
 			message,
 			description,
-		});
-	};
-
-	const options = {
-		contractAddress: cloneAddress.NewCampaignAddress,
-		functionName: 'initialize',
-		abi: campaignABI,
-		params: {
-			_currency: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
-			_metadata: 'https://www.supaheroes.com',
-			_fundingEndTime: 1644926338,
-			_fundTarget: 2000,
-			_fundingStartTime: 1642334338,
-			_vestingManager: '0x0000000000000000000000000000000000000000',
-			_rewardManager: cloneAddress.rewardMaster,
-		},
-	};
-
-	const initialise = async () => {
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			...options,
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
-			});
-			console.log('🔊 New Transaction', hash);
 		});
 	};
 
@@ -93,7 +58,7 @@ const Campaign = () => {
 			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
 			const creator = receipt.events.NewCampaign.returnValues.creator;
 			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
-
+			console.log(receipt);
 			setCloneAddress({
 				NewCampaignAddress: `${cloneAdd}`,
 				creator: `${creator}`,

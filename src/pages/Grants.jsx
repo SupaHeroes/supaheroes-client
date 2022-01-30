@@ -1,5 +1,6 @@
-import React from "react";
+import React from 'react';
 
+ 
 import { Button } from "antd";
 import { useState } from "react";
 import { Row, Divider, InputNumber, Collapse, Select } from "antd";
@@ -36,31 +37,31 @@ const Grants = () => {
     return matchAmt;
   };
 
-  const changeGoal = (index, newGoal) => {
-    console.log("called");
-    const arr = goalArray;
-    arr[index] = newGoal;
-    console.log(arr);
-    setGoalArray((oldarr) => [...arr]);
-  };
+	const changeGoal = (index, newGoal) => {
+		console.log('called');
+		const arr = goalArray;
+		arr[index] = newGoal;
+		console.log(arr);
+		setGoalArray((oldarr) => [...arr]);
+	};
 
-  const changeCont = (index, newCont) => {
-    if (newCont <= goalArray[index]) {
-      console.log("called");
-      const arr = contributionArray;
-      arr[index] = newCont;
-      console.log(arr);
-      setContributionArray((oldarr) => [...arr]);
-    }
-  };
+	const changeCont = (index, newCont) => {
+		if (newCont <= goalArray[index]) {
+			console.log('called');
+			const arr = contributionArray;
+			arr[index] = newCont;
+			console.log(arr);
+			setContributionArray((oldarr) => [...arr]);
+		}
+	};
 
-  const addGrant = () => {
-    setGrantAmount((amt) => amt + 100);
-  };
+	const addGrant = () => {
+		setGrantAmount((amt) => amt + 100);
+	};
 
-  const subGrant = () => {
-    setGrantAmount((amt) => amt - 100);
-  };
+	const subGrant = () => {
+		setGrantAmount((amt) => amt - 100);
+	};
 
   const text1 = `
   Active Collective is an experimental quadratic voting algorithm governed by game theory mechanism that distributes matching fund equally toward collective good on maximum participation. This algorithm is not only meant to solve the Sybil attack problem but also provide different perspective on funding public goods.
@@ -141,6 +142,7 @@ const text2 = `
       </div>
     </div>
   );
+
 };
 
 export default Grants;

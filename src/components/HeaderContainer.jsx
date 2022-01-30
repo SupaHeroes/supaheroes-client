@@ -1,16 +1,14 @@
 import React from 'react';
-import { Button, Layout, Menu } from 'antd';
+import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import Account from "./moralis/Account/Account";
-import Chains from "./moralis/Chains/Chains";
+import Account from './moralis/Account/Account';
+import Chains from './moralis/Chains/Chains';
 
 import logo from '../assets/logo/SUPALOGO.png';
-import { useMoralis } from 'react-moralis';
 
 const { Header } = Layout;
 
 const HeaderContainer = () => {
-	const { authenticate, isAuthenticated, user } = useMoralis();
 	return (
 		<Header
 			style={{
@@ -54,11 +52,9 @@ const HeaderContainer = () => {
 			</Menu>
 
 			<Chains />
-			<Account/>
-			
+			<Account />
 		</Header>
 	);
 };
 
 export default HeaderContainer;
-
