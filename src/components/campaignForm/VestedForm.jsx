@@ -202,6 +202,7 @@ const VestedForm = () => {
 						currency: metadata.currency,
 						thumbnail: metadata.images[0].data_url,
 						metadata: newMetadata,
+						NewCampaignAddress: cloneAddress,
 					})
 					.then(
 						(campaigns) => {

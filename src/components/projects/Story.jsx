@@ -5,15 +5,39 @@ import { notification } from 'antd';
 import { useDetails } from '../../hooks/contextHooks/DetailsContext';
 import { useParams } from 'react-router-dom';
 import rewardABI from '../../abi/RewardManager.json';
+import tokenABI from '../../abi/Token.json';
 
 const Story = () => {
+	let id;
 	const params = useParams();
 	const { Moralis, isInitialized } = useMoralis();
 
 	const [newMetadata, setNewMetadata] = useState();
 	const [isLoading, setLoading] = useState(false);
+	const [isSelected, setSelected] = useState();
 	const [responses, setResponses] = useState({});
-	const [selectedFund, setSelectedFund] = useState();
+	const [selectedFund, setSelectedFund] = useState(0);
+	const [newAddresses, setNewAddresses] = useState();
+
+	useEffect(() => {
+		if (isInitialized) {
+			setLoading(true);
+			getMetadata();
+			setLoading(false);
+		}
+		// console.log('newMetadata', newMetadata);
+	}, [isInitialized, selectedFund]);
+
+	const getAddresses = async () => {
+		setLoading(true);
+		const project = Moralis.Object.extend('campaigns');
+		const query = new Moralis.Query(project);
+		query.equalTo('address', `${params.campaignId}`);
+		const results = await query.find();
+		const newIPFS = results[0].get('NewCampaignAddress');
+		setLoading(false);
+		return newIPFS;
+	};
 
 	const getProjectIPFS = async () => {
 		setLoading(true);
@@ -32,6 +56,7 @@ const Story = () => {
 			const ipfs = await getProjectIPFS();
 			const response = await axios.get(ipfs);
 			await setNewMetadata(response.data);
+			setNewAddresses(await getAddresses());
 
 			setLoading(false);
 		} catch (error) {
@@ -48,21 +73,17 @@ const Story = () => {
 		});
 	};
 
-	const optionsReward = {
-		contractAddress: params.campaignId,
-		functionName: 'pledgeForReward',
-		abi: rewardABI,
-		params: {
-			amount: newMetadata?.tiers[selectedFund]?.price,
-			id: selectedFund,
-			token: newMetadata?.currency,
-		},
-	};
-
-	const pledgeForReward = async () => {
+	const pledgeForReward = async (index) => {
 		const tx = await Moralis.executeFunction({
 			awaitReceipt: false,
-			...optionsReward,
+			contractAddress: newAddresses?.RewardMaster,
+			functionName: 'pledgeForReward',
+			abi: rewardABI,
+			params: {
+				amount: Moralis.Units.Token(newMetadata?.tiers[index]?.price, '18'),
+				id: index,
+				token: newMetadata?.currency,
+			},
 		});
 		console.log(tx);
 		tx.on('transactionHash', (hash) => {
@@ -78,15 +99,30 @@ const Story = () => {
 		});
 	};
 
-	useEffect(() => {
-		if (isInitialized) {
-			setLoading(true);
-			getMetadata();
-
-			setLoading(false);
-		}
-		console.log('newMetadata', newMetadata);
-	}, [isInitialized, isLoading]);
+	const approve = async (index) => {
+		const tx = await Moralis.executeFunction({
+			awaitReceipt: false,
+			contractAddress: newMetadata?.currency,
+			functionName: 'approve',
+			abi: tokenABI,
+			params: {
+				spender: params?.campaignId,
+				amount: Moralis.Units.Token(newMetadata?.tiers[index]?.price, '18'),
+			},
+		});
+		console.log(tx);
+		tx.on('transactionHash', (hash) => {
+			setResponses({ ...responses, name: { result: null, isLoading: true } });
+			openNotification({
+				message: '🔊 New Transaction',
+				description: `${hash}`,
+			});
+			console.log('🔊 New Transaction', hash);
+		});
+		tx.on('receipt', (receipt) => {
+			console.log(receipt);
+		});
+	};
 
 	const checkCurrency = (currency) => {
 		if (currency === '0x51203d73c94273C495F5d515dE87795649c21D53') {
@@ -108,33 +144,50 @@ const Story = () => {
 				<p className='font-cormorant text-lg p-6 mr-16'>
 					{newMetadata?.details?.about}
 				</p>
-				<div className='bg-supadark-medium rounded-2xl'>
-					{newMetadata?.tiers?.map((tier, index) => (
-						<div key={index} className='mx-5 p-6 '>
-							<div className='flex  justify-between items-center'>
-								<div className='mr-7'>
-									<h1 className='text-2xl text-white font-cormorant font-bold'>
-										{tier.title}
-									</h1>
-									<p className='text-sm font-cormorant font-semibold '>{`${
-										tier.price
-									} ${checkCurrency(newMetadata?.currency)}`}</p>
+				<div className='flex flex-col justify-center items-center'>
+					<div className='bg-supadark-medium rounded-2xl mb-8 px-6'>
+						{newMetadata?.tiers?.map((tier, index) => (
+							<div key={index} className='mx-5 p-6 '>
+								<div className='flex  justify-between items-center'>
+									<div className='mr-7'>
+										<h1 className='text-2xl text-white font-cormorant font-bold'>
+											{tier.title}
+										</h1>
+										<p className='text-sm font-cormorant font-semibold '>{`${
+											tier.price
+										} ${checkCurrency(newMetadata?.currency)}`}</p>
+									</div>
+									<div className='flex flex-col justify-end '>
+										<button
+											onClick={async () => {
+												setSelected(index);
+												await approve(index);
+											}}
+											className='bg-supagreen px-3 py-2 rounded-xl text-2xl text-supadark font-cormorant my-4'
+										>
+											Approve
+										</button>
+										{isSelected === index && (
+											<button
+												disabled={isSelected !== index}
+												onClick={async () => {
+													await pledgeForReward(index);
+												}}
+												className='bg-supagreen text-supadark-dark font-cormorant text-2xl   px-3 py-2 rounded-xl items-center'
+											>
+												Fund
+											</button>
+										)}
+									</div>
 								</div>
-								<button
-									onClick={async () => {
-										setSelectedFund(index);
-										await pledgeForReward();
-									}}
-									className='bg-supagreen text-supadark-dark font-cormorant text-2xl  px-3 py-2 rounded-xl items-center'
-								>
-									Fund
-								</button>
-							</div>
-							<p className='text-sm font-cormorant mt-5 '>{tier.description}</p>
+								<p className='text-sm font-cormorant mt-5 '>
+									{tier.description}
+								</p>
 
-							<div className='w-4/5 h-1 mt-12 bg-white'></div>
-						</div>
-					))}
+								<div className='w-4/5 h-1 mt-12 bg-white'></div>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>
