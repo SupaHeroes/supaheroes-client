@@ -49,9 +49,10 @@ const Contract = () => {
         <Skeleton></Skeleton>
       ) : (
         Nfts.map((v, i) => {
-          v = verifyMetadata(v);
+          const a = verifyMetadata(v.token_uri);
+		  console.log("v is ::::",a);
           return (
-            <div key={i}>
+            <div className="mr-3" key={i}>
               <video
                 className="p-4 border border-supagreen-dark cursor-pointer"
                 width="320"
