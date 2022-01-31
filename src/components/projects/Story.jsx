@@ -139,15 +139,15 @@ const Story = () => {
 	};
 	return (
 		<div className='h-60 text-3xl '>
-			<h1 className='text-supagreen-dark'>Story</h1>
+			<h1 className='text-supagreen-dark font-cormorant'>Story</h1>
 			<div className='flex justify-between items-start'>
-				<p className='font-cormorant text-lg p-6 mr-16'>
+				<p className='font-inter text-lg p-6 mr-16'>
 					{newMetadata?.details?.about}
 				</p>
 				<div className='flex flex-col justify-center items-center'>
-					<div className='bg-supadark-medium rounded-2xl mb-8 px-6'>
+					<div className='bg-supadark mb-8 border border-supagreen-dark px-6'>
 						{newMetadata?.tiers?.map((tier, index) => (
-							<div key={index} className='mx-5 p-6 '>
+							<div key={index} className='mx-5 p-6 border-b border-supagreen-dark'>
 								<div className='flex  justify-between items-center'>
 									<div className='mr-7'>
 										<h1 className='text-2xl text-white font-cormorant font-bold'>
@@ -163,7 +163,7 @@ const Story = () => {
 												setSelected(index);
 												await approve(index);
 											}}
-											className='bg-supagreen px-3 py-2 rounded-xl text-2xl text-supadark font-cormorant my-4'
+											className='px-3 py-2 text-xl border border-supagreen-dark hover:bg-supagreen-dark font-inter my-4'
 										>
 											Approve
 										</button>
@@ -173,18 +173,16 @@ const Story = () => {
 												onClick={async () => {
 													await pledgeForReward(index);
 												}}
-												className='bg-supagreen text-supadark-dark font-cormorant text-2xl   px-3 py-2 rounded-xl items-center'
+												className='font-inter text-xl  px-3 py-2 border border-supagreen-dark items-center hover:bg-supagreen-dark'
 											>
 												Fund
 											</button>
 										)}
 									</div>
 								</div>
-								<p className='text-sm font-cormorant mt-5 '>
+								<p className='text-sm font-inter mt-5 '>
 									{tier.description}
 								</p>
-
-								<div className='w-4/5 h-1 mt-12 bg-white'></div>
 							</div>
 						))}
 					</div>

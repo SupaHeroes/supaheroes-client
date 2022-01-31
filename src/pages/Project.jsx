@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useParams } from 'react-router-dom';
-import { Breadcrumb, Progress, Menu, Space } from 'antd';
+import { Breadcrumb, Progress, Menu, Space, Skeleton } from 'antd';
 import axios from 'axios';
-import { useMoralis } from 'react-moralis';
+import { useMoralis, useERC20Balances } from 'react-moralis';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
 import ProjectButton from '../components/projects/ProjectButton';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
 
 const Project = () => {
+	const { fetchERC20Balances, data } = useERC20Balances();
+	// const { data: assets } = useERC20Balance({address:'0x49a7a59Cfd35Dd33Fa6e49EF201bDbb237092baC'});
 	const { metadata } = useDetails();
 	const params = useParams();
 	const { Moralis, isInitialized } = useMoralis();
@@ -32,7 +34,8 @@ const Project = () => {
 			const ipfs = await getProjectIPFS();
 			const response = await axios.get(ipfs);
 			await setNewMetadata(response.data);
-
+			await fetchERC20Balances({ params: { address: params.campaignId } });
+			console.log("newBalance:::::", data)
 			setLoading(false);
 		} catch (error) {
 			console.error(error);
@@ -78,7 +81,6 @@ const Project = () => {
 		if (isInitialized) {
 			setLoading(true);
 			getMetadata();
-
 			setLoading(false);
 		}
 		console.log('newMetadata', newMetadata);
@@ -150,8 +152,9 @@ const Project = () => {
 											newMetadata?.details?.endDate
 										)}`}
 									</p>
-									<Progress
-										percent={70}
+									<Skeleton loading={!data}>
+										<Progress
+										percent={data?.balance || 0}
 										size='large'
 										strokeWidth='10px'
 										strokeColor={{
@@ -159,7 +162,9 @@ const Project = () => {
 											'100%': '#269BA8',
 										}}
 										showInfo={false}
-									/>
+										/>
+     								 </Skeleton>
+
 									<div className='flex justify-between  items-center mt-3'>
 										<p className='text-white font-bold  text-lg'>
 											3 Eth Remaining
@@ -225,7 +230,7 @@ const Project = () => {
 						</Menu.Item>
 						<Menu.Item key='3'>
 							<Link to='certificate' className='font-inter'>
-								Get Certificate
+								Dispute
 							</Link>
 						</Menu.Item>
 						<Menu.Item key='4' className=''>
