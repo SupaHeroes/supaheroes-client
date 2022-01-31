@@ -105,7 +105,9 @@ const TierDetails = () => {
 							</div>
 
 							<div className='flex flex-col'>
-								<h3 className=' text-2xl text-slate-100'>Quantities</h3>
+								<h3 className='text-supagreen-dark text-slate-100'>
+									Quantities
+								</h3>
 								<Input
 									style={styles.input}
 									title={'Quantities'}
