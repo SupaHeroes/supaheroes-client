@@ -113,7 +113,7 @@ const Card = ({ date, title, shortdesc, image, address, currency, target }) => {
 				</div>
 
 				<p className=' text-gray-300 font-inter text-lg px-3 break-words'>
-					{shortdesc}
+					{shortdesc.slice(0, 60) + (shortdesc.length > 60 ? "..." : "")}
 				</p>
 			</div>
 

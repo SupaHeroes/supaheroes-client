@@ -20,7 +20,7 @@ const Explore = () => {
 			console.log('is init?' + isInitialized);
 			getCampaign('0xa869')
 				.then((e) => {
-					setCampaignList(e);
+					setCampaignList(e.reverse());
 					console.log(e);
 				})
 				.catch((error) => console.log(error));

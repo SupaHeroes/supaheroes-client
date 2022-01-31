@@ -49,8 +49,9 @@ const Contract = () => {
         <Skeleton></Skeleton>
       ) : (
         Nfts.map((v, i) => {
-          const a = verifyMetadata(v.token_uri);
-		  console.log("v is ::::",a);
+          const a = verifyMetadata(v);
+		  console.log("v is ::::",v);
+		  console.log("a is ::::",a);
           return (
             <div className="mr-3" key={i}>
               <video
@@ -61,7 +62,7 @@ const Contract = () => {
                 autoPlay
               >
                 <source
-                  src={v.image}
+                  src={a.image}
                   type="video/mp4"
                 />
               </video>
