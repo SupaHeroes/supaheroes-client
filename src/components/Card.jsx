@@ -68,8 +68,9 @@ const Card = ({ date, title, shortdesc, image, address, currency, target }) => {
 	};
 
 	useEffect(() => {
-		if(isInitialized)
-		getBalance(currency);
+		if(isInitialized) {
+			getBalance(currency);
+		}
 	}, [isInitialized]);
 
 	return (
@@ -83,7 +84,7 @@ const Card = ({ date, title, shortdesc, image, address, currency, target }) => {
 			<div className='mx-9'>
 				<div className='flex justify-between  items-center mt-6 '>
 					<p className='text-white font-bold font-inter text-xl uppercase'>
-						{Moralis.Units.FromWei(balance)} {checkCurrency(currency)}
+						{parseFloat(Moralis.Units.FromWei(balance)).toFixed(0)} {checkCurrency(currency)}
 					</p>
 
 					<p className='text-white font-bold font-inter text-xl uppercase'>
