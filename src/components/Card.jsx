@@ -68,8 +68,9 @@ const Card = ({ date, title, shortdesc, image, address, currency, target }) => {
 	};
 
 	useEffect(() => {
+		if(isInitialized)
 		getBalance(currency);
-	}, [balance]);
+	}, [isInitialized]);
 
 	return (
 		<div className=' bg-supadark font-sans h-auto rounded-lg border border-supadark-medium'>
