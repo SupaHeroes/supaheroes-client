@@ -100,7 +100,7 @@ const NotVestedForm = () => {
 		abi: rewardABI,
 		params: {
 			_campaign: `${cloneAddress.NewCampaignAddress}`,
-			_uri: `ipfs://QmNbqLeV9cZrBhhkFyESD5sWXhGfPfaPQUT4LfmXz6VETQ/{id}.json`,
+			_uri: `ipfs://QmVXLV19W7zQcAzYqCYpUG8V5Vfm9vxkLG3NUMXR5ohqQ1/`,
 			quantities: newQuantities,
 			tiers: newTiers,
 			_cc: `0x96EC404762de3974bb11eab4e528Cd99A8327B34`,
@@ -181,7 +181,7 @@ const NotVestedForm = () => {
 	return (
 		<div className='flex justify-center bg-supadark-black  mt-20'>
 			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
-				<Steps style={{ width: '600px'}} current={current}>
+				<Steps style={{ width: '600px' }} current={current}>
 					{steps.map((item) => (
 						<Step key={item.title} />
 					))}

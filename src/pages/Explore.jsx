@@ -33,7 +33,7 @@ const Explore = () => {
 		const query = new Moralis.Query(obj);
 		const res = await query.equalTo('chainId', chain).limit(18).find();
 		setLoading(false);
-
+		console.log(res);
 		return res;
 	};
 
@@ -168,6 +168,8 @@ const Explore = () => {
 											title={e.get('name')}
 											shortdesc={e.get('desc')}
 											address={e.get('address')}
+											currency={e.get('currency')}
+											target={e.get('fundingTarget')}
 										/>
 									</Col>
 								))

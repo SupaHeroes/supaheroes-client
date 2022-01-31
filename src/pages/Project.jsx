@@ -2,21 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useParams } from 'react-router-dom';
 import { Breadcrumb, Progress, Menu, Space, Skeleton } from 'antd';
 import axios from 'axios';
-import { useMoralis, useERC20Balances } from 'react-moralis';
+import { useMoralis } from 'react-moralis';
 import { SafetyCertificateOutlined } from '@ant-design/icons';
 import { MdOutlineTimer } from 'react-icons/md';
 import ProjectButton from '../components/projects/ProjectButton';
 import { useDetails } from '../hooks/contextHooks/DetailsContext';
+import tokenABI from '../abi/Token.json';
 
 const Project = () => {
-	const { fetchERC20Balances, data } = useERC20Balances();
+	// const { fetchERC20Balances, data } = useERC20Balances();
 	// const { data: assets } = useERC20Balance({address:'0x49a7a59Cfd35Dd33Fa6e49EF201bDbb237092baC'});
 	const { metadata } = useDetails();
 	const params = useParams();
 	const { Moralis, isInitialized } = useMoralis();
 
+	// const { data: assets } = useERC20Balances({ address: params.campaignId });
+
+	// console.log('Assets::::', assets);
+
 	const [newMetadata, setNewMetadata] = useState();
+	const [balance, setBalance] = useState(0);
 	const [isLoading, setLoading] = useState(false);
+
+	// setBalance(assets[0]?.balance);
+
+	// const readOptions = {
+	// 	contractAddress: newMetadata?.currency,
+	// 	functionName: 'balanceOf',
+	// 	abi: tokenABI,
+	// 	params: {
+	// 		account: params.campaignId,
+	// 	},
+	// };
+
+	async function getBalance(currency) {
+		const res = await Moralis.executeFunction({
+			contractAddress: currency,
+			functionName: 'balanceOf',
+			abi: tokenABI,
+			params: {
+				account: params.campaignId,
+			},
+		});
+		console.log('reward::::', res);
+		setBalance(res);
+		return res;
+	}
 
 	const getProjectIPFS = async () => {
 		setLoading(true);
@@ -34,8 +65,8 @@ const Project = () => {
 			const ipfs = await getProjectIPFS();
 			const response = await axios.get(ipfs);
 			await setNewMetadata(response.data);
-			await fetchERC20Balances({ params: { address: params.campaignId } });
-			console.log("newBalance:::::", data)
+
+			await getBalance(response.data.currency);
 			setLoading(false);
 		} catch (error) {
 			console.error(error);
@@ -77,10 +108,25 @@ const Project = () => {
 		return time;
 	}
 
+	const checkCurrency = (currency) => {
+		if (currency === '0x51203d73c94273C495F5d515dE87795649c21D53') {
+			return 'QiUSDC';
+		} else if (currency === '0x45ea5d57BA80B5e3b0Ed502e9a08d568c96278F9') {
+			return 'USDC';
+		} else if (currency === '0x0eaC97A78a93B75549D49145dF41DbE9CD520874') {
+			return 'YRT';
+		} else if (currency === '0x39A7feB2cB226c632731346e74BF8D33DF44cAA2') {
+			return 'SUPA';
+		} else {
+			return 'N/A';
+		}
+	};
+
 	useEffect(() => {
 		if (isInitialized) {
 			setLoading(true);
 			getMetadata();
+
 			setLoading(false);
 		}
 		console.log('newMetadata', newMetadata);
@@ -152,25 +198,33 @@ const Project = () => {
 											newMetadata?.details?.endDate
 										)}`}
 									</p>
-									<Skeleton loading={!data}>
+									<Skeleton loading={!balance}>
 										<Progress
-										percent={data?.balance || 0}
-										size='large'
-										strokeWidth='10px'
-										strokeColor={{
-											'0%': '#79D38A',
-											'100%': '#269BA8',
-										}}
-										showInfo={false}
+											percent={
+												(Moralis.Units.FromWei(balance) /
+													parseInt(newMetadata?.details?.fundingTarget * 10)) *
+												100
+											}
+											size='large'
+											strokeWidth='10px'
+											strokeColor={{
+												'0%': '#79D38A',
+												'100%': '#269BA8',
+											}}
+											showInfo={false}
 										/>
-     								 </Skeleton>
+									</Skeleton>
 
 									<div className='flex justify-between  items-center mt-3'>
 										<p className='text-white font-bold  text-lg'>
-											3 Eth Remaining
+											{parseInt(newMetadata?.details?.fundingTarget * 10) -
+												Moralis.Units.FromWei(balance)}{' '}
+											{checkCurrency(newMetadata?.currency)} Remaining
 										</p>
 										<p className='text-white font-bold  text-lg'>
-											23 Eth Backed
+											{/* {assets[0].balance} */}
+											{Moralis.Units.FromWei(balance)}{' '}
+											{checkCurrency(newMetadata?.currency)} Backed
 										</p>
 									</div>
 								</div>
