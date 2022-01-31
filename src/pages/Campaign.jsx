@@ -74,8 +74,6 @@ const Campaign = () => {
 			});
 		} catch (error) {
 			console.log(error);
-			setIsLoading(false);
-			navigate('/campaign');
 		}
 	};
 
@@ -124,8 +122,6 @@ const Campaign = () => {
 			});
 		} catch (error) {
 			console.log(error);
-			setIsLoading(false);
-			navigate('/campaign');
 		}
 	};
 

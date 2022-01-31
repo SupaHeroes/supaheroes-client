@@ -228,10 +228,10 @@ const VestedForm = () => {
 						.then(
 							(campaigns) => {
 								// Execute any logic that should take place after the object is saved.
-								alert(
-									'New object created with objectId: ' +
-										cloneAddress.NewCampaignAddress
-								);
+								// alert(
+								// 	'New object created with objectId: ' +
+								// 		cloneAddress.NewCampaignAddress
+								// );
 							},
 							(error) => {
 								// Execute any logic that should take place if the save fails.
