@@ -84,12 +84,9 @@ const Card = ({ date, title, shortdesc, image, address, currency, target }) => {
 					<p className='text-white font-bold font-inter text-xl uppercase'>
 						{Moralis.Units.FromWei(balance)} {checkCurrency(currency)}
 					</p>
-					{/* <p className='flex items-center  text-white text-lg'>
-						<MdOutlineTimer className='mr-2' /> {timeConverter(date)}
-					</p> */}
 
 					<p className='text-white font-bold font-inter text-xl uppercase'>
-						{Moralis.Units.FromWei(balance)} {checkCurrency(currency)}
+						{target} {checkCurrency(currency)}
 					</p>
 				</div>
 				<Progress
