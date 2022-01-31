@@ -75,22 +75,26 @@ const NotVestedForm = () => {
 	};
 
 	const initializeCampaign = async () => {
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			...optionsCampaign,
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
+		try {
+			const tx = await Moralis.executeFunction({
+				awaitReceipt: false,
+				...optionsCampaign,
 			});
-			console.log('🔊 New Transaction', hash);
-		});
-		tx.on('receipt', (receipt) => {
-			console.log(receipt);
-		});
+			console.log(tx);
+			tx.on('transactionHash', (hash) => {
+				setResponses({ ...responses, name: { result: null, isLoading: true } });
+				openNotification({
+					message: '🔊 New Transaction',
+					description: `${hash}`,
+				});
+				console.log('🔊 New Transaction', hash);
+			});
+			tx.on('receipt', (receipt) => {
+				console.log(receipt);
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const newQuantities = tiers.map((tier) => tier.quantities);
@@ -112,33 +116,44 @@ const NotVestedForm = () => {
 	// ipfs://QmNbqLeV9cZrBhhkFyESD5sWXhGfPfaPQUT4LfmXz6VETQ/{id}.json
 
 	const initializeReward = async () => {
-		console.log(newQuantities, newTiers);
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			...optionsReward,
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
+		try {
+			console.log(newQuantities, newTiers);
+			const tx = await Moralis.executeFunction({
+				awaitReceipt: false,
+				...optionsReward,
 			});
-			console.log('🔊 New Transaction', hash);
-		});
-		tx.on('receipt', (receipt) => {
-			console.log(receipt);
-			setTimeout(navigate(`/project/${cloneAddress.NewCampaignAddress}`), 5000);
-		});
+			console.log(tx);
+			tx.on('transactionHash', (hash) => {
+				setResponses({ ...responses, name: { result: null, isLoading: true } });
+				openNotification({
+					message: '🔊 New Transaction',
+					description: `${hash}`,
+				});
+				console.log('🔊 New Transaction', hash);
+			});
+			tx.on('receipt', (receipt) => {
+				console.log(receipt);
+				setTimeout(
+					navigate(`/project/${cloneAddress.NewCampaignAddress}`),
+					5000
+				);
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const metadataIPFS = async () => {
-		const file = new Moralis.File('file.json', {
-			base64: btoa(JSON.stringify(metadata)),
-		});
-		await file.saveIPFS();
-		setMetadataUrl(file.ipfs());
-		return file.ipfs();
+		try {
+			const file = new Moralis.File('file.json', {
+				base64: btoa(JSON.stringify(metadata)),
+			});
+			await file.saveIPFS();
+			setMetadataUrl(file.ipfs());
+			return file.ipfs();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -146,43 +161,48 @@ const NotVestedForm = () => {
 	}, []);
 
 	const submitCampaign = async () => {
-		await initializeCampaign()
-			.then(async () => {
-				const Campaigns = Moralis.Object.extend('campaigns');
-				const campaigns = new Campaigns();
-				const newMetadata = await metadataIPFS();
+		try {
+			await initializeCampaign()
+				.then(async () => {
+					const Campaigns = Moralis.Object.extend('campaigns');
+					const campaigns = new Campaigns();
+					const newMetadata = await metadataIPFS();
 
-				campaigns
-					.save({
-						name: metadata.title,
-						desc: metadata.description,
-						endDate: details.endDate,
-						address: cloneAddress.NewCampaignAddress,
-						chainId: currentChain,
-						fundingTarget: details.fundingTarget,
-						currency: metadata.currency,
-						thumbnail: metadata.images[0].data_url,
-						metadata: newMetadata,
-						NewCampaignAddress: cloneAddress,
-					})
-					.then(
-						(campaigns) => {
-							// Execute any logic that should take place after the object is saved.
-							// alert('New object created with objectId: ' + campaign.id);
-						},
-						(error) => {
-							// Execute any logic that should take place if the save fails.
-							// error is a Moralis.Error with an error code and message.
-							alert(
-								'Failed to create new object, with error code: ' + error.message
-							);
-						}
-					);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		await initializeReward();
+					campaigns
+						.save({
+							name: metadata.title,
+							desc: metadata.description,
+							endDate: details.endDate,
+							address: cloneAddress.NewCampaignAddress,
+							chainId: currentChain,
+							fundingTarget: details.fundingTarget,
+							currency: metadata.currency,
+							thumbnail: metadata.images[0].data_url,
+							metadata: newMetadata,
+							NewCampaignAddress: cloneAddress,
+						})
+						.then(
+							(campaigns) => {
+								// Execute any logic that should take place after the object is saved.
+								// alert('New object created with objectId: ' + campaign.id);
+							},
+							(error) => {
+								// Execute any logic that should take place if the save fails.
+								// error is a Moralis.Error with an error code and message.
+								alert(
+									'Failed to create new object, with error code: ' +
+										error.message
+								);
+							}
+						);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			await initializeReward();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

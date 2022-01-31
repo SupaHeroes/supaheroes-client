@@ -39,36 +39,44 @@ const Campaign = () => {
 	};
 
 	const createCampaign = async () => {
-		setIsLoading(true);
+		try {
+			setIsLoading(true);
 
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			...options2,
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
+			const tx = await Moralis.executeFunction({
+				awaitReceipt: false,
+				...options2,
 			});
-			console.log('🔊 New Transaction', hash);
-		});
-		tx.on('receipt', (receipt) => {
-			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
-			const creator = receipt.events.NewCampaign.returnValues.creator;
-			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
-			console.log(receipt);
-			setCloneAddress({
-				NewCampaignAddress: `${cloneAdd}`,
-				creator: `${creator}`,
-				RewardMaster: `${rewardMaster}`,
-				vestingMaster: '0x0000000000000000000000000000000000000000',
+			console.log(tx);
+			tx.on('transactionHash', (hash) => {
+				setResponses({ ...responses, name: { result: null, isLoading: true } });
+				openNotification({
+					message: '🔊 New Transaction',
+					description: `${hash}`,
+				});
+				console.log('🔊 New Transaction', hash);
 			});
+			tx.on('receipt', (receipt) => {
+				const cloneAdd =
+					receipt.events.NewCampaign.returnValues.contractAddress;
+				const creator = receipt.events.NewCampaign.returnValues.creator;
+				const rewardMaster =
+					receipt.events.NewCampaign.returnValues.rewardMaster;
+				console.log(receipt);
+				setCloneAddress({
+					NewCampaignAddress: `${cloneAdd}`,
+					creator: `${creator}`,
+					RewardMaster: `${rewardMaster}`,
+					vestingMaster: '0x0000000000000000000000000000000000000000',
+				});
 
+				setIsLoading(false);
+				navigate('/campaign/withoutvesting');
+			});
+		} catch (error) {
+			console.log(error);
 			setIsLoading(false);
-			navigate('/campaign/withoutvesting');
-		});
+			navigate('/campaign');
+		}
 	};
 
 	const options3 = {
@@ -78,39 +86,47 @@ const Campaign = () => {
 	};
 
 	const createCampaignWithVesting = async () => {
-		setIsLoading(true);
+		try {
+			setIsLoading(true);
 
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			...options3,
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
+			const tx = await Moralis.executeFunction({
+				awaitReceipt: false,
+				...options3,
 			});
-			console.log('🔊 New Transaction', hash);
-		});
-		tx.on('receipt', (receipt) => {
-			const cloneAdd = receipt.events.NewCampaign.returnValues.contractAddress;
-			const creator = receipt.events.NewCampaign.returnValues.creator;
-			const rewardMaster = receipt.events.NewCampaign.returnValues.rewardMaster;
-			const vestingMaster =
-				receipt.events.NewCampaign.returnValues.vestingMaster;
-
-			setCloneAddress({
-				NewCampaignAddress: `${cloneAdd}`,
-				creator: `${creator}`,
-				RewardMaster: `${rewardMaster}`,
-				vestingMaster: `${vestingMaster}`,
+			console.log(tx);
+			tx.on('transactionHash', (hash) => {
+				setResponses({ ...responses, name: { result: null, isLoading: true } });
+				openNotification({
+					message: '🔊 New Transaction',
+					description: `${hash}`,
+				});
+				console.log('🔊 New Transaction', hash);
 			});
+			tx.on('receipt', (receipt) => {
+				const cloneAdd =
+					receipt.events.NewCampaign.returnValues.contractAddress;
+				const creator = receipt.events.NewCampaign.returnValues.creator;
+				const rewardMaster =
+					receipt.events.NewCampaign.returnValues.rewardMaster;
+				const vestingMaster =
+					receipt.events.NewCampaign.returnValues.vestingMaster;
 
+				setCloneAddress({
+					NewCampaignAddress: `${cloneAdd}`,
+					creator: `${creator}`,
+					RewardMaster: `${rewardMaster}`,
+					vestingMaster: `${vestingMaster}`,
+				});
+
+				setIsLoading(false);
+				console.log(cloneAddress);
+				navigate('/campaign/withvesting');
+			});
+		} catch (error) {
+			console.log(error);
 			setIsLoading(false);
-			console.log(cloneAddress);
-			navigate('/campaign/withvesting');
-		});
+			navigate('/campaign');
+		}
 	};
 
 	return (

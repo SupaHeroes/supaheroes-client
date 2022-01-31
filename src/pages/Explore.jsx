@@ -28,13 +28,17 @@ const Explore = () => {
 	}, [isInitialized]);
 
 	const getCampaign = async (chain) => {
-		console.log('calling function');
-		setLoading(true);
-		const query = new Moralis.Query(obj);
-		const res = await query.equalTo('chainId', chain).limit(18).find();
-		setLoading(false);
-		console.log(res);
-		return res;
+		try {
+			console.log('calling function');
+			setLoading(true);
+			const query = new Moralis.Query(obj);
+			const res = await query.equalTo('chainId', chain).limit(18).find();
+			setLoading(false);
+			console.log(res);
+			return res;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const categories = [

@@ -10,30 +10,13 @@ import { useDetails } from '../hooks/contextHooks/DetailsContext';
 import tokenABI from '../abi/Token.json';
 
 const Project = () => {
-	// const { fetchERC20Balances, data } = useERC20Balances();
-	// const { data: assets } = useERC20Balance({address:'0x49a7a59Cfd35Dd33Fa6e49EF201bDbb237092baC'});
 	const { metadata } = useDetails();
 	const params = useParams();
 	const { Moralis, isInitialized } = useMoralis();
 
-	// const { data: assets } = useERC20Balances({ address: params.campaignId });
-
-	// console.log('Assets::::', assets);
-
 	const [newMetadata, setNewMetadata] = useState();
 	const [balance, setBalance] = useState(0);
 	const [isLoading, setLoading] = useState(false);
-
-	// setBalance(assets[0]?.balance);
-
-	// const readOptions = {
-	// 	contractAddress: newMetadata?.currency,
-	// 	functionName: 'balanceOf',
-	// 	abi: tokenABI,
-	// 	params: {
-	// 		account: params.campaignId,
-	// 	},
-	// };
 
 	async function getBalance(currency) {
 		const res = await Moralis.executeFunction({
@@ -50,14 +33,18 @@ const Project = () => {
 	}
 
 	const getProjectIPFS = async () => {
-		setLoading(true);
-		const project = Moralis.Object.extend('campaigns');
-		const query = new Moralis.Query(project);
-		query.equalTo('address', `${params.campaignId}`);
-		const results = await query.find();
-		const newIPFS = results[0].get('metadata');
-		setLoading(false);
-		return newIPFS;
+		try {
+			setLoading(true);
+			const project = Moralis.Object.extend('campaigns');
+			const query = new Moralis.Query(project);
+			query.equalTo('address', `${params.campaignId}`);
+			const results = await query.find();
+			const newIPFS = results[0].get('metadata');
+			setLoading(false);
+			return newIPFS;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	const getMetadata = async () => {
 		try {
@@ -73,13 +60,6 @@ const Project = () => {
 			setLoading(false);
 		}
 	};
-
-	// const getTimeRemaining = () => {
-	// 	const endDate = timeConverter(newMetadata?.details?.endDate);
-	// 	const date = new Date();
-
-	// 	console.log(' Remaining date:::', endDate);
-	// };
 
 	function timeConverter(UNIX_timestamp) {
 		var a = new Date(UNIX_timestamp * 1000);

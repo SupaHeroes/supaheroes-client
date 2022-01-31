@@ -29,25 +29,33 @@ const Story = () => {
 	}, [isInitialized, selectedFund]);
 
 	const getAddresses = async () => {
-		setLoading(true);
-		const project = Moralis.Object.extend('campaigns');
-		const query = new Moralis.Query(project);
-		query.equalTo('address', `${params.campaignId}`);
-		const results = await query.find();
-		const newIPFS = results[0].get('NewCampaignAddress');
-		setLoading(false);
-		return newIPFS;
+		try {
+			setLoading(true);
+			const project = Moralis.Object.extend('campaigns');
+			const query = new Moralis.Query(project);
+			query.equalTo('address', `${params.campaignId}`);
+			const results = await query.find();
+			const newIPFS = results[0].get('NewCampaignAddress');
+			setLoading(false);
+			return newIPFS;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const getProjectIPFS = async () => {
-		setLoading(true);
-		const project = Moralis.Object.extend('campaigns');
-		const query = new Moralis.Query(project);
-		query.equalTo('address', `${params.campaignId}`);
-		const results = await query.find();
-		const newIPFS = results[0].get('metadata');
-		setLoading(false);
-		return newIPFS;
+		try {
+			setLoading(true);
+			const project = Moralis.Object.extend('campaigns');
+			const query = new Moralis.Query(project);
+			query.equalTo('address', `${params.campaignId}`);
+			const results = await query.find();
+			const newIPFS = results[0].get('metadata');
+			setLoading(false);
+			return newIPFS;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const getMetadata = async () => {
@@ -74,54 +82,62 @@ const Story = () => {
 	};
 
 	const pledgeForReward = async (index) => {
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			contractAddress: newAddresses?.RewardMaster,
-			functionName: 'pledgeForReward',
-			abi: rewardABI,
-			params: {
-				amount: Moralis.Units.Token(newMetadata?.tiers[index]?.price, '18'),
-				id: index,
-				token: newMetadata?.currency,
-			},
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
+		try {
+			const tx = await Moralis.executeFunction({
+				awaitReceipt: false,
+				contractAddress: newAddresses?.RewardMaster,
+				functionName: 'pledgeForReward',
+				abi: rewardABI,
+				params: {
+					amount: Moralis.Units.Token(newMetadata?.tiers[index]?.price, '18'),
+					id: index,
+					token: newMetadata?.currency,
+				},
 			});
-			console.log('🔊 New Transaction', hash);
-		});
-		tx.on('receipt', (receipt) => {
-			console.log(receipt);
-		});
+			console.log(tx);
+			tx.on('transactionHash', (hash) => {
+				setResponses({ ...responses, name: { result: null, isLoading: true } });
+				openNotification({
+					message: '🔊 New Transaction',
+					description: `${hash}`,
+				});
+				console.log('🔊 New Transaction', hash);
+			});
+			tx.on('receipt', (receipt) => {
+				console.log(receipt);
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const approve = async (index) => {
-		const tx = await Moralis.executeFunction({
-			awaitReceipt: false,
-			contractAddress: newMetadata?.currency,
-			functionName: 'approve',
-			abi: tokenABI,
-			params: {
-				spender: params?.campaignId,
-				amount: Moralis.Units.Token(newMetadata?.tiers[index]?.price, '18'),
-			},
-		});
-		console.log(tx);
-		tx.on('transactionHash', (hash) => {
-			setResponses({ ...responses, name: { result: null, isLoading: true } });
-			openNotification({
-				message: '🔊 New Transaction',
-				description: `${hash}`,
+		try {
+			const tx = await Moralis.executeFunction({
+				awaitReceipt: false,
+				contractAddress: newMetadata?.currency,
+				functionName: 'approve',
+				abi: tokenABI,
+				params: {
+					spender: params?.campaignId,
+					amount: Moralis.Units.Token(newMetadata?.tiers[index]?.price, '18'),
+				},
 			});
-			console.log('🔊 New Transaction', hash);
-		});
-		tx.on('receipt', (receipt) => {
-			console.log(receipt);
-		});
+			console.log(tx);
+			tx.on('transactionHash', (hash) => {
+				setResponses({ ...responses, name: { result: null, isLoading: true } });
+				openNotification({
+					message: '🔊 New Transaction',
+					description: `${hash}`,
+				});
+				console.log('🔊 New Transaction', hash);
+			});
+			tx.on('receipt', (receipt) => {
+				console.log(receipt);
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const checkCurrency = (currency) => {
@@ -137,6 +153,7 @@ const Story = () => {
 			return 'N/A';
 		}
 	};
+
 	return (
 		<div className='h-60 text-3xl '>
 			<h1 className='text-supagreen-dark font-cormorant'>Story</h1>
@@ -147,7 +164,10 @@ const Story = () => {
 				<div className='flex flex-col justify-center items-center'>
 					<div className='bg-supadark mb-8 border border-supagreen-dark px-6'>
 						{newMetadata?.tiers?.map((tier, index) => (
-							<div key={index} className='mx-5 p-6 border-b border-supagreen-dark'>
+							<div
+								key={index}
+								className='mx-5 p-6 border-b border-supagreen-dark'
+							>
 								<div className='flex  justify-between items-center'>
 									<div className='mr-7'>
 										<h1 className='text-2xl text-white font-cormorant font-bold'>
@@ -180,9 +200,7 @@ const Story = () => {
 										)}
 									</div>
 								</div>
-								<p className='text-sm font-inter mt-5 '>
-									{tier.description}
-								</p>
+								<p className='text-sm font-inter mt-5 '>{tier.description}</p>
 							</div>
 						))}
 					</div>
