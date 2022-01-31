@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMoralis } from 'react-moralis';
 import { Steps, Button, message, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -176,6 +176,7 @@ const VestedForm = () => {
 		});
 		tx.on('receipt', (receipt) => {
 			console.log(receipt);
+			setTimeout(navigate(`/project/${cloneAddress.NewCampaignAddress}`), 5000);
 		});
 	};
 
@@ -211,7 +212,10 @@ const VestedForm = () => {
 					.then(
 						(campaigns) => {
 							// Execute any logic that should take place after the object is saved.
-							// alert('New object created with objectId: ' + campaign.id);
+							alert(
+								'New object created with objectId: ' +
+									cloneAddress.NewCampaignAddress
+							);
 						},
 						(error) => {
 							// Execute any logic that should take place if the save fails.
@@ -228,6 +232,10 @@ const VestedForm = () => {
 		await initializeReward();
 		await initializeVestings();
 	};
+
+	useEffect(() => {
+		if (cloneAddress.NewCampaignAddress === '') navigate('/campaign');
+	}, []);
 
 	return (
 		<div className='flex justify-center bg-supadark-black  mt-20'>
@@ -296,9 +304,9 @@ const VestedForm = () => {
 									borderColor: '#001529',
 									color: '#1F1F1F',
 								}}
-								onClick={() => {
+								onClick={async () => {
 									message.success('Processing complete!');
-									submitCampaign();
+									await submitCampaign();
 									// navigate(`/`);
 								}}
 							>

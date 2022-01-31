@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMoralis } from 'react-moralis';
 import { Steps, Button, message, notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import campaignABI from '../../abi/StandardCampaignStrategy.json';
 import rewardABI from '../../abi/RewardManager.json';
 
@@ -26,6 +27,7 @@ const steps = [
 ];
 
 const NotVestedForm = () => {
+	const navigate = useNavigate();
 	const { Moralis } = useMoralis();
 
 	const {
@@ -126,6 +128,7 @@ const NotVestedForm = () => {
 		});
 		tx.on('receipt', (receipt) => {
 			console.log(receipt);
+			setTimeout(navigate(`/project/${cloneAddress.NewCampaignAddress}`), 5000);
 		});
 	};
 
@@ -137,6 +140,10 @@ const NotVestedForm = () => {
 		setMetadataUrl(file.ipfs());
 		return file.ipfs();
 	};
+
+	useEffect(() => {
+		if (cloneAddress.NewCampaignAddress === '') navigate('/campaign');
+	}, []);
 
 	const submitCampaign = async () => {
 		await initializeCampaign()
