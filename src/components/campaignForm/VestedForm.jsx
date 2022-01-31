@@ -230,7 +230,7 @@ const VestedForm = () => {
 	};
 
 	return (
-		<div className='flex justify-center bg-supadark-dark  mt-20'>
+		<div className='flex justify-center bg-supadark-black  mt-20'>
 			<div className=' w-4/5 mt-32 p-8 flex flex-col items-center'>
 				<Steps style={{ width: '600px' }} current={current}>
 					{steps.map((item) => (
@@ -240,7 +240,7 @@ const VestedForm = () => {
 				<div className='w-full mt-8'>
 					{/* <div className='steps-content'>{steps[current].content}</div> */}
 
-					<div className='bg-supadark-light p-12 rounded-xl'>
+					<div className='bg-supadark p-12 rounded-xl'>
 						<div className='flex justify-start items-baseline'>
 							<div className='bg-supadark-dark border-2 border-supagreen-dark h-10 w-10 rounded-full flex justify-center items-center font-bold text-2xl'>
 								{steps[current].title}
