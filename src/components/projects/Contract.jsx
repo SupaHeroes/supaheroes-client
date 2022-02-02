@@ -14,14 +14,15 @@ const Contract = () => {
 	const params = useParams();
 
 	const readOptions = {
-		contractAddress: params.campaignId,
-		functionName: 'rewardManager',
+		chain: chainId,
+		address: params.campaignId,
+		function_name: 'rewardManager',
 		abi: campaignABI,
 	};
 
 	const getRewardManager = async () => {
-		const res = await Moralis.executeFunction(readOptions);
-		console.log('reward::::', res);
+		const res = await Moralis.Web3API.native.runContractFunction(readOptions);
+		// console.log('reward::::', res);
 		return res;
 	};
 
@@ -29,12 +30,12 @@ const Contract = () => {
 		setLoading(true);
 		const reward = await getRewardManager();
 
-		const options = { address: reward, chain: chainId };
-		const nfts = await Moralis.Web3API.token.getNFTOwners(options);
+		const options = { address: account, chain: chainId, token_address:reward };
+		const nfts = await Moralis.Web3API.account.getNFTsForContract(options);
 
 		setNfts(nfts.result);
 		setLoading(false);
-		console.log('NFTS:::::', Nfts);
+		// console.log('NFTS:::::', Nfts);
 	};
 
 	useEffect(() => {
@@ -44,7 +45,10 @@ const Contract = () => {
 	}, [isInitialized]);
 
 	return (
-		<div className='flex flex-wrap'>
+		<div>
+			<h1 className="text-white font-cormorant mb-8 font-bold text-lg">YOUR RECEIPT NFTs</h1>
+		<div className='flex flex-wrap mb-10'>
+			
 			{isLoading ? (
 				<Skeleton></Skeleton>
 			) : (
@@ -53,9 +57,9 @@ const Contract = () => {
 					console.log('v is ::::', v);
 					console.log('a is ::::', a);
 					return (
-						<div className='mr-3' key={i}>
+						<div className='mr-3 border border-supagreen-dark cursor-pointer' key={i}>
 							<video
-								className='p-4 border border-supagreen-dark cursor-pointer'
+								className='p-4'
 								width='320'
 								height='320'
 								loop
@@ -63,11 +67,13 @@ const Contract = () => {
 							>
 								<source src={a.image} type='video/mp4' />
 							</video>
-							<h1 className='text-white'>{v.name}</h1>
+							<h1 className='text-white text-center pt-3'>{v?.metadata?.name}</h1>
+							<button className="bg-supagreen-dark w-full mt-3 mx-auto py-2">Sell</button>
 						</div>
 					);
 				})
 			)}
+		</div>
 		</div>
 	);
 };

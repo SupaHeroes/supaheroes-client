@@ -126,10 +126,17 @@ const text2 = `
           onChange={callback}
         >
           <Panel style={Style} header="What is Active Collective Funding" key="1">
-            <div className="text-white">{text1}</div>
+            <div className="text-gray-300">{text1}</div>
+            <div className="text-gray-300 pt-4">Unlike the Liberal Radicalism algorithm used by Gitcoin, this algorithm uses only currency as vote count rather than a mix of currency and identity because identity is no longer a source of truth, an individual could have multiple identities(Sybil Attack). In addition, since identity is mixed in the LR model, the outcome of vote is actually less democratic since a user with $1 could significantly affect the outcome because it calculates not just the voting cost but also the identity count. In our algorithm, we reverted back to the original quadratic voting mechanism where the more you pay, the more you vote. However, the outcome of the matching amount is governed by mathematical formula to prevent manipulations. The mathematical formula evaluates both project conditions and round performance to calculate the outcome.</div>
           </Panel>
           <Panel  style={Style} header="How should I test this?" key="2">
             <div className="text-white">{text2}
+            <p className="font-bold pt-4">Try Scenario #1 : Domination</p>
+            <p className="text-gray-300">Try having 1 project at maximum contribution and leave the others at 0-1000 contribution. You will see that the amount of fund will be distributed mostly for the dominating project. This scenario happens if the market is showing high level of bias and low variance in market share. For example, experimental topics such as social science or new green energy projects tend to have only few proofable concepts. Therefore, users might be voting highly toward few proofable projects.</p>
+            <p className="font-bold">Try Scenario #2 : Altruism</p>
+            <p  className="text-gray-300">Try having all projects reach their goals. You will see that 100% of the pool is being spent and the amount of fund distributed are equally based on their goal targets (acknowledging that every project has different size). This scenario happens if the market has low level bias and high variance in market share. Very often this behavior occurs on merit goods such as non-profits or educational projects where users tend to consider all projects have equally good effect on society.</p>
+            <p className="font-bold">Try Scenario #3 : Cooperative Competition</p>
+            <p  className="text-gray-300">Try to vary the amount of contributions to each projects. You will notice that the contribution performance of each project affect the other's matching amount. This algorithm governs the distribution and unlock only some percentage of the matching pool funds so that the only way to receive maximum amount of fund from the pool is through either scenario #1 or scenario #2. This scenario is the most common behavior we see in the market where there is medium level of bias and high variance in market share. Looking through Gitcoin grant history, this scenario will happen almost everytime.</p>
             <p className="pt-6">Have a look at this article for more information on different scenarios</p>
             <a href="https://axeldevara.medium.com/active-collective-funding-using-game-theory-to-fund-public-goods-54c92f6fd04e">Medium</a>
             <p className="pt-6">Have a look at the docs to learn how the round will be implemented</p>
