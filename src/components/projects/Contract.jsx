@@ -21,12 +21,16 @@ const Contract = () => {
 	};
 
 	const getRewardManager = async () => {
-		const res = await Moralis.Web3API.native.runContractFunction(readOptions);
-		// console.log('reward::::', res);
+		await Moralis.enableWeb3();
+
+		const res = await Moralis.executeFunction(readOptions);
+		console.log('reward log::::', res);
 		return res;
 	};
 
 	const getTokenAddress = async () => {
+		await Moralis.enableWeb3();
+
 		setLoading(true);
 		const reward = await getRewardManager();
 
@@ -35,8 +39,8 @@ const Contract = () => {
 
 		setNfts(nfts.result);
 		setLoading(false);
-		// console.log('NFTS:::::', Nfts);
 	};
+	console.log('NFTS:::::', Nfts);
 
 	useEffect(() => {
 		if (isInitialized) {
@@ -54,8 +58,8 @@ const Contract = () => {
 			) : (
 				Nfts.map((v, i) => {
 					const a = verifyMetadata(v);
-					console.log('v is ::::', v);
-					console.log('a is ::::', a);
+					//	console.log('v is ::::', v);
+					//	console.log('a is ::::', a);
 					return (
 						<div className='mr-3 border border-supagreen-dark cursor-pointer' key={i}>
 							<video

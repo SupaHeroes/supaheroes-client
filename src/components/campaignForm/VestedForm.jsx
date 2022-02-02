@@ -113,7 +113,7 @@ const VestedForm = () => {
 		abi: rewardABI,
 		params: {
 			_campaign: `${cloneAddress.NewCampaignAddress}`,
-			_uri: `ipfs://QmVXLV19W7zQcAzYqCYpUG8V5Vfm9vxkLG3NUMXR5ohqQ1/`,
+			_uri: `ipfs://QmPYd2RuaV5mKE8i2iVRbx1fvPLYicQnGsP9NUiWdFKenE/`,
 			quantities: newQuantities,
 			tiers: newTiers,
 			_cc: `0xD26f0f4b312F33A3D5f378e71f74fE22d4B7b6bf`,
